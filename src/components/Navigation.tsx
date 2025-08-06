@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Wifi, Phone, ShoppingCart } from "lucide-react";
+import { Menu, X, Phone, ShoppingCart } from "lucide-react";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
 
   const navItems = [
     { label: "Home", href: "#home" },
@@ -19,10 +20,12 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
-              <Wifi className="w-6 h-6 text-primary-foreground" />
-            </div>
+          <div className="flex items-center space-x-3">
+            <img 
+              src="/images.jpeg" 
+              alt="WegoConnect Logo" 
+              className="w-12 h-12 rounded-full object-cover"
+            />
             <div>
               <h1 className="text-xl font-bold text-foreground">WegoConnect</h1>
               <p className="text-xs text-muted-foreground">Starlink Rwanda</p>
@@ -35,9 +38,17 @@ const Navigation = () => {
               <a
                 key={item.label}
                 href={item.href}
-                className="text-foreground hover:text-primary transition-colors duration-300 font-medium"
+                onClick={() => setActiveSection(item.href.substring(1))}
+                className={`transition-colors duration-300 font-medium relative ${
+                  activeSection === item.href.substring(1)
+                    ? "text-primary"
+                    : "text-foreground hover:text-primary"
+                }`}
               >
                 {item.label}
+                {activeSection === item.href.substring(1) && (
+                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full"></span>
+                )}
               </a>
             ))}
           </div>
@@ -73,8 +84,15 @@ const Navigation = () => {
                 <a
                   key={item.label}
                   href={item.href}
-                  className="text-foreground hover:text-primary transition-colors duration-300 font-medium py-2"
-                  onClick={() => setIsOpen(false)}
+                  className={`transition-colors duration-300 font-medium py-2 ${
+                    activeSection === item.href.substring(1)
+                      ? "text-primary"
+                      : "text-foreground hover:text-primary"
+                  }`}
+                  onClick={() => {
+                    setActiveSection(item.href.substring(1));
+                    setIsOpen(false);
+                  }}
                 >
                   {item.label}
                 </a>
