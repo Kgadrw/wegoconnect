@@ -4,7 +4,7 @@ import heroBg from "@/assets/hero-bg.jpg";
 
 const Hero = () => {
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 md:pt-24">
+    <section id="home" className="relative min-h-screen flex items-center justify-center pt-20 md:pt-24">
       {/* Background Image */}
       <div 
         className="absolute inset-0 z-0"
@@ -15,12 +15,12 @@ const Hero = () => {
           backgroundRepeat: 'no-repeat'
         }}
       >
-        <div className="absolute inset-0 bg-gradient-hero opacity-90"></div>
+        <div className="absolute inset-0 bg-gradient-hero opacity-90 pointer-events-none"></div>
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-8 md:py-12">
-        <div className="animate-fade-in">
+      <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-8 md:py-12">
+        <div className="animate-fade-in relative z-30">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-primary-foreground mb-6 leading-tight">
             Connect Rwanda to the
             <span className="bg-gradient-to-r from-primary-light to-primary bg-clip-text text-transparent"> Future</span>
@@ -71,7 +71,7 @@ const Hero = () => {
       </div>
 
       {/* Decorative Elements */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-30 pointer-events-none">
         <div className="w-6 h-10 border-2 border-primary-foreground/50 rounded-full flex justify-center">
           <div className="w-1 h-3 bg-primary-foreground/70 rounded-full mt-2"></div>
         </div>
