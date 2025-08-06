@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Wifi, Phone, Mail, MapPin, Facebook, Twitter, Instagram, Youtube } from "lucide-react";
+import { Phone, Mail, MapPin, Facebook, Twitter, Instagram, Youtube } from "lucide-react";
 
 const Footer = () => {
   const footerLinks = {
@@ -48,10 +48,12 @@ const Footer = () => {
         <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
           {/* Company Info */}
           <div className="lg:col-span-2">
-            <div className="flex items-center space-x-2 mb-6">
-              <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
-                <Wifi className="w-6 h-6 text-primary-foreground" />
-              </div>
+            <div className="flex items-center space-x-3 mb-6">
+              <img 
+                src="/images.jpeg" 
+                alt="WegoConnect Logo" 
+                className="w-12 h-12 rounded object-cover" 
+              />
               <div>
                 <h1 className="text-xl font-bold">WegoConnect</h1>
                 <p className="text-sm text-secondary-foreground/70">Starlink Rwanda</p>
