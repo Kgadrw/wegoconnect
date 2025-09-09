@@ -71,8 +71,8 @@ const Navigation = () => {
                   activeSection === item.href.substring(1)
                     ? "text-primary"
                     : scrolled
-                    ? "text-gray-800 hover:text-primary"
-                    : "text-white hover:text-primary"
+                    ? "text-black hover:text-white"
+                    : "text-white hover:text-red-600"
                 }`}
               >
                 {item.label}
@@ -89,7 +89,7 @@ const Navigation = () => {
               variant="ghost"
               size="sm"
               className={`transition-colors duration-300 ${
-                scrolled ? "text-gray-800" : "text-white"
+                scrolled ? "text-black hover:text-white" : "text-white hover:text-red-600"
               }`}
             >
               <Phone className="w-4 h-4 mr-2" />
@@ -108,13 +108,16 @@ const Navigation = () => {
             className="md:hidden"
             onClick={() => setIsOpen(!isOpen)}
           >
-            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-12 h-12 text-white hover:text-red-700" />}
+            {isOpen ? (
+              <X className={`w-6 h-6 ${scrolled ? "text-black hover:text-white" : "text-white hover:text-red-600"}`} />
+            ) : (
+              <Menu className={`w-6 h-6 ${scrolled ? "text-black hover:text-white" : "text-white hover:text-red-600"}`} />
+            )}
           </Button>
         </div>
       </div>
 
       {/* Mobile Navigation Overlay + Drawer */}
-      {/* Overlay */}
       <div
         className={`fixed inset-0 bg-black/40 z-40 transition-opacity duration-300 ${
           isOpen ? "opacity-100 visible" : "opacity-0 invisible"
@@ -143,11 +146,7 @@ const Navigation = () => {
               <a
                 key={item.label}
                 href={item.href}
-                className={`transition-colors duration-300 font-medium py-2 ${
-                  activeSection === item.href.substring(1)
-                    ? "text-primary"
-                    : "text-gray-800 hover:text-primary"
-                }`}
+                className="text-gray-800 hover:text-primary font-medium py-2 transition-colors duration-300"
                 onClick={() => {
                   setActiveSection(item.href.substring(1));
                   setIsOpen(false);
