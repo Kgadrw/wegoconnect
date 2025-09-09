@@ -108,44 +108,68 @@ const Navigation = () => {
             className="md:hidden"
             onClick={() => setIsOpen(!isOpen)}
           >
-            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-12 h-12 text-white hover:text-red-700" />}
           </Button>
         </div>
+      </div>
 
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden py-4 border-t border-border animate-fade-in bg-white/95 backdrop-blur-md shadow-md">
-            <div className="flex flex-col space-y-4">
-              {navItems.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className={`transition-colors duration-300 font-medium py-2 ${
-                    activeSection === item.href.substring(1)
-                      ? "text-primary"
-                      : "text-gray-800 hover:text-primary"
-                  }`}
-                  onClick={() => {
-                    setActiveSection(item.href.substring(1));
-                    setIsOpen(false);
-                  }}
-                >
-                  {item.label}
-                </a>
-              ))}
-              <div className="pt-4 space-y-2">
-                <Button variant="ghost" size="sm" className="w-full justify-start">
-                  <Phone className="w-4 h-4 mr-2" />
-                  Call Us
-                </Button>
-                <Button variant="cta" size="sm" className="w-full">
-                  <ShoppingCart className="w-4 h-4 mr-2" />
-                  Shop Now
-                </Button>
-              </div>
-            </div>
+      {/* Mobile Navigation Overlay + Drawer */}
+      {/* Overlay */}
+      <div
+        className={`fixed inset-0 bg-black/40 z-40 transition-opacity duration-300 ${
+          isOpen ? "opacity-100 visible" : "opacity-0 invisible"
+        }`}
+        onClick={() => setIsOpen(false)}
+      ></div>
+
+      {/* Drawer */}
+      <div
+        className={`fixed top-0 right-0 h-screen w-1/2 bg-white shadow-lg z-50 transform transition-transform duration-300 ${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="flex flex-col p-6 space-y-6">
+          {/* Close Button */}
+          <button
+            className="self-end text-gray-700"
+            onClick={() => setIsOpen(false)}
+          >
+            <X className="w-6 h-6" />
+          </button>
+
+          {/* Nav Links */}
+          <div className="flex flex-col space-y-4">
+            {navItems.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                className={`transition-colors duration-300 font-medium py-2 ${
+                  activeSection === item.href.substring(1)
+                    ? "text-primary"
+                    : "text-gray-800 hover:text-primary"
+                }`}
+                onClick={() => {
+                  setActiveSection(item.href.substring(1));
+                  setIsOpen(false);
+                }}
+              >
+                {item.label}
+              </a>
+            ))}
           </div>
-        )}
+
+          {/* CTA Buttons */}
+          <div className="pt-6 space-y-3">
+            <Button variant="ghost" size="sm" className="w-full justify-start">
+              <Phone className="w-4 h-4 mr-2" />
+              Call Us
+            </Button>
+            <Button variant="cta" size="sm" className="w-full">
+              <ShoppingCart className="w-4 h-4 mr-2" />
+              Shop Now
+            </Button>
+          </div>
+        </div>
       </div>
     </nav>
   );
