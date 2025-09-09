@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Calendar, MapPin, Phone, CheckCircle, Wrench, Users, Clock } from "lucide-react";
-import installationImg from "@/assets/installation-service.jpg";
+import installationImg from "@/assets/service.jpeg";
 
 const Services = () => {
   const services = [
