@@ -30,7 +30,7 @@ const services = [
 
 export default function WegoServices() {
   return (
-    <section className="px-6 md:px-16 py-16 bg-black text-white">
+    <section className="px-6 md:px-16 py-16 text-white">
       {/* Hero */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-10 mb-20 px-32 py-0">
         {/* Left text */}

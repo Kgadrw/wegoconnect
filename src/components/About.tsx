@@ -50,9 +50,9 @@ const differences = [
 
 export default function AboutSection() {
   return (
-    <section className="px-32 md:px-16 py-20 bg-black text-white">
+    <section className="px-32 md:px-16 py-20 text-white">
       {/* Who We Are + Mission + Vision in chat/flow style */}
-      <div className="flex flex-col gap-6 mb-20 px-32">
+      <div className="flex flex-col gap-6 mb-20 px-32 py-16">
         {/* Who We Are - left */}
         <div className="self-start max-w-lg bg-purple-800/30 border border-purple-700 rounded-xl p-6 shadow-lg">
           <h2 className="text-3xl font-bold mb-4">Who We Are</h2>

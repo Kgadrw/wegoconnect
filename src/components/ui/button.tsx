@@ -9,17 +9,18 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary-dark shadow-elegant hover:shadow-lg transform hover:scale-[1.02]",
+        default: "bg-primary text-primary-foreground hover:bg-primary-dark transform hover:scale-[1.02]",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
           "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-card hover:shadow-lg transform hover:scale-[1.02]",
+          "bg-secondary text-secondary-foreground hover:bg-secondary/90 transform hover:scale-[1.02]",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        hero: "bg-gradient-primary text-primary-foreground shadow-elegant hover:shadow-xl transform hover:scale-[1.05] font-semibold px-8 py-3",
-        cta: "bg-primary text-primary-foreground hover:bg-primary-dark shadow-elegant hover:shadow-xl transform hover:scale-[1.02] font-semibold border-2 border-transparent hover:border-primary-light",
+        hero: "bg-gradient-primary text-primary-foreground transform hover:scale-[1.05] font-semibold px-8 py-3",
+        cta: "bg-primary text-primary-foreground hover:bg-primary-dark transform hover:scale-[1.02] font-semibold border-2 border-transparent hover:border-primary-light",
+        gradient: "bg-gray-900 text-white hover:bg-gray-700 relative overflow-hidden border border-transparent bg-clip-padding before:absolute before:inset-0 before:z-[-1] before:m-[1px] before:rounded-[inherit] before:bg-gradient-to-r before:from-white before:to-transparent before:p-[1px] hover:scale-[1.02] transition-all duration-300",
       },
       size: {
         default: "h-10 px-4 py-2",
