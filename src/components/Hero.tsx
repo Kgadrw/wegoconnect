@@ -1,84 +1,55 @@
+"use client";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Wifi, Zap, Globe } from "lucide-react";
-import heroBg from "@/assets/bg.jpg";
 
-const Hero = () => {
+export default function HomePage() {
   return (
-    <section
-      id="home"
-      className="relative min-h-screen flex items-center justify-center pt-20 md:pt-24"
-    >
-      {/* Background Image */}
-      <div
-        className="absolute inset-0 z-0"
-        style={{
-          backgroundImage: `url(${heroBg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
+    <main className=" bg-black text-white h-[87vh]">
+      {/* Hero Section */}
+      <section
+        id="home"
+        className="flex flex-col md:flex-row justify-between items-center px-10 md:px-20 pt-12 pb-0"
       >
-        <div className="absolute inset-0 bg-gradient-hero opacity-70 pointer-events-none"></div>
-      </div>
-
-      {/* Content */}
-      <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-8 md:py-12">
-        <div className="animate-fade-in relative z-30">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-            Connect Rwanda to the
-            <span className="text-white"> Future</span>
+        {/* Left Content */}
+        <div className="max-w-4xl space-y-8 px-6 md:px-16">
+          <h1 className="text-4xl md:text-5xl font-regular leading-snug">
+            Powering your world with reliable{" "}
+            <span className="text-pink-500 font-bold">Networking</span> &{" "}
+            <span className="text-yellow-400 font-bold">Smart IT</span> solutions
           </h1>
-
-          <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed">
-            High-speed satellite internet powered by Starlink. Bringing
-            world-class connectivity to every corner of Rwanda with professional
-            installation and ongoing support.
+          <p className="text-gray-300 max-w-lg text-xl leading-relaxed">
+            From satellite connectivity to secure systems that keep you
+            connected, protected, and in control.
           </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <Button variant="hero" size="lg" className="animate-scale-in">
-              Get Connected Today
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="animate-scale-in bg-white/10 text-white border-white/30 hover:bg-white/20"
-            >
-              View Products
-            </Button>
-          </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto animate-slide-up">
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
-              <div className="flex items-center justify-center w-12 h-12 bg-primary rounded-lg mx-auto mb-4">
-                <Zap className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-2">100+ Mbps</h3>
-              <p className="text-white/80">High-speed internet</p>
-            </div>
-
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
-              <div className="flex items-center justify-center w-12 h-12 bg-primary rounded-lg mx-auto mb-4">
-                <Globe className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-2">99.9%</h3>
-              <p className="text-white/80">Network uptime</p>
-            </div>
-
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
-              <div className="flex items-center justify-center w-12 h-12 bg-primary rounded-lg mx-auto mb-4">
-                <Wifi className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-2">24/7</h3>
-              <p className="text-white/80">Expert support</p>
-            </div>
-          </div>
+          <Button className="bg-gray-800 hover:bg-gray-700 px-8 py">Learn more</Button>
         </div>
-      </div>
-    </section>
-  );
-};
 
-export default Hero;
+        {/* Right Image */}
+        <div className="mt-12 md:mt-0">
+        <img
+          src="/right.png"
+          alt="Networking & Smart IT"
+          className="w-[400px] h-[400px] object-contain drop-shadow-2xl rotate-[360deg] opacity-100"
+        />
+      </div>
+
+      </section>
+
+      {/* Customers */}
+            <section className="px-10 md:px-20 py-0 text-center">
+        {/* Short top border */}
+        <div className="mx-auto w-[1280px] border-t border-gray-700 mb-6"></div>
+
+        <h2 className="text-gray-400 uppercase tracking-widest mb-12">
+          Happy Customers
+        </h2>
+
+        <div className="flex flex-wrap justify-center items-center gap-10 text-gray-400">
+          <img src="/luna.png" alt="LuNa Smelter" className="h-12 object-contain" />
+          <img src="/giz.png" alt="GIZ" className="h-12 object-contain" />
+          <img src="/king.png" alt="Kingfisher Resort" className="h-12 object-contain" />
+        </div>
+      </section>
+
+    </main>
+  );
+}

@@ -1,158 +1,97 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { Calendar, MapPin, Phone, CheckCircle, Wrench, Users, Clock } from "lucide-react";
-import installationImg from "@/assets/service.jpeg";
+'use client';
+import React from 'react';
+import { ChevronDown } from "lucide-react";
+const services = [
+  {
+    title: 'Satellite Networking',
+    image: '/satellite.png',
+  },
+  {
+    title: 'Local Area Networking (LAN)',
+    image: '/lan.png',
+  },
+  {
+    title: 'CCTV & Security Camera System',
+    image: '/cctv.jpg',
+  },
+  {
+    title: 'Access Control Systems',
+    image: '/access.png',
+  },
+  {
+    title: 'IT Support & Maintenance',
+    image: '/it.jpg',
+  },
+  {
+    title: 'Customized Solutions',
+    image: '/custom.jpg',
+  },
+];
 
-const Services = () => {
-  const services = [
-    {
-      icon: <Wrench className="w-8 h-8 text-primary" />,
-      title: "Professional Installation",
-      description: "Expert technicians ensure perfect setup and optimal signal strength for your Starlink system."
-    },
-    {
-      icon: <Users className="w-8 h-8 text-primary" />,
-      title: "Technical Support",
-      description: "24/7 dedicated support team ready to help with any technical issues or questions."
-    },
-    {
-      icon: <Clock className="w-8 h-8 text-primary" />,
-      title: "Maintenance Service",
-      description: "Regular maintenance checks and updates to keep your connection running at peak performance."
-    }
-  ];
-
+export default function WegoServices() {
   return (
-    <section id="services" className="py-20 bg-muted">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16 animate-fade-in">
-          <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6">
-            Professional <span className="text-primary">Installation & Support</span>
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Our certified technicians provide complete installation and ongoing support 
-            to ensure you get the best possible Starlink experience.
+    <section className="px-6 md:px-16 py-16 bg-black text-white">
+      {/* Hero */}
+      <div className="flex flex-col md:flex-row items-center justify-between gap-10 mb-20 px-32 py-0">
+        {/* Left text */}
+        <div className="max-w-xl text-center md:text-left">
+          <h1 className="text-6xl md:text-4xl font-bold mb-4">
+            At{' '}
+            <span className="bg-gradient-to-r from-pink-500 via-orange-500 to-yellow-400 text-5xl bg-clip-text text-transparent">
+              Wego Connect,
+            </span>
+          </h1>
+          <p className="text-gray-300 leading-relaxed text-xl">
+            We deliver reliable networking and IT solutions designed to keep you
+            connected, secure, and in control. From homes to businesses, our
+            commitment is to provide fast, seamless, and future-ready technology
+            with expert support to ensure performance every day.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Services List */}
-          <div className="space-y-8 animate-slide-up">
-            {services.map((service, index) => (
-              <Card key={index} className="bg-background shadow-card hover:shadow-elegant transition-all duration-300">
-                <CardHeader>
-                  <div className="flex items-center gap-4">
-                    <div className="p-3 bg-primary-light rounded-lg">
-                      {service.icon}
-                    </div>
-                    <CardTitle className="text-xl text-foreground">{service.title}</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-muted-foreground text-base">
-                    {service.description}
-                  </CardDescription>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+        {/* Right rocket image */}
+        <img
+  src="/rocket.png"
+  alt="Rocket"
+  className="w-[500px] h-[500px] object-contain drop-shadow-2xl"
+/>
 
-          {/* Installation Image & Booking Form */}
-          <div className="space-y-8 animate-scale-in">
-            <div className="relative">
-              <img 
-                src={installationImg} 
-                alt="Professional Starlink Installation" 
-                className="w-full h-80 object-cover rounded-lg shadow-card"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg"></div>
-            </div>
-
-            {/* Booking Form */}
-            <Card className="bg-background shadow-elegant">
-              <CardHeader>
-                <CardTitle className="text-2xl text-foreground flex items-center gap-2">
-                  <Calendar className="w-6 h-6 text-primary" />
-                  Book Installation
-                </CardTitle>
-                <CardDescription>
-                  Schedule your professional Starlink installation today
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Full Name</Label>
-                    <Input id="name" placeholder="Enter your full name" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="phone">Phone Number</Label>
-                    <Input id="phone" placeholder="+250 XXX XXX XXX" />
-                  </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="address">Installation Address</Label>
-                  <Input id="address" placeholder="Enter complete address in Rwanda" />
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="date">Preferred Date</Label>
-                    <Input id="date" type="date" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="time">Preferred Time</Label>
-                    <Input id="time" type="time" />
-                  </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="notes">Additional Notes</Label>
-                  <Textarea 
-                    id="notes" 
-                    placeholder="Any special requirements or notes for our technicians..."
-                    className="min-h-[80px]"
-                  />
-                </div>
-
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <CheckCircle className="w-4 h-4 text-primary" />
-                  Free site survey and installation quote
-                </div>
-
-                <Button variant="cta" className="w-full">
-                  <Phone className="w-4 h-4 mr-2" />
-                  Schedule Installation
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-
-        {/* Contact Info */}
-        <div className="mt-16 text-center animate-fade-in">
-          <div className="bg-background rounded-lg p-8 shadow-card">
-            <h3 className="text-2xl font-bold text-foreground mb-4">Need Immediate Assistance?</h3>
-            <p className="text-muted-foreground mb-6">Our support team is standing by to help with your Starlink needs</p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="cta">
-                <Phone className="w-4 h-4 mr-2" />
-                Call: +250 XXX XXX XXX
-              </Button>
-              <Button variant="outline">
-                <MapPin className="w-4 h-4 mr-2" />
-                Visit Our Office
-              </Button>
-            </div>
-          </div>
-        </div>
       </div>
+<div className="mx-auto w-[1280px] border-t border-gray-700 mb-6"></div>
+      {/* Services Heading */}
+      <div className="text-center mb-12 mt-12">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Services</h2>
+      </div>
+
+      {/* Services Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 px-32">
+        {services.map((service, index) => (
+          <div
+            key={index}
+            className="bg-purple-800/30 border border-purple-700 rounded-xl overflow-hidden hover:scale-105 transition-transform shadow-lg"
+          >
+            <img
+              src={service.image}
+              alt={service.title}
+              className="w-full h-60 object-cover"
+            />
+            <div className="p-4 text-center">
+              <h3 className="text-sm md:text-base font-semibold">
+                {service.title}
+              </h3>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Footer note */}
+      <p className="mt-12 flex items-center justify-center text-gray-300 max-w-2xl mx-auto text-sm md:text-base gap-3">
+  <span className="w-10 h-10 flex items-center justify-center rounded-full border border-white">
+    <ChevronDown className="text-white w-8 h-4" />
+  </span>
+  Whether you need high-speed connectivity, advanced security, or a full
+  IT infrastructure, we’ve got you covered.
+</p>
     </section>
   );
-};
-
-export default Services;
+}

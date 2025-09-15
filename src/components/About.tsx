@@ -1,141 +1,143 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { MapPin, Users, Award, Target, Heart, Zap, Quote } from "lucide-react";
-import familyImg from "@/assets/family-connected.jpg";
+'use client';
+import React from 'react';
+import {
+  ShieldCheck,
+  Lightbulb,
+  Users,
+  Signal,
+  Award,
+  HeartHandshake,
+} from 'lucide-react';
 
-const About = () => {
-  const stats = [
-    { number: "5000+", label: "Happy Customers", icon: <Users className="w-6 h-6" /> },
-    { number: "99.9%", label: "Network Uptime", icon: <Zap className="w-6 h-6" /> },
-    { number: "50+", label: "Locations Served", icon: <MapPin className="w-6 h-6" /> },
-    { number: "24/7", label: "Support Available", icon: <Award className="w-6 h-6" /> }
-  ];
+const differences = [
+  {
+    title: 'Affordability',
+    description:
+      'We deliver cost-effective networking and IT solutions without compromising on quality.',
+    icon: ShieldCheck,
+  },
+  {
+    title: 'Reliability',
+    description:
+      'Our solutions ensure uninterrupted performance, giving you peace of mind.',
+    icon: Signal,
+  },
+  {
+    title: 'Innovation',
+    description:
+      'We embrace the latest technologies to provide future-ready IT solutions.',
+    icon: Lightbulb,
+  },
+  {
+    title: 'Customer Care',
+    description:
+      'We are dedicated to supporting our clients with exceptional service.',
+    icon: Users,
+  },
+  {
+    title: 'Coverage',
+    description:
+      'Our solutions cover diverse industries and business sizes.',
+    icon: Award,
+  },
+  {
+    title: 'Expertise & Trust',
+    description:
+      'A team of skilled professionals trusted by leading institutions.',
+    icon: HeartHandshake,
+  },
+];
 
-  const values = [
-    {
-      icon: <Target className="w-8 h-8 text-primary" />,
-      title: "Innovation",
-      description: "Bringing cutting-edge satellite technology to every corner of Rwanda"
-    },
-    {
-      icon: <Heart className="w-8 h-8 text-primary" />,
-      title: "Community",
-      description: "Connecting communities and enabling digital transformation across the nation"
-    },
-    {
-      icon: <Award className="w-8 h-8 text-primary" />,
-      title: "Excellence",
-      description: "Committed to providing the highest quality service and customer satisfaction"
-    }
-  ];
-
+export default function AboutSection() {
   return (
-    <section id="about" className="py-20 bg-muted">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Hero Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
-          <div className="animate-fade-in">
-            <Badge variant="outline" className="mb-4">About WegoConnect</Badge>
-            <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6">
-              Connecting Rwanda to the 
-              <span className="text-primary"> Digital Future</span>
-            </h2>
-            <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-              WegoConnect is Rwanda's premier Starlink service provider, dedicated to bringing 
-              high-speed satellite internet to homes, businesses, and communities across the nation. 
-              We believe that reliable internet connectivity is not a luxury—it's a necessity for 
-              education, business, and social connection.
-            </p>
-            <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              Since our founding, we've been committed to bridging the digital divide and ensuring 
-              that every Rwandan has access to world-class internet connectivity, regardless of 
-              their location.
-            </p>
-            <Button variant="cta" size="lg">
-              Learn More About Our Mission
-            </Button>
-          </div>
-          
-          <div className="animate-scale-in">
-            <div className="relative">
-              <img 
-                src={familyImg} 
-                alt="Connected Rwandan Family" 
-                className="w-full h-96 object-cover rounded-lg shadow-elegant"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg"></div>
-              <div className="absolute bottom-6 left-6 right-6">
-                <div className="bg-background/90 backdrop-blur-sm p-4 rounded-lg">
-                  <p className="text-sm font-medium text-foreground">
-                    "WegoConnect transformed our family's digital life. Now our children can learn online, 
-                    and we can stay connected with family abroad."
-                  </p>
-                  <p className="text-sm text-muted-foreground mt-2">- Happy Customer, Kigali</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Stats Section */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
-          {stats.map((stat, index) => (
-            <Card key={index} className="text-center bg-background shadow-card hover:shadow-elegant transition-all duration-300 animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-center w-12 h-12 bg-primary-light rounded-lg mx-auto mb-4">
-                  {stat.icon}
-                </div>
-                <div className="text-3xl font-bold text-foreground mb-2">{stat.number}</div>
-                <div className="text-sm text-muted-foreground">{stat.label}</div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {/* Values Section */}
-        <div className="text-center mb-16 animate-fade-in">
-          <h3 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Our Values</h3>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            The principles that guide everything we do at WegoConnect
+    <section className="px-32 md:px-16 py-20 bg-black text-white">
+      {/* Who We Are + Mission + Vision in chat/flow style */}
+      <div className="flex flex-col gap-6 mb-20 px-32">
+        {/* Who We Are - left */}
+        <div className="self-start max-w-lg bg-purple-800/30 border border-purple-700 rounded-xl p-6 shadow-lg">
+          <h2 className="text-3xl font-bold mb-4">Who We Are</h2>
+          <p className="text-gray-300 text-sm leading-relaxed">
+            We are a dedicated team of IT experts passionate about delivering
+            reliable networking and IT solutions. Our mission is to bridge the
+            gap between people, businesses, and technology through innovation,
+            affordability, and trust.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
-          {values.map((value, index) => (
-            <Card key={index} className="text-center bg-background shadow-card hover:shadow-elegant transition-all duration-300 animate-scale-in" style={{ animationDelay: `${index * 0.2}s` }}>
-              <CardContent className="p-8">
-                <div className="flex items-center justify-center w-16 h-16 bg-primary-light rounded-lg mx-auto mb-6">
-                  {value.icon}
-                </div>
-                <h4 className="text-xl font-bold text-foreground mb-4">{value.title}</h4>
-                <p className="text-muted-foreground leading-relaxed">{value.description}</p>
-              </CardContent>
-            </Card>
-          ))}
+        {/* Our Mission - right */}
+        <div className="self-end max-w-lg bg-purple-800/30 border border-purple-700 rounded-xl p-6 shadow-lg text-right">
+          <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
+          <p className="text-gray-300 text-sm leading-relaxed">
+            To deliver high-performance IT and networking solutions that empower
+            businesses and individuals to stay connected, secure, and efficient.
+          </p>
         </div>
 
-        {/* Testimonial Section */}
-        <div className="bg-background rounded-lg p-8 md:p-12 shadow-elegant text-center animate-fade-in">
-          <Quote className="w-12 h-12 text-primary mx-auto mb-6" />
-          <blockquote className="text-2xl md:text-3xl font-medium text-foreground mb-6 leading-relaxed">
-            "WegoConnect doesn't just provide internet service—they connect dreams to reality. 
-            Their Starlink installation allowed our rural school to access online education resources 
-            for the first time."
-          </blockquote>
-          <div className="flex items-center justify-center gap-4">
-            <div className="w-12 h-12 bg-primary-light rounded-full flex items-center justify-center">
-              <Users className="w-6 h-6 text-primary" />
-            </div>
-            <div className="text-left">
-              <div className="font-semibold text-foreground">Rural School Principal</div>
-              <div className="text-sm text-muted-foreground">Eastern Province, Rwanda</div>
-            </div>
-          </div>
+        {/* Our Vision - left */}
+        <div className="self-start max-w-lg bg-purple-800/30 border border-purple-700 rounded-xl p-6 shadow-lg">
+          <h2 className="text-2xl font-bold mb-4">Our Vision</h2>
+          <p className="text-gray-300 text-sm leading-relaxed">
+            To become the leading provider of networking and IT solutions,
+            driving innovation and enabling seamless digital transformation
+            across industries.
+          </p>
+        </div>
+      </div>
+
+      {/* What Makes Us Different */}
+      <div className="text-center mb-16">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6">
+          What Makes Us Different
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 px-32">
+          {differences.map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <div
+                key={index}
+                className="bg-purple-800/30 border border-purple-700 rounded-xl p-6 shadow-lg hover:scale-105 transition-transform"
+              >
+                <Icon className="w-10 h-10 text-pink-400 mb-4 mx-auto" />
+                <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
+                <p className="text-gray-300 text-sm">{item.description}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Our Team */}
+      <div className="grid md:grid-cols-2 gap-10 mb-20 items-center px-32">
+        <div>
+          <h2 className="text-2xl font-bold mb-4">Our Team</h2>
+          <p className="text-gray-300 text-sm leading-relaxed">
+            Behind our success is a team of dedicated professionals passionate
+            about technology. We thrive on collaboration, innovation, and
+            problem-solving, ensuring our clients always receive the best.
+          </p>
+        </div>
+        <div>
+          <img
+            src="/team.jpg"
+            alt="Our Team"
+            className="w-full h-60 object-cover rounded-xl shadow-lg"
+          />
+        </div>
+      </div>
+
+      {/* Trusted by Leading Institutions */}
+      <div className="text-center">
+        <h2 className="text-2xl md:text-3xl font-bold mb-10">
+          Trusted by Leading Institutions
+        </h2>
+        <div className="flex flex-wrap justify-center items-center gap-8 text-gray-400">
+          <img src="/luna.png" alt="Partner 1" className="h-8 object-contain" />
+          <img src="/king.png" alt="Partner 2" className="h-8 object-contain" />
+          <img src="/giz.png" alt="Partner 3" className="h-8 object-contain" />
+          <img src="/partner4.png" alt="Partner 4" className="h-8 object-contain" />
+          <img src="/partner5.png" alt="Partner 5" className="h-8 object-contain" />
         </div>
       </div>
     </section>
   );
-};
-
-export default About;
+}
