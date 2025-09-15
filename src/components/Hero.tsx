@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 export default function HomePage() {
   return (
-    <main className=" bg-black text-white h-[87vh]">
+    <main className=" bg-black text-white h-screen overflow-x-hidden">
       {/* Hero Section */}
       <section
         id="home"
