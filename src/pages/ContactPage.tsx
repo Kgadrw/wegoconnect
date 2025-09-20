@@ -1,131 +1,118 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { Button } from "@/components/ui/button";
-import { Mail, Phone, MapPin, Clock } from "lucide-react";
+import { FaLinkedin, FaXTwitter, FaWhatsapp, FaInstagram, FaFacebook, FaTiktok } from "react-icons/fa6";
 
-const ContactPage = () => {
+const ContactSection = () => {
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
-      
-      {/* Contact Section */}
-      <section className="px-6 md:px-16 py-20 bg-black text-white">
-        <div className="max-w-6xl mx-auto">
-          {/* Header */}
-          <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Get in{" "}
-              <span className="bg-gradient-to-r from-pink-500 via-orange-500 to-yellow-400 bg-clip-text text-transparent">
-                Touch
-              </span>
-            </h1>
-            <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-              Ready to transform your IT infrastructure? Contact us today for a consultation 
-              and discover how we can help you stay connected, secure, and efficient.
+    <section className="text-white px-6 md:px-16 py-20">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
+        
+        {/* Left Contact Info */}
+        <div className="space-y-6">
+          <div>
+            <p className="text-sm uppercase text-gray-400">Email</p>
+            <p className="font-medium">wegoconnect@wegotronics.com</p>
+          </div>
+
+          <div>
+            <p className="text-sm uppercase text-gray-400">Phone</p>
+            <p className="font-medium">+250 792 052 562</p>
+          </div>
+
+          <div>
+            <p className="text-sm uppercase text-gray-400">Location</p>
+            <p className="font-medium">
+              CHIC Building Fl - E040 <br />
+              KN 2 Ave, Kigali, Rwanda
             </p>
           </div>
 
-          {/* Contact Info Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-            <div className="bg-purple-800/30 border border-purple-700 rounded-xl p-6 text-center">
-              <Mail className="w-8 h-8 text-pink-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Email</h3>
-              <p className="text-gray-300 text-sm">info@wegoconnect.com</p>
-            </div>
-            
-            <div className="bg-purple-800/30 border border-purple-700 rounded-xl p-6 text-center">
-              <Phone className="w-8 h-8 text-pink-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Phone</h3>
-              <p className="text-gray-300 text-sm">+250 123 456 789</p>
-            </div>
-            
-            <div className="bg-purple-800/30 border border-purple-700 rounded-xl p-6 text-center">
-              <MapPin className="w-8 h-8 text-pink-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Location</h3>
-              <p className="text-gray-300 text-sm">Kigali, Rwanda</p>
-            </div>
-            
-            <div className="bg-purple-800/30 border border-purple-700 rounded-xl p-6 text-center">
-              <Clock className="w-8 h-8 text-pink-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Hours</h3>
-              <p className="text-gray-300 text-sm">Mon-Fri: 8AM-6PM</p>
-            </div>
-          </div>
-
-          {/* Contact Form */}
-          <div className="max-w-2xl mx-auto">
-            <div className="bg-purple-800/30 border border-purple-700 rounded-xl p-8">
-              <h2 className="text-2xl font-bold mb-6 text-center">Send us a Message</h2>
-              <form className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">First Name</label>
-                    <input
-                      type="text"
-                      className="w-full px-4 py-3 bg-black border border-purple-700 rounded-lg text-white focus:outline-none focus:border-pink-400"
-                      placeholder="John"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Last Name</label>
-                    <input
-                      type="text"
-                      className="w-full px-4 py-3 bg-black border border-purple-700 rounded-lg text-white focus:outline-none focus:border-pink-400"
-                      placeholder="Doe"
-                    />
-                  </div>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium mb-2">Email</label>
-                  <input
-                    type="email"
-                    className="w-full px-4 py-3 bg-black border border-purple-700 rounded-lg text-white focus:outline-none focus:border-pink-400"
-                    placeholder="john@example.com"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium mb-2">Phone</label>
-                  <input
-                    type="tel"
-                    className="w-full px-4 py-3 bg-black border border-purple-700 rounded-lg text-white focus:outline-none focus:border-pink-400"
-                    placeholder="+250 123 456 789"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium mb-2">Service of Interest</label>
-                  <select className="w-full px-4 py-3 bg-black border border-purple-700 rounded-lg text-white focus:outline-none focus:border-pink-400">
-                    <option value="">Select a service</option>
-                    <option value="satellite">Satellite Networking</option>
-                    <option value="lan">Local Area Networking (LAN)</option>
-                    <option value="cctv">CCTV & Security Camera System</option>
-                    <option value="access">Access Control Systems</option>
-                    <option value="support">IT Support & Maintenance</option>
-                    <option value="custom">Customized Solutions</option>
-                  </select>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium mb-2">Message</label>
-                  <textarea
-                    rows={4}
-                    className="w-full px-4 py-3 bg-black border border-purple-700 rounded-lg text-white focus:outline-none focus:border-pink-400"
-                    placeholder="Tell us about your project requirements..."
-                  ></textarea>
-                </div>
-                
-                <Button className="w-full bg-gradient-to-r from-pink-500 via-orange-500 to-yellow-400 text-white font-semibold py-3 rounded-lg hover:opacity-90 transition-opacity">
-                  Send Message
-                </Button>
-              </form>
+          <div>
+            <p className="text-sm uppercase text-gray-400 mb-2">Our Socials</p>
+            <div className="flex gap-4 text-xl">
+              <FaLinkedin />
+              <FaXTwitter />
+              <FaWhatsapp />
+              <FaInstagram />
+              <FaFacebook />
+              <FaTiktok />
             </div>
           </div>
         </div>
-      </section>
-      
-      <Footer />
+
+        {/* Middle Illustration */}
+        <div className="flex justify-center mt-16">
+  <img
+    src="/graphics.png"
+    alt="3D Contact Illustration"
+    className="w-90 md:w-120 object-contain"
+  />
+</div>
+
+
+        {/* Right Form */}
+<div className="bg-white/5 backdrop-blur-md rounded-xl p-8 shadow-lg border border-white/10 max-w-2xl mx-auto mt-16">
+  <form className="space-y-6">
+    <input
+      type="text"
+      placeholder="Full name"
+      className="w-full bg-transparent border-b border-white/30 p-2 focus:outline-none focus:border-purple-400"
+    />
+    <input
+      type="email"
+      placeholder="Email"
+      className="w-full bg-transparent border-b border-white/30 p-2 focus:outline-none focus:border-purple-400"
+    />
+    <input
+      type="tel"
+      placeholder="Phone"
+      className="w-full bg-transparent border-b border-white/30 p-2 focus:outline-none focus:border-purple-400"
+    />
+    <textarea
+      placeholder="Message"
+      rows="4"
+      className="w-full bg-transparent border-b border-white/30 p-2 focus:outline-none focus:border-purple-400 resize-none"
+    ></textarea>
+    <button
+      type="submit"
+      className="w-full py-3 bg-gradient-to-r from-pink-500 to-orange-400 rounded-lg font-semibold hover:opacity-90 transition"
+    >
+      Submit
+    </button>
+  </form>
+</div>
+
+      </div>
+    </section>
+  );
+};
+
+const ContactPage = () => {
+  return (
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Background with bg2.png and gradients */}
+      <div className="absolute inset-0 bg-black">
+        <div 
+          className="absolute inset-0 opacity-30"
+          style={{
+            backgroundImage: 'url(/bg2.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+          }}
+        />
+        {/* Top gradient */}
+        <div className="absolute top-0 left-0 w-full h-48 bg-gradient-to-b from-black/95 to-transparent" />
+        {/* Bottom gradient */}
+        <div className="absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-black/95 to-transparent" />
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10">
+        <Navigation />
+        <ContactSection />
+        <Footer />
+      </div>
     </div>
   );
 };

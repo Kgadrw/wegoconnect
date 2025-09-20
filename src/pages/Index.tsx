@@ -1,6 +1,6 @@
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
-import Products from "@/components/Products";
+import Products from "@/components/contact";
 import Services from "@/components/Services";
 import Subscriptions from "@/components/Subscriptions";
 import About from "@/components/About";

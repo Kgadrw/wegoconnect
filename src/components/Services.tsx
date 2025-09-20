@@ -55,7 +55,7 @@ export default function WegoServices() {
   alt="Rocket"
   className="w-[500px] h-[500px] object-contain drop-shadow-2xl"
 />
-
+ 
       </div>
 <div className="mx-auto w-[1280px] border-t border-gray-700 mb-6"></div>
       {/* Services Heading */}

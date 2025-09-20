@@ -14,7 +14,7 @@ export default function HomePage() {
         {/* Hero Content */}
         <div className="flex flex-col md:flex-row justify-between items-center">
           {/* Left Content */}
-          <div className="max-w-4xl space-y-8 px-6 md:px-16">
+          <div className="max-w-4xl space-y-12 px-6 md:px-16">
             <h1 className="text-4xl md:text-5xl font-regular leading-snug">
               Powering your world with reliable{" "}
               <span className="text-pink-500 font-bold">Networking</span> &{" "}
@@ -24,7 +24,7 @@ export default function HomePage() {
               From satellite connectivity to secure systems that keep you
               connected, protected, and in control.
             </p>
-            <Button className="bg-gray-800 hover:bg-gray-700 px-8 py-2">
+            <Button className="bg-gray-800 hover:bg-gray-700 px-8 py-2 border-b border-white">
               Learn more
             </Button>
           </div>
@@ -44,7 +44,7 @@ export default function HomePage() {
           {/* Short top border */}
           <div className="mx-auto w-full max-w-[1280px] border-t border-gray-700 mb-6"></div>
 
-          <h2 className="text-gray-400 uppercase tracking-widest mb-4">
+          <h2 className="text-gray-400 uppercase tracking-widest mb-4 py-4">
             Happy Customers
           </h2>
 

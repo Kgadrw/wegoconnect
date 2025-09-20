@@ -12,8 +12,8 @@ const Navigation = () => {
   const navItems = [
     { label: "Home", href: "/", isRoute: true },
     { label: "Services", href: "/services", isRoute: true },
-    { label: "About", href: "#", isRoute: true },
-    { label: "Contact", href: "#", isRoute: true },
+    { label: "About", href: "/about", isRoute: true },
+    { label: "Blog", href: "/blog", isRoute: true },
   ];
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const Navigation = () => {
     <nav
       className={`absolute top-0 left-0 w-full z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-white/95 backdrop-blur-md border-b border-border shadow-md"
+          ? " backdrop-blur-md  shadow-md"
           : "bg-transparent"
       }`}
     >
@@ -40,7 +40,7 @@ const Navigation = () => {
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center space-x-32">
+          <div className="hidden md:flex items-center space-x-36">
             {navItems.map((item) => (
               <Link
                 key={item.label}
@@ -61,7 +61,7 @@ const Navigation = () => {
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center space-x-4">
             <Link to="/contact">
-              <Button variant="gradient" className="px-8 py-2">
+              <Button  className="px-8 py- bg-black border-l border-white hover:bg-gray-800 ">
                 Contact
               </Button>
             </Link>
