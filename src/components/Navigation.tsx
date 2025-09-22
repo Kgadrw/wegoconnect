@@ -32,7 +32,7 @@ const Navigation = () => {
           : "bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 py-2 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-4 py-2 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-2">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
@@ -45,7 +45,7 @@ const Navigation = () => {
               <Link
                 key={item.label}
                 to={item.href}
-                className={`transition-all duration-300 font-medium relative group ${
+                className={`transition-all duration-300 font-medium relative ${
                   location.pathname === item.href
                     ? "text-white scale-110"
                     : scrolled
@@ -53,19 +53,34 @@ const Navigation = () => {
                     : "text-white hover:scale-105 hover:drop-shadow-lg"
                 }`}
               >
-                {item.label}
+                <span className={location.pathname === item.href ? "text-shadow-lg drop-shadow-lg" : ""}>{item.label}</span>
+                {/* Light stroke effect for active nav items */}
+                {location.pathname === item.href && (
+                  <div className="absolute inset-0 text-transparent" style={{
+                    WebkitTextStroke: '1px rgba(255, 255, 255, 0.3)',
+                    textShadow: '0 0 8px rgba(255, 255, 255, 0.2)'
+                  }}>
+                    {item.label}
+                  </div>
+                )}
               </Link>
             ))}
           </div>
 
           {/* Desktop CTA */}
-          <div className="hidden md:flex items-center space-x-4">
-            <Link to="/contact">
-              <Button  className="px-8 py- bg-black border-l border-white hover:bg-gray-800 ">
-                Contact
-              </Button>
-            </Link>
-          </div>
+          {location.pathname !== '/contact' && (
+            <div className="hidden md:flex items-center space-x-4">
+              <Link to="/contact">
+                <Button className="px-8 py-2 bg-black border-l border-white hover:bg-gray-800 relative">
+                  <span>Contact</span>
+                  {/* Growing light effect on left, top, and bottom borders */}
+                  <div className="absolute -left-px -top-px w-full h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+                  <div className="absolute -left-px -top-px w-px h-full bg-gradient-to-b from-transparent via-white/30 to-transparent"></div>
+                  <div className="absolute -left-px -bottom-px w-full h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+                </Button>
+              </Link>
+            </div>
+          )}
 
           {/* Mobile Toggle */}
           <div className="md:hidden">
@@ -106,7 +121,7 @@ const Navigation = () => {
                 <Link
                   key={item.label}
                   to={item.href}
-                  className={`font-medium py-2 transition-all duration-300 ${
+                  className={`font-medium py-2 transition-all duration-300 relative ${
                     location.pathname === item.href
                       ? "text-white scale-105"
                       : "text-gray-800 hover:text-white hover:scale-105 hover:drop-shadow-lg"
@@ -115,20 +130,31 @@ const Navigation = () => {
                     setIsOpen(false);
                   }}
                 >
-                  {item.label}
+                  <span className={location.pathname === item.href ? "text-shadow-lg drop-shadow-lg" : ""}>{item.label}</span>
+                  {/* Light stroke effect for active nav items */}
+                  {location.pathname === item.href && (
+                    <div className="absolute inset-0 text-transparent" style={{
+                      WebkitTextStroke: '1px rgba(255, 255, 255, 0.3)',
+                      textShadow: '0 0 8px rgba(255, 255, 255, 0.2)'
+                    }}>
+                      {item.label}
+                    </div>
+                  )}
                 </Link>
               ))}
             </div>
 
             {/* CTA */}
-            <div className="pt-6 space-y-3">
-              <Link to="/contact" className="block">
-                <Button variant="gradient" className="w-full" onClick={() => setIsOpen(false)}>
-                  <ShoppingCart className="w-4 h-4 mr-2" />
-                  Contact
-                </Button>
-              </Link>
-            </div>
+            {location.pathname !== '/contact' && (
+              <div className="pt-6 space-y-3">
+                <Link to="/contact" className="block">
+                  <Button variant="gradient" className="w-full" onClick={() => setIsOpen(false)}>
+                    <ShoppingCart className="w-4 h-4 mr-2" />
+                    Contact
+                  </Button>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       )}

@@ -46,8 +46,38 @@ export default function WegoServices() {
           alt="Rocket"
           className="w-[500px] h-[500px] object-contain drop-shadow-2xl"
           initial={{ opacity: 0, y: 80, scale: 0.9 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          animate={{ 
+            opacity: 1, 
+            y: 0, 
+            scale: 1,
+            // Bouncing animation that looks like it's trying to take off
+            y: [0, -15, 0, -8, 0, -12, 0, -5, 0],
+            rotate: [0, -2, 0, 2, 0, -1, 0, 1, 0],
+            scale: [1, 1.02, 1, 1.01, 1, 1.015, 1, 1.005, 1]
+          }}
+          transition={{ 
+            duration: 1, 
+            ease: "easeOut",
+            // Repeat the bouncing animation infinitely with a delay
+            y: {
+              repeat: Infinity,
+              duration: 3,
+              ease: "easeInOut",
+              delay: 1
+            },
+            rotate: {
+              repeat: Infinity,
+              duration: 3,
+              ease: "easeInOut",
+              delay: 1
+            },
+            scale: {
+              repeat: Infinity,
+              duration: 3,
+              ease: "easeInOut",
+              delay: 1
+            }
+          }}
         />
       </div>
 
