@@ -51,7 +51,7 @@ const ContactSection = () => {
 
 
         {/* Right Form */}
-<div className="bg-white/5 backdrop-blur-md rounded-xl p-8 shadow-lg border border-white/10 max-w-2xl mx-auto mt-16">
+<div className="bg-white/5 backdrop-blur-md rounded-xl p-8 shadow-lg border border-white/10 max-w-3xl mx-auto mt-16">
   <form className="space-y-6">
     <input
       type="text"
@@ -75,7 +75,7 @@ const ContactSection = () => {
     ></textarea>
     <button
       type="submit"
-      className="w-full py-3 bg-gradient-to-r from-pink-500 to-orange-400 rounded-lg font-semibold hover:opacity-90 transition"
+      className="w-full py-3 bg-white text-black rounded-lg font-semibold hover:opacity-90 transition"
     >
       Submit
     </button>
