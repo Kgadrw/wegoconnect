@@ -40,7 +40,7 @@ const Navigation = () => {
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center space-x-36">
+          <div className={`hidden md:flex items-center space-x-36 ${isOpen ? "md:hidden" : ""}`}>
             {navItems.map((item) => (
               <Link
                 key={item.label}
@@ -69,7 +69,7 @@ const Navigation = () => {
 
           {/* Desktop CTA */}
           {location.pathname !== '/contact' && (
-            <div className="hidden md:flex items-center space-x-4">
+            <div className={`hidden md:flex items-center space-x-4 ${isOpen ? "md:hidden" : ""}`}>
               <Link to="/contact">
                 <Button className="px-8 py-2 bg-black border-l border-white hover:bg-gray-800 relative">
                   <span>Contact</span>
@@ -111,52 +111,65 @@ const Navigation = () => {
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Drawer - Slides from right */}
       {isOpen && (
-        <div className="absolute top-full left-0 w-full bg-white shadow-lg md:hidden z-40">
-          <div className="flex flex-col p-6 space-y-6">
-            {/* Nav Links */}
-            <div className="flex flex-col space-y-4">
-              {navItems.map((item) => (
-                <Link
-                  key={item.label}
-                  to={item.href}
-                  className={`font-medium py-2 transition-all duration-300 relative ${
-                    location.pathname === item.href
-                      ? "text-white scale-105"
-                      : "text-gray-800 hover:text-white hover:scale-105 hover:drop-shadow-lg"
-                  }`}
-                  onClick={() => {
-                    setIsOpen(false);
-                  }}
+        <>
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm md:hidden z-[60]"
+            onClick={() => setIsOpen(false)}
+          />
+          
+          {/* Slide-out panel from right */}
+          <div className="fixed top-0 right-0 h-full w-1/2 bg-black/95 backdrop-blur-md shadow-lg md:hidden z-[70] transform transition-transform duration-300 ease-in-out">
+            <div className="flex flex-col h-full p-6 space-y-6">
+              {/* Close button */}
+              <div className="flex justify-end">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setIsOpen(false)}
+                  className="text-white hover:text-pink-500"
                 >
-                  <span className={location.pathname === item.href ? "text-shadow-lg drop-shadow-lg" : ""}>{item.label}</span>
-                  {/* Light stroke effect for active nav items */}
-                  {location.pathname === item.href && (
-                    <div className="absolute inset-0 text-transparent" style={{
-                      WebkitTextStroke: '1px rgba(255, 255, 255, 0.3)',
-                      textShadow: '0 0 8px rgba(255, 255, 255, 0.2)'
-                    }}>
-                      {item.label}
-                    </div>
-                  )}
-                </Link>
-              ))}
-            </div>
-
-            {/* CTA */}
-            {location.pathname !== '/contact' && (
-              <div className="pt-6 space-y-3">
-                <Link to="/contact" className="block">
-                  <Button variant="gradient" className="w-full" onClick={() => setIsOpen(false)}>
-                    <ShoppingCart className="w-4 h-4 mr-2" />
-                    Contact
-                  </Button>
-                </Link>
+                  <X className="w-6 h-6" />
+                </Button>
               </div>
-            )}
+
+              {/* Nav Links */}
+              <div className="flex flex-col space-y-4 flex-1">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.label}
+                    to={item.href}
+                    className={`font-medium py-3 px-4 transition-all duration-300 relative rounded-lg ${
+                      location.pathname === item.href
+                        ? "text-white bg-white/10 scale-105"
+                        : "text-gray-300 hover:text-white hover:bg-white/5 hover:scale-105"
+                    }`}
+                    onClick={() => {
+                      setIsOpen(false);
+                    }}
+                  >
+                    <span className={location.pathname === item.href ? "text-shadow-lg drop-shadow-lg" : ""}>{item.label}</span>
+                    {/* Light stroke effect for active nav items */}
+                    
+                  </Link>
+                ))}
+              </div>
+
+              {/* CTA */}
+              {location.pathname !== '/contact' && (
+                <div className="pt-6 space-y-3">
+                  <Link to="/contact" className="block">
+                    <Button className="w-full bg-white text-black hover:bg-gray-200 font-semibold" onClick={() => setIsOpen(false)}>
+                      Contact Us
+                    </Button>
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        </>
       )}
     </nav>
   );

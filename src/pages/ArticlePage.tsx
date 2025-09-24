@@ -436,42 +436,42 @@ const ArticlePage = () => {
         <Navigation />
         
         {/* Article Header */}
-        <section className="pt-32 pb-16 px-6 md:px-12 lg:px-20">
+        <section className="pt-24 sm:pt-28 lg:pt-32 pb-12 sm:pb-16 px-4 sm:px-6 md:px-12 lg:px-20">
           <div className="max-w-4xl mx-auto">
             {/* Back Button */}
-            <Link to="/blog" className="inline-flex items-center gap-2 text-gray-300 hover:text-white mb-8 transition-colors">
-              <ArrowLeft className="w-4 h-4" />
+            <Link to="/blog" className="inline-flex items-center gap-2 text-gray-300 hover:text-white mb-6 sm:mb-8 transition-colors text-sm sm:text-base">
+              <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4" />
               Back to Blog
             </Link>
 
             {/* Article Meta */}
-            <div className="flex items-center gap-6 text-sm text-gray-400 mb-6">
-              <div className="flex items-center gap-2">
-                <User className="w-4 h-4" />
+            <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-xs sm:text-sm text-gray-400 mb-4 sm:mb-6">
+              <div className="flex items-center gap-1 sm:gap-2">
+                <User className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span>{article.author}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
+              <div className="flex items-center gap-1 sm:gap-2">
+                <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span>{article.date}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4" />
+              <div className="flex items-center gap-1 sm:gap-2">
+                <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span>{article.readTime}</span>
               </div>
             </div>
 
             {/* Article Title */}
-            <h1 className="text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6 leading-tight">
               {article.title}
             </h1>
 
             {/* Article Description */}
-            <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+            <p className="text-base sm:text-lg lg:text-xl text-gray-300 mb-6 sm:mb-8 leading-relaxed">
               {article.description}
             </p>
 
             {/* Article Image */}
-            <div className="aspect-video overflow-hidden rounded-lg mb-12">
+            <div className="aspect-video overflow-hidden rounded-lg mb-8 sm:mb-12">
               <img
                 src={article.image}
                 alt={article.title}
@@ -483,10 +483,10 @@ const ArticlePage = () => {
         </section>
 
         {/* Article Content */}
-        <section className="pb-20 px-6 md:px-12 lg:px-20">
+        <section className="pb-12 sm:pb-16 lg:pb-20 px-4 sm:px-6 md:px-12 lg:px-20">
           <div className="max-w-4xl mx-auto">
             <article 
-              className="prose prose-invert max-w-none"
+              className="prose prose-invert max-w-none prose-sm sm:prose-base lg:prose-lg"
               dangerouslySetInnerHTML={{ __html: article.content }}
             />
           </div>

@@ -16,9 +16,9 @@ export default function WegoServices() {
   const [showFooterText, setShowFooterText] = useState(false);
 
   return (
-    <section className="px-6 md:px-16 py-16 text-white">
+    <section className="px-4 sm:px-6 md:px-16 py-12 sm:py-16 text-white">
       {/* Hero */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-10 mb-20 px-32">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 lg:gap-10 mb-12 sm:mb-16 lg:mb-20 px-4 sm:px-6 md:px-16 lg:px-32">
         {/* Left text */}
         <motion.div
           className="max-w-xl text-center md:text-left"
@@ -26,13 +26,13 @@ export default function WegoServices() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="text-6xl md:text-4xl font-bold mb-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
             At{' '}
-            <span className="bg-gradient-to-r from-pink-500 via-orange-500 to-yellow-400 text-5xl bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-pink-500 via-orange-500 to-yellow-400 text-2xl sm:text-3xl md:text-4xl lg:text-5xl bg-clip-text text-transparent">
               Wego Connect,
             </span>
           </h1>
-          <p className="text-gray-300 leading-relaxed text-xl">
+          <p className="text-gray-300 leading-relaxed text-sm sm:text-base lg:text-xl">
             We deliver reliable networking and IT solutions designed to keep you
             connected, secure, and in control. From homes to businesses, our
             commitment is to provide fast, seamless, and future-ready technology
@@ -44,7 +44,7 @@ export default function WegoServices() {
         <motion.img
           src="/rocket.png"
           alt="Rocket"
-          className="w-[500px] h-[500px] object-contain drop-shadow-2xl"
+          className="w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] lg:w-[500px] lg:h-[500px] object-contain drop-shadow-2xl"
           initial={{ opacity: 0, y: 80, scale: 0.9 }}
           animate={{ 
             opacity: 1, 
@@ -82,25 +82,25 @@ export default function WegoServices() {
       </div>
 
       {/* Scroll indicator */}
-      <div className="flex justify-start px-32 mb-12">
+      <div className="flex justify-start px-4 sm:px-6 md:px-16 lg:px-32 mb-8 sm:mb-12">
         <motion.div
-          className="w-6 h-10 border-2 border-white rounded-full flex items-start justify-center p-1"
+          className="w-5 h-8 sm:w-6 sm:h-10 border-2 border-white rounded-full flex items-start justify-center p-1"
           animate={{ y: [0, 8, 0] }}
           transition={{ repeat: Infinity, duration: 1.2 }}
         >
-          <div className="w-2 h-2 bg-white rounded-full mt-1" />
+          <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full mt-1" />
         </motion.div>
       </div>
 
-      <div className="mx-auto w-[1280px] border-t border-gray-700 mb-6"></div>
+      <div className="mx-auto w-full max-w-[1280px] border-t border-gray-700 mb-6"></div>
 
       {/* Services Heading */}
-      <div className="text-center mb-12 mt-12">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Services</h2>
+      <div className="text-center mb-8 sm:mb-12 mt-8 sm:mt-12">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Our Services</h2>
       </div>
 
       {/* Services Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 px-32">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-4 sm:px-6 md:px-16 lg:px-32">
         {services.map((service, index) => (
           <div
             key={index}
@@ -109,10 +109,10 @@ export default function WegoServices() {
             <img
               src={service.image}
               alt={service.title}
-              className="w-full h-60 object-cover"
+              className="w-full h-48 sm:h-56 lg:h-60 object-cover"
             />
-            <div className="p-4">
-              <h3 className="text-lg md:text-xl font-semibold text-white">
+            <div className="p-3 sm:p-4">
+              <h3 className="text-base sm:text-lg md:text-xl font-semibold text-white">
                 {service.title}
               </h3>
             </div>
@@ -121,29 +121,29 @@ export default function WegoServices() {
       </div>
 
       {/* Footer note with toggle */}
-      <div className="mt-12 flex flex-col items-center justify-center gap-3">
+      <div className="mt-8 sm:mt-12 flex flex-col items-center justify-center gap-3">
         <button
           onClick={() => setShowFooterText(!showFooterText)}
           className="flex items-center justify-center gap-2 text-gray-300 hover:text-white transition"
         >
-          <span className="w-10 h-10 flex items-center justify-center rounded-full border border-white">
+          <span className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-full border border-white">
             <ChevronDown
-              className={`text-white w-6 h-6 transition-transform duration-300 ${
+              className={`text-white w-4 h-4 sm:w-6 sm:h-6 transition-transform duration-300 ${
                 showFooterText ? "rotate-180" : ""
               }`}
             />
           </span>
-          <span className="text-sm md:text-base">Toggle More Info</span>
+          <span className="text-xs sm:text-sm md:text-base">Toggle More Info</span>
         </button>
 
         {showFooterText && (
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-gray-300 max-w-2xl mx-auto text-center mt-4"
+            className="text-gray-300 max-w-2xl mx-auto text-center mt-4 px-4 text-sm sm:text-base"
           >
             Whether you need high-speed connectivity, advanced security, or a
-            full IT infrastructure, we’ve got you covered.
+            full IT infrastructure, we've got you covered.
           </motion.p>
         )}
       </div>

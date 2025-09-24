@@ -74,15 +74,15 @@ const BlogPage = () => {
         <Navigation />
         
         {/* Header Section */}
-        <section className="pt-32 pb-16 px-6 md:px-12 lg:px-20">
+        <section className="pt-24 sm:pt-28 lg:pt-32 pb-12 sm:pb-16 px-4 sm:px-6 md:px-12 lg:px-20">
           <div className="max-w-6xl mx-auto">
             <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center">
               {/* Left Content */}
               <div className="max-w-3xl">
-                <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">
                   Our <span className="bg-gradient-to-r from-pink-500 via-orange-500 to-yellow-400 bg-clip-text text-transparent">Blog</span>
                 </h1>
-                <p className="text-gray-300 text-lg lg:text-xl leading-relaxed">
+                <p className="text-gray-300 text-sm sm:text-base lg:text-lg xl:text-xl leading-relaxed">
                   Stay informed with the latest insights, updates, and stories from the world of networking and IT. 
                   At Virga Connect, we share expert advice, technology trends, and practical guides to help you 
                   stay connected and secure.
@@ -90,8 +90,8 @@ const BlogPage = () => {
               </div>
 
               {/* Right Decorative Element */}
-              <div className="mt-8 lg:mt-0 lg:ml-8">
-                <div className="w-72 h-72 lg:w-80 lg:h-80 relative">
+              <div className="mt-6 sm:mt-8 lg:mt-0 lg:ml-8">
+                <div className="w-48 h-48 sm:w-64 sm:h-64 lg:w-72 lg:h-72 xl:w-80 xl:h-80 relative">
                   <img
                     src="/blog-vector.png"
                     alt="Blog decorative element"
@@ -105,9 +105,9 @@ const BlogPage = () => {
         </section>
 
         {/* Blog Posts Grid */}
-        <section className="pb-20 px-6 md:px-12 lg:px-20">
+        <section className="pb-12 sm:pb-16 lg:pb-20 px-4 sm:px-6 md:px-12 lg:px-20">
           <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
               {blogPosts.map((post) => (
                 <article key={post.id} className="bg-gray-800/50 backdrop-blur-sm rounded-lg overflow-hidden hover:bg-gray-800/70 transition-all duration-300 group">
                   {/* Image */}
@@ -121,20 +121,20 @@ const BlogPage = () => {
                   </div>
                   
                   {/* Content */}
-                  <div className="p-6">
-                    <h3 className="text-white text-xl font-semibold mb-3 line-clamp-2">
+                  <div className="p-4 sm:p-6">
+                    <h3 className="text-white text-lg sm:text-xl font-semibold mb-2 sm:mb-3 line-clamp-2">
                       {post.title}
                     </h3>
-                    <p className="text-gray-300 text-sm mb-4 line-clamp-3">
+                    <p className="text-gray-300 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-3">
                       {post.description}
                     </p>
                     
                     {/* Read more button */}
                     <Link to={`/article/${post.id}`}>
-                      <Button className="bg-gray-800 hover:bg-gray-700 px-6 py-2 border-b border-white relative group/btn">
-                        <span className="flex items-center gap-2">
+                      <Button className="bg-gray-800 hover:bg-gray-700 px-4 sm:px-6 py-1.5 sm:py-2 border-b border-white relative group/btn text-xs sm:text-sm">
+                        <span className="flex items-center gap-1 sm:gap-2">
                           Read more
-                          <ArrowRight className="w-4 h-4" />
+                          <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
                         </span>
                         {/* Growing light effect on left, top, and bottom borders */}
                         <div className="absolute -left-px -top-px w-full h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
