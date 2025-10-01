@@ -43,47 +43,47 @@ const differences = [
 
 export default function AboutSection() {
   return (
-    <section className="px-4 sm:px-6 md:px-16 lg:px-32 py-12 sm:py-16 lg:py-20 text-white">
+    <section className="px-4 sm:px-6 md:px-16 lg:px-32 py-12 sm:py-16 lg:py-20 text-white overflow-hidden">
       {/* Who We Are + Mission + Vision */}
-      <div className="flex flex-col gap-8 sm:gap-12 mb-12 sm:mb-16 lg:mb-20 px-4 sm:px-6 md:px-16 lg:px-32 py-8 sm:py-12 lg:py-16">
+      <div className="flex flex-col gap-6 sm:gap-8 md:gap-12 mb-12 sm:mb-16 lg:mb-20 px-2 sm:px-4 md:px-16 lg:px-32 py-6 sm:py-8 lg:py-16">
         {/* Who We Are - left */}
         <motion.div
-          initial={{ x: -100, opacity: 0 }}
+          initial={{ x: -50, opacity: 0 }}
           whileInView={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="self-start max-w-lg bg-purple-800/30 border border-purple-700 rounded-xl p-4 sm:p-6 shadow-lg"
+          className="self-start max-w-lg bg-gradient-to-br from-purple-800/40 to-purple-900/30 border border-purple-500/30 rounded-xl p-4 sm:p-5 md:p-6 shadow-xl hover:shadow-2xl transition-all duration-300 backdrop-blur-sm"
         >
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-3 sm:mb-4">Who We Are</h2>
-          <p className="text-gray-300 text-sm sm:text-base lg:text-lg leading-relaxed">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold mb-2 sm:mb-3 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">Who We Are</h2>
+          <p className="text-gray-300 text-xs sm:text-sm lg:text-base leading-relaxed">
             Wego Connect is a division of Wego Tronics Ltd, founded in 2022 with one clear purpose: to make reliable IT and networking solutions accessible to individuals, businesses, and institutions across Africa. Born from a passion to bridge connectivity gaps, we are here to ensure that no matter where you are, you can stay connected, secure, and in control.
           </p>
         </motion.div>
 
         {/* Our Mission - right */}
         <motion.div
-          initial={{ x: 100, opacity: 0 }}
+          initial={{ x: 50, opacity: 0 }}
           whileInView={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="self-end max-w-lg bg-purple-800/30 border border-purple-700 rounded-xl p-4 sm:p-6 shadow-lg text-left sm:text-right"
+          className="self-start sm:self-end max-w-lg bg-gradient-to-br from-pink-800/40 to-purple-900/30 border border-pink-500/30 rounded-xl p-4 sm:p-5 md:p-6 shadow-xl hover:shadow-2xl transition-all duration-300 backdrop-blur-sm text-left sm:text-right"
         >
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-3 sm:mb-4">Our Mission</h2>
-          <p className="text-gray-300 text-sm sm:text-base lg:text-lg leading-relaxed">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold mb-2 sm:mb-3 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Our Mission</h2>
+          <p className="text-gray-300 text-xs sm:text-sm lg:text-base leading-relaxed">
             To deliver high-quality networking and IT solutions with a focus on reliability, efficiency, and customer satisfaction — while continuously evolving with technological advancements.
           </p>
         </motion.div>
 
         {/* Our Vision - left */}
         <motion.div
-          initial={{ x: -100, opacity: 0 }}
+          initial={{ x: -50, opacity: 0 }}
           whileInView={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="self-start max-w-lg bg-purple-800/30 border border-purple-700 rounded-xl p-4 sm:p-6 shadow-lg"
+          className="self-start max-w-lg bg-gradient-to-br from-blue-800/40 to-purple-900/30 border border-blue-500/30 rounded-xl p-4 sm:p-5 md:p-6 shadow-xl hover:shadow-2xl transition-all duration-300 backdrop-blur-sm"
         >
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-3 sm:mb-4">Our Vision</h2>
-          <p className="text-gray-300 text-sm sm:text-base lg:text-lg leading-relaxed">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold mb-2 sm:mb-3 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Our Vision</h2>
+          <p className="text-gray-300 text-xs sm:text-sm lg:text-base leading-relaxed">
             To become a leading provider of innovative IT and networking solutions across Africa, enabling businesses and institutions to operate with seamless connectivity.
           </p>
         </motion.div>
@@ -108,15 +108,17 @@ export default function AboutSection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="bg-purple-800/30 border border-purple-700 rounded-xl p-4 sm:p-6 lg:p-12 shadow-lg hover:scale-105 transition-transform"
+              className="bg-gradient-to-br from-purple-800/30 to-purple-900/20 border border-purple-500/30 rounded-xl p-3 sm:p-4 lg:p-8 shadow-lg hover:shadow-xl hover:scale-105 hover:border-purple-400/50 transition-all duration-300 backdrop-blur-sm"
             >
-              <img
-                src={item.icon}
-                alt={item.title}
-                className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 mb-3 sm:mb-4 mx-auto"
-              />
-              <h3 className="text-base sm:text-lg font-semibold mb-2">{item.title}</h3>
-              <p className="text-gray-300 text-sm sm:text-base lg:text-lg">{item.description}</p>
+              <div className="bg-purple-500/10 rounded-full p-2 sm:p-3 w-fit mx-auto mb-3 sm:mb-4">
+                <img
+                  src={item.icon}
+                  alt={item.title}
+                  className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14"
+                />
+              </div>
+              <h3 className="text-sm sm:text-base lg:text-lg font-semibold mb-1.5 sm:mb-2 text-white">{item.title}</h3>
+              <p className="text-gray-300 text-xs sm:text-sm lg:text-base leading-relaxed">{item.description}</p>
             </motion.div>
           ))}
         </div>
@@ -184,8 +186,8 @@ export default function AboutSection() {
           <img src="/luna.png" alt="Partner 1" className="h-10 sm:h-12 lg:h-16 object-contain" />
           <img src="/king.png" alt="Partner 2" className="h-10 sm:h-12 lg:h-16 object-contain" />
           <img src="/giz.png" alt="Partner 3" className="h-10 sm:h-12 lg:h-16 object-contain" />
-          <img src="/partner4.png" alt="Partner 4" className="h-10 sm:h-12 lg:h-16 object-contain" />
-          <img src="/partner5.png" alt="Partner 5" className="h-10 sm:h-12 lg:h-16 object-contain" />
+          <img src="/canada.png" alt="Partner 4" className="h-10 sm:h-12 lg:h-16 object-contain" />
+          <img src="/gasmeth.png" alt="Partner 5" className="h-10 sm:h-12 lg:h-16 object-contain" />
         </div>
       </div>
     </section>

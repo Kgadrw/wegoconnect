@@ -104,15 +104,18 @@ export default function WegoServices() {
         {services.map((service, index) => (
           <div
             key={index}
-            className="bg-purple-800/30 border border-purple-700 rounded-xl overflow-hidden shadow-lg hover:scale-105 transition-transform"
+            className="bg-gradient-to-br from-purple-800/40 to-purple-900/30 border border-purple-500/30 rounded-xl overflow-hidden shadow-xl hover:shadow-2xl hover:scale-105 hover:border-purple-400/50 transition-all duration-300 backdrop-blur-sm group"
           >
-            <img
-              src={service.image}
-              alt={service.title}
-              className="w-full h-48 sm:h-56 lg:h-60 object-cover"
-            />
-            <div className="p-3 sm:p-4">
-              <h3 className="text-base sm:text-lg md:text-xl font-semibold text-white">
+            <div className="relative overflow-hidden">
+              <img
+                src={service.image}
+                alt={service.title}
+                className="w-full h-40 sm:h-48 lg:h-56 object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+            <div className="p-3 sm:p-4 md:p-5">
+              <h3 className="text-sm sm:text-base md:text-lg font-semibold text-white group-hover:text-pink-400 transition-colors duration-300">
                 {service.title}
               </h3>
             </div>
