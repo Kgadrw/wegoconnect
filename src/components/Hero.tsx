@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default function HomePage() {
   // Preload background image for faster loading
@@ -38,9 +39,11 @@ export default function HomePage() {
               connected, protected, and in control.
             </p>
             <div className="flex justify-center lg:justify-start">
+              <Link to="/about">
               <Button className="px-8 py-2 bg-black border-l border-white hover:bg-gray-800 relative ">
                 <span>Learn more</span>
               </Button>
+              </Link>
             </div>
           </div>
 

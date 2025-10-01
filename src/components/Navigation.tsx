@@ -36,7 +36,7 @@ const Navigation = () => {
         <div className="flex justify-between items-center py-2">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
-            <img src="/images.jpeg" alt="WEGO Logo" className="h-16 w-auto" />
+            <img src="/wego.png" alt="WEGO Logo" className="h-16 w-auto" />
           </Link>
 
           {/* Desktop Nav */}
