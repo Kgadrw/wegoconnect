@@ -54,7 +54,7 @@ export default function AboutSection() {
           viewport={{ once: true }}
           className="self-start max-w-lg bg-gradient-to-br from-purple-800/40 to-purple-900/30 border border-purple-500/30 rounded-xl p-4 sm:p-5 md:p-6 shadow-xl hover:shadow-2xl transition-all duration-300 backdrop-blur-sm"
         >
-          <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold mb-2 sm:mb-3 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">Who We Are</h2>
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold mb-2 sm:mb-3 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-white">Who We Are</h2>
           <p className="text-gray-300 text-xs sm:text-sm lg:text-base leading-relaxed">
             Wego Connect is a division of Wego Tronics Ltd, founded in 2022 with one clear purpose: to make reliable IT and networking solutions accessible to individuals, businesses, and institutions across Africa. Born from a passion to bridge connectivity gaps, we are here to ensure that no matter where you are, you can stay connected, secure, and in control.
           </p>
@@ -66,9 +66,9 @@ export default function AboutSection() {
           whileInView={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="self-start sm:self-end max-w-lg bg-gradient-to-br from-pink-800/40 to-purple-900/30 border border-pink-500/30 rounded-xl p-4 sm:p-5 md:p-6 shadow-xl hover:shadow-2xl transition-all duration-300 backdrop-blur-sm text-left sm:text-right"
+          className="self-start sm:self-end max-w-lg bg-gradient-to-br from-purple-800/40 to-purple-900/30 border border-purple-500/30 rounded-xl p-4 sm:p-5 md:p-6 shadow-xl hover:shadow-2xl transition-all duration-300 backdrop-blur-sm text-left sm:text-right"
         >
-          <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold mb-2 sm:mb-3 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Our Mission</h2>
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold mb-2 sm:mb-3 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-white">Our Mission</h2>
           <p className="text-gray-300 text-xs sm:text-sm lg:text-base leading-relaxed">
             To deliver high-quality networking and IT solutions with a focus on reliability, efficiency, and customer satisfaction — while continuously evolving with technological advancements.
           </p>
@@ -80,9 +80,9 @@ export default function AboutSection() {
           whileInView={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="self-start max-w-lg bg-gradient-to-br from-blue-800/40 to-purple-900/30 border border-blue-500/30 rounded-xl p-4 sm:p-5 md:p-6 shadow-xl hover:shadow-2xl transition-all duration-300 backdrop-blur-sm"
+          className="self-start max-w-lg bg-gradient-to-br from-purple-800/40 to-purple-900/30 border border-purple-500/30 rounded-xl p-4 sm:p-5 md:p-6 shadow-xl hover:shadow-2xl transition-all duration-300 backdrop-blur-sm"
         >
-          <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold mb-2 sm:mb-3 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Our Vision</h2>
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold mb-2 sm:mb-3 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-white">Our Vision</h2>
           <p className="text-gray-300 text-xs sm:text-sm lg:text-base leading-relaxed">
             To become a leading provider of innovative IT and networking solutions across Africa, enabling businesses and institutions to operate with seamless connectivity.
           </p>
