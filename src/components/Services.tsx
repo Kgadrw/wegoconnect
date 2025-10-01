@@ -16,9 +16,9 @@ export default function WegoServices() {
   const [showFooterText, setShowFooterText] = useState(false);
 
   return (
-    <section className="px-4 sm:px-6 md:px-16 py-12 sm:py-16 text-white">
+    <section className="px-2 sm:px-6 md:px-16 py-12 sm:py-16 text-white">
       {/* Hero */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 lg:gap-10 mb-12 sm:mb-16 lg:mb-20 px-4 sm:px-6 md:px-16 lg:px-32">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 lg:gap-10 mb-12 sm:mb-16 lg:mb-20 px-4 sm:px-6 md:px-16 lg:px-16">
         {/* Left text */}
         <motion.div
           className="max-w-xl text-center md:text-left"
@@ -26,7 +26,7 @@ export default function WegoServices() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
             At{' '}
             <span className="bg-gradient-to-r from-pink-500 via-orange-500 to-yellow-400 text-2xl sm:text-3xl md:text-4xl lg:text-5xl bg-clip-text text-transparent">
               Wego Connect,
@@ -82,7 +82,7 @@ export default function WegoServices() {
       </div>
 
       {/* Scroll indicator */}
-      <div className="flex justify-start px-4 sm:px-6 md:px-16 lg:px-32 mb-8 sm:mb-12">
+      <div className="flex justify-start px-4 sm:px-6 md:px-16 lg:px-16 mb-8 sm:mb-12">
         <motion.div
           className="w-5 h-8 sm:w-6 sm:h-10 border-2 border-white rounded-full flex items-start justify-center p-1"
           animate={{ y: [0, 8, 0] }}
@@ -100,7 +100,7 @@ export default function WegoServices() {
       </div>
 
       {/* Services Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-4 sm:px-6 md:px-16 lg:px-32">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-4 sm:px-6 md:px-16 lg:px-16">
         {services.map((service, index) => (
           <div
             key={index}
