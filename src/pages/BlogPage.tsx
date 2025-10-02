@@ -74,7 +74,7 @@ const BlogPage = () => {
         <Navigation />
         
         {/* Header Section */}
-        <section className="pt-24 sm:pt-28 lg:pt-32 pb-12 sm:pb-16 px-4 sm:px-6 md:px-12 lg:px-20">
+        <section className="pt-24 sm:pt-28 lg:pt-32 pb-12 sm:pb-16 px-6 sm:px-6 md:px-12 lg:px-20">
           <div className="max-w-6xl mx-auto">
             <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center">
               {/* Left Content */}
@@ -90,7 +90,7 @@ const BlogPage = () => {
               </div>
 
               {/* Right Decorative Element */}
-              <div className="mt-6 sm:mt-8 lg:mt-0 lg:ml-8">
+              <div className="hidden md:block mt-6 sm:mt-8 lg:mt-0 lg:ml-8">
                 <div className="w-48 h-48 sm:w-64 sm:h-64 lg:w-72 lg:h-72 xl:w-80 xl:h-80 relative">
                   <img
                     src="/blog-vector.png"
@@ -105,7 +105,7 @@ const BlogPage = () => {
         </section>
 
         {/* Blog Posts Grid */}
-        <section className="pb-12 sm:pb-16 lg:pb-20 px-4 sm:px-6 md:px-12 lg:px-20">
+        <section className="pb-12 sm:pb-16 lg:pb-20 px-6 sm:px-6 md:px-12 lg:px-20">
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
               {blogPosts.map((post) => (

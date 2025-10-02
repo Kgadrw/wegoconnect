@@ -43,16 +43,16 @@ const differences = [
 
 export default function AboutSection() {
   return (
-    <section className="px-2 sm:px-6 md:px-16 lg:px-12 py-12 sm:py-16 lg:py-20 text-white overflow-hidden">
+    <section className="px-6 sm:px-6 md:px-16 lg:px-12 pt-28 sm:pt-20 lg:pt-16 pb-12 sm:pb-16 lg:pb-20 text-white overflow-hidden">
       {/* Who We Are + Mission + Vision */}
-      <div className="flex flex-col gap-6 sm:gap-8 md:gap-12 mb-12 sm:mb-16 lg:mb-20 px-2 sm:px-4 md:px-16 lg:px-16 py-6 sm:py-8 lg:py-16">
+      <div className="flex flex-col gap-6 sm:gap-8 md:gap-12 mb-12 sm:mb-16 lg:mb-20 px-6 sm:px-4 md:px-16 lg:px-16 py-6 sm:py-8 lg:py-16">
         {/* Who We Are - left */}
         <motion.div
           initial={{ x: -50, opacity: 0 }}
           whileInView={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="self-start max-w-lg bg-gradient-to-br from-purple-800/40 to-purple-900/30 border border-purple-500/30 rounded-xl p-4 sm:p-5 md:p-6 shadow-xl hover:shadow-2xl transition-all duration-300 backdrop-blur-sm"
+          className="self-start max-w-lg bg-gradient-to-br from-purple-800/40 to-purple-900/30 border border-purple-500/30 rounded-xl p-4 sm:p-5 md:p-6 shadow-xl hover:shadow-2xl transition-all duration-300 backdrop-blur-sm text-center md:text-left"
         >
           <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold mb-2 sm:mb-3 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-white">Who We Are</h2>
           <p className="text-gray-300 text-xs sm:text-sm lg:text-base leading-relaxed">
@@ -66,7 +66,7 @@ export default function AboutSection() {
           whileInView={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="self-start sm:self-end max-w-lg bg-gradient-to-br from-purple-800/40 to-purple-900/30 border border-purple-500/30 rounded-xl p-4 sm:p-5 md:p-6 shadow-xl hover:shadow-2xl transition-all duration-300 backdrop-blur-sm text-left sm:text-right"
+          className="self-start sm:self-end max-w-lg bg-gradient-to-br from-purple-800/40 to-purple-900/30 border border-purple-500/30 rounded-xl p-4 sm:p-5 md:p-6 shadow-xl hover:shadow-2xl transition-all duration-300 backdrop-blur-sm text-center sm:text-right"
         >
           <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold mb-2 sm:mb-3 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-white">Our Mission</h2>
           <p className="text-gray-300 text-xs sm:text-sm lg:text-base leading-relaxed">
@@ -80,7 +80,7 @@ export default function AboutSection() {
           whileInView={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="self-start max-w-lg bg-gradient-to-br from-purple-800/40 to-purple-900/30 border border-purple-500/30 rounded-xl p-4 sm:p-5 md:p-6 shadow-xl hover:shadow-2xl transition-all duration-300 backdrop-blur-sm"
+          className="self-start max-w-lg bg-gradient-to-br from-purple-800/40 to-purple-900/30 border border-purple-500/30 rounded-xl p-4 sm:p-5 md:p-6 shadow-xl hover:shadow-2xl transition-all duration-300 backdrop-blur-sm text-center md:text-left"
         >
           <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold mb-2 sm:mb-3 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-white">Our Vision</h2>
           <p className="text-gray-300 text-xs sm:text-sm lg:text-base leading-relaxed">
@@ -100,7 +100,7 @@ export default function AboutSection() {
         <p className="text-gray-300 max-w-4xl mx-auto text-sm sm:text-base lg:text-lg mb-8 sm:mb-12 px-4">
           At Wego Connect, we believe technology should work for people not the other way around. That's why we bring together:
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 px-4 sm:px-6 md:px-16 lg:px-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 px-6 sm:px-6 md:px-16 lg:px-16">
           {differences.map((item, index) => (
             <motion.div
               key={index}
@@ -131,7 +131,7 @@ export default function AboutSection() {
       <div className="mx-auto w-full max-w-[1280px] border-t border-gray-700 mb-6"></div>
 
       {/* Our Team */}
-      <div className="grid md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 mb-12 sm:mb-16 lg:mb-20 items-center px-4 sm:px-6 md:px-16 lg:px-16">
+      <div className="grid md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 mb-12 sm:mb-16 lg:mb-20 items-center px-6 sm:px-6 md:px-16 lg:px-16">
   <motion.div
     initial={{ x: -100, opacity: 0 }}
     whileInView={{ x: 0, opacity: 1 }}
@@ -181,16 +181,16 @@ export default function AboutSection() {
           Trusted by Leading Institutions
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 place-items-center text-gray-400">
-  <img src="/luna.png" alt="Partner 1" className="h-12 object-contain" />
-  <img src="/king.png" alt="Partner 2" className="h-12 object-contain" />
-  <img src="/giz.png" alt="Partner 3" className="h-12 object-contain" />
-  <img src="/canada.png" alt="Partner 4" className="h-12 object-contain" />
-  <img src="/gasmeth.png" alt="Partner 5" className="h-12 object-contain" />
-  <img src="/kivu.png" alt="Partner 6" className="h-12 object-contain" />
-  <img src="/m.png" alt="Partner 7" className="h-12 object-contain" />
-  <img src="/pacis.png" alt="Partner 8" className="h-12 object-contain" />
-  <img src="/fastrack.png" alt="Partner 9" className="h-12 object-contain" />
-  <img src="/ruhondo.png" alt="Partner 10" className="h-12 object-contain" />
+  <img src="/luna.png" alt="Partner 1" className="h-8 object-contain" />
+  <img src="/king.png" alt="Partner 2" className="h-8 object-contain" />
+  <img src="/giz.png" alt="Partner 3" className="h-8 object-contain" />
+  <img src="/canada.png" alt="Partner 4" className="h-8 object-contain" />
+  <img src="/gasmeth.png" alt="Partner 5" className="h-8 object-contain" />
+  <img src="/kivu.png" alt="Partner 6" className="h-8 object-contain" />
+  <img src="/m.png" alt="Partner 7" className="h-8 object-contain" />
+  <img src="/pacis.png" alt="Partner 8" className="h-8 object-contain" />
+  <img src="/fastrack.png" alt="Partner 9" className="h-8 object-contain" />
+  <img src="/ruhondo.png" alt="Partner 10" className="h-8 object-contain" />
 </div>
 
 

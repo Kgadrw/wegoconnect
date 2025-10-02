@@ -16,9 +16,9 @@ export default function WegoServices() {
   const [showFooterText, setShowFooterText] = useState(false);
 
   return (
-    <section className="px-2 sm:px-6 md:px-16 py-12 sm:py-16 text-white">
+    <section className="px-6 sm:px-6 md:px-16 pt-28 sm:pt-20 lg:pt-16 pb-12 sm:pb-16 text-white">
       {/* Hero */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 lg:gap-10 mb-12 sm:mb-16 lg:mb-20 px-4 sm:px-6 md:px-16 lg:px-16">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 lg:gap-10 mb-12 sm:mb-16 lg:mb-20 px-6 sm:px-6 md:px-16 lg:px-16">
         {/* Left text */}
         <motion.div
           className="max-w-xl text-center md:text-left"
@@ -44,7 +44,7 @@ export default function WegoServices() {
         <motion.img
           src="/rocket.png"
           alt="Rocket"
-          className="w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] lg:w-[500px] lg:h-[500px] object-contain drop-shadow-2xl"
+          className="hidden md:block w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] lg:w-[500px] lg:h-[500px] object-contain drop-shadow-2xl"
           initial={{ opacity: 0, y: 80, scale: 0.9 }}
           animate={{ 
             opacity: 1, 
@@ -81,8 +81,8 @@ export default function WegoServices() {
         />
       </div>
 
-      {/* Scroll indicator */}
-      <div className="flex justify-start px-4 sm:px-6 md:px-16 lg:px-16 mb-8 sm:mb-12">
+      {/* Scroll indicator - Hidden */}
+        <div className="hidden flex justify-start px-6 sm:px-6 md:px-16 lg:px-16 mb-8 sm:mb-12">
         <motion.div
           className="w-5 h-8 sm:w-6 sm:h-10 border-2 border-white rounded-full flex items-start justify-center p-1"
           animate={{ y: [0, 8, 0] }}
@@ -100,7 +100,7 @@ export default function WegoServices() {
       </div>
 
       {/* Services Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-4 sm:px-6 md:px-16 lg:px-16">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-6 sm:px-6 md:px-16 lg:px-16">
         {services.map((service, index) => (
           <div
             key={index}

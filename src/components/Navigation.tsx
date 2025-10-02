@@ -24,6 +24,11 @@ const Navigation = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Close drawer on route change
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location.pathname]);
+
   return (
     <nav
       className={`absolute top-0 left-0 w-full z-50 transition-all duration-300 ${
@@ -32,7 +37,7 @@ const Navigation = () => {
           : "bg-transparent"
       }`}
     >
-      <div className="max-w-6xl mx-auto px-4 py-2 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-6 py-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-2">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
@@ -143,7 +148,7 @@ const Navigation = () => {
                     to={item.href}
                     className={`font-medium py-2.5 sm:py-3 px-3 sm:px-4 transition-all duration-300 relative rounded-lg text-sm sm:text-base ${
                       location.pathname === item.href
-                        ? "text-white bg-gradient-to-r from-pink-500/20 to-purple-500/20 border border-pink-500/30"
+                        ? "text-white bg-white/10 border border-white/20"
                         : "text-gray-300 hover:text-white hover:bg-white/5 active:scale-95"
                     }`}
                     onClick={() => {
@@ -152,9 +157,6 @@ const Navigation = () => {
                   >
                     <span className="flex items-center gap-2">
                       {item.label}
-                      {location.pathname === item.href && (
-                        <span className="w-1.5 h-1.5 bg-pink-500 rounded-full animate-pulse"></span>
-                      )}
                     </span>
                   </Link>
                 ))}
@@ -164,8 +166,12 @@ const Navigation = () => {
               {location.pathname !== '/contact' && (
                 <div className="pt-4 sm:pt-6 space-y-3 border-t border-white/10">
                   <Link to="/contact" className="block">
-                    <Button className="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white hover:from-pink-600 hover:to-purple-700 font-semibold shadow-lg py-2.5 text-sm sm:text-base" onClick={() => setIsOpen(false)}>
-                      Contact Us
+                    <Button className="w-full px-8 py-2 bg-black border-l border-white hover:bg-gray-800 relative text-white font-semibold text-sm sm:text-base" onClick={() => setIsOpen(false)}>
+                      <span>Contact</span>
+                      {/* Growing light effect on left, top, and bottom borders */}
+                      <div className="absolute -left-px -top-px w-full h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+                      <div className="absolute -left-px -top-px w-px h-full bg-gradient-to-b from-transparent via-white/30 to-transparent"></div>
+                      <div className="absolute -left-px -bottom-px w-full h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
                     </Button>
                   </Link>
                 </div>
