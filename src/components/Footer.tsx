@@ -9,12 +9,54 @@ const Footer = () => {
 
         {/* Right Side - Social Icons */}
         <div className="flex items-center gap-3 sm:gap-4">
-          <FaLinkedin className="text-lg sm:text-xl hover:text-pink-500 transition-colors cursor-pointer" />
-          <FaXTwitter className="text-lg sm:text-xl hover:text-pink-500 transition-colors cursor-pointer" />
-          <FaWhatsapp className="text-lg sm:text-xl hover:text-pink-500 transition-colors cursor-pointer" />
-          <FaInstagram className="text-lg sm:text-xl hover:text-pink-500 transition-colors cursor-pointer" />
-          <FaFacebook className="text-lg sm:text-xl hover:text-pink-500 transition-colors cursor-pointer" />
-          <FaTiktok className="text-lg sm:text-xl hover:text-pink-500 transition-colors cursor-pointer" />
+          <a 
+            href="https://linkedin.com/company/wegoconnect" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-lg sm:text-xl hover:text-pink-500 transition-colors cursor-pointer"
+          >
+            <FaLinkedin />
+          </a>
+          <a 
+            href="https://twitter.com/wegoconnect" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-lg sm:text-xl hover:text-pink-500 transition-colors cursor-pointer"
+          >
+            <FaXTwitter />
+          </a>
+          <a 
+            href="https://wa.me/+250792052562" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-lg sm:text-xl hover:text-pink-500 transition-colors cursor-pointer"
+          >
+            <FaWhatsapp />
+          </a>
+          <a 
+            href="https://instagram.com/wegoconnect" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-lg sm:text-xl hover:text-pink-500 transition-colors cursor-pointer"
+          >
+            <FaInstagram />
+          </a>
+          <a 
+            href="https://facebook.com/wegoconnect" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-lg sm:text-xl hover:text-pink-500 transition-colors cursor-pointer"
+          >
+            <FaFacebook />
+          </a>
+          <a 
+            href="https://tiktok.com/@wegoconnect" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-lg sm:text-xl hover:text-pink-500 transition-colors cursor-pointer"
+          >
+            <FaTiktok />
+          </a>
         </div>
       </div>
     </footer>

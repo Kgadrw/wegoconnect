@@ -1,25 +1,63 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function HomePage() {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
   // Preload background image for faster loading
   useEffect(() => {
+    // Check if image is already cached
     const img = new Image();
-    img.src = '/bg.png';
-  }, []);
+    
+    img.onload = () => {
+      setImageLoaded(true);
+    };
+    
+    img.onerror = () => {
+      console.warn('Failed to load hero background image, using fallback');
+      setImageError(true);
+      setImageLoaded(true); // Show content even if image fails
+    };
+    
+    // Add cache-busting parameter for development, remove in production
+    const timestamp = process.env.NODE_ENV === 'development' ? `?t=${Date.now()}` : '';
+    img.src = `/bg.png${timestamp}`;
+    
+    // Fallback: set loaded after 2 seconds to prevent infinite loading
+    const fallbackTimer = setTimeout(() => {
+      if (!imageLoaded) {
+        console.warn('Hero image loading timeout, showing fallback');
+        setImageLoaded(true);
+      }
+    }, 2000);
+    
+    return () => clearTimeout(fallbackTimer);
+  }, [imageLoaded]);
 
   return (
     <main
-      className="h-screen bg-[url('/bg.png')] bg-cover bg-center text-white overflow-hidden relative"
+      className="h-screen bg-cover bg-center text-white overflow-hidden relative"
       style={{
-        backgroundImage: 'url(/bg.png)',
+        backgroundImage: imageLoaded ? 'url(/bg.png)' : 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
+        backgroundRepeat: 'no-repeat',
+        transition: 'background-image 0.5s ease-in-out'
       }}
     >
+      {/* Loading overlay */}
+      {!imageLoaded && !imageError && (
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900 to-black flex items-center justify-center z-10">
+          <div className="text-center">
+            <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-white text-sm">Loading...</p>
+          </div>
+        </div>
+      )}
+      
       {/* Hero + Customers in one section */}
       <section
         id="home"
