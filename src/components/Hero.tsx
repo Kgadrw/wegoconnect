@@ -78,39 +78,43 @@ export default function HomePage() {
           {/* Left Content */}
           <div className="max-w-5xl space-y-3 sm:space-y-6 lg:space-y-8 px-4 md:px-8 lg:px-16 text-center lg:text-left lg:flex-1">
             <div className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight font-heading">
-              <SplitText
-                text="Powering your world with reliable "
-                tag="h1"
-                className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight inline-block font-heading"
-                delay={30}
-                duration={0.8}
-                ease="power3.out"
-                splitType="chars"
-                from={{ opacity: 0, y: 50, rotateX: -90 }}
-                to={{ opacity: 1, y: 0, rotateX: 0 }}
-                threshold={0.1}
-                rootMargin="0px"
-                textAlign="left"
-              />
+              <div className="text-center lg:text-left">
+                <SplitText
+                  text="Powering your world with reliable "
+                  tag="h1"
+                  className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight inline-block font-heading"
+                  delay={30}
+                  duration={0.8}
+                  ease="power3.out"
+                  splitType="chars"
+                  from={{ opacity: 0, y: 50, rotateX: -90 }}
+                  to={{ opacity: 1, y: 0, rotateX: 0 }}
+                  threshold={0.1}
+                  rootMargin="0px"
+                  textAlign="center"
+                />
+              </div>
               <span className="text-pink-500 font-bold bg-gradient-to-r from-pink-500 to-pink-600 bg-clip-text text-transparent">Networking</span>
               <span> & </span>
               <span className="text-yellow-400 font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Smart IT</span>
               <span> solutions</span>
             </div>
-            <SplitText
-              text="From satellite connectivity to secure systems that keep you connected, protected, and in control."
-              tag="p"
-              className="text-gray-300 max-w-lg text-base sm:text-base lg:text-lg xl:text-xl leading-relaxed mx-auto lg:mx-0 font-sans"
-              delay={20}
-              duration={0.6}
-              ease="power2.out"
-              splitType="words"
-              from={{ opacity: 0, y: 20 }}
-              to={{ opacity: 1, y: 0 }}
-              threshold={0.1}
-              rootMargin="0px"
-              textAlign="left"
-            />
+            <div className="text-center lg:text-left">
+              <SplitText
+                text="From satellite connectivity to secure systems that keep you connected, protected, and in control."
+                tag="p"
+                className="text-gray-300 max-w-lg text-base sm:text-base lg:text-lg xl:text-xl leading-relaxed mx-auto lg:mx-0 font-sans"
+                delay={20}
+                duration={0.6}
+                ease="power2.out"
+                splitType="words"
+                from={{ opacity: 0, y: 20 }}
+                to={{ opacity: 1, y: 0 }}
+                threshold={0.1}
+                rootMargin="0px"
+                textAlign="center"
+              />
+            </div>
             <div className="flex justify-center lg:justify-start">
               <Link to="/about">
               <Button className="px-8 py-2 bg-black border-l border-white hover:bg-gray-800 relative ">
