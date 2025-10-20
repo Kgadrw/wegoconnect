@@ -71,12 +71,12 @@ export default function HomePage() {
       {/* Hero + Customers in one section */}
       <section
         id="home"
-        className="relative z-10 flex flex-col h-full p-16"
+        className="relative z-10 flex flex-col h-full p-16 pt-32 sm:pt-36 lg:pt-40"
       >
         {/* Hero Content */}
         <div className="flex flex-col lg:flex-row justify-center lg:justify-between items-center flex-1 max-w-7xl mx-auto w-full">
           {/* Left Content */}
-          <div className="max-w-5xl space-y-3 sm:space-y-6 lg:space-y-8 px-4 md:px-8 lg:px-16 text-center lg:text-left">
+          <div className="max-w-5xl space-y-3 sm:space-y-6 lg:space-y-8 px-4 md:px-8 lg:px-16 text-center lg:text-left lg:flex-1">
             <div className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight font-heading">
               <SplitText
                 text="Powering your world with reliable "
@@ -121,7 +121,7 @@ export default function HomePage() {
           </div>
 
           {/* Right Image - Hidden on mobile */}
-          <div className="hidden md:block mt-6 sm:mt-8 lg:mt-0 flex-shrink-0">
+          <div className="hidden md:block mt-6 sm:mt-8 lg:mt-0 flex-shrink-0 lg:flex lg:items-center lg:justify-center">
             <img
               src="/right.png"
               alt="Networking & Smart IT"

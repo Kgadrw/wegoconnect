@@ -124,42 +124,40 @@ export default function WegoServices() {
       {/* Services Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-7xl mx-auto w-full">
         {services.map((service, index) => (
-          <motion.div
-            key={index}
-            className="bg-gradient-to-br from-purple-800/40 to-purple-900/30 border border-purple-500/30 rounded-xl overflow-hidden shadow-xl hover:shadow-2xl hover:scale-105 hover:border-purple-400/50 transition-all duration-300 backdrop-blur-sm group cursor-pointer"
-            whileHover={{ y: -5 }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-          >
-            <div className="relative overflow-hidden h-40 sm:h-48 lg:h-56">
-              <img
-                src={service.image}
-                alt={service.title}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-              />
-              
-              {/* Gradient overlay for better text visibility */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              
-              {/* Service description overlay */}
-              <div className="absolute inset-0 p-4 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0">
-                <h3 className="text-white font-semibold text-sm sm:text-base mb-2 group-hover:text-pink-400 transition-colors duration-300">
-                  {service.title}
-                </h3>
-                <p className="text-gray-200 text-xs sm:text-sm leading-relaxed line-clamp-4">
-                  {service.description}
-                </p>
+          <div key={index} className="space-y-3">
+            <motion.div
+              className="bg-gradient-to-br from-purple-800/40 to-purple-900/30 border border-purple-500/30 rounded-xl overflow-hidden shadow-xl hover:shadow-2xl hover:scale-105 hover:border-purple-400/50 transition-all duration-300 backdrop-blur-sm group cursor-pointer"
+              whileHover={{ y: -5 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+            >
+              <div className="relative overflow-hidden h-40 sm:h-48 lg:h-56">
+                <img
+                  src={service.image}
+                  alt={service.title}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                
+                {/* Bottom gradient for text visibility */}
+                <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black/90 via-black/60 to-transparent"></div>
+                
+                {/* Service description overlay - only on hover */}
+                <div className="absolute inset-0 p-4 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0">
+                  <div className="bg-gradient-to-t from-black/95 via-black/80 to-black/60 rounded-lg p-4">
+                    <p className="text-white text-xs sm:text-sm leading-relaxed line-clamp-4 font-medium">
+                      {service.description}
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
+            </motion.div>
             
-            {/* Title shown when not hovering */}
-            <div className="p-3 sm:p-4 md:p-5 group-hover:hidden">
-              <h3 className="text-sm sm:text-base md:text-lg font-semibold text-white">
-                {service.title}
-              </h3>
-            </div>
-          </motion.div>
+            {/* Title outside the card */}
+            <h3 className="text-white font-semibold text-sm sm:text-base md:text-lg text-center group-hover:text-pink-400 transition-colors duration-300">
+              {service.title}
+            </h3>
+          </div>
         ))}
       </div>
 
