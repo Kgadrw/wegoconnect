@@ -116,5 +116,14 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Open Sans', 'Nata Sans', 'Comfortaa', 'Quicksand', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Jura', 'BBH Sans Hegarty', 'Boldonse', sans-serif;
+  }
+
+  .font-display {
+    font-family: 'Permanent Marker', 'Chewy', cursive;
   }
 }

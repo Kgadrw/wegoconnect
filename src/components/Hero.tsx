@@ -1,81 +1,116 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Plasma from "./Plasma";
+import SplitText from "./SplitText";
+import { useState, useEffect } from "react";
 
 export default function HomePage() {
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [imageError, setImageError] = useState(false);
+  const [backgroundLoaded, setBackgroundLoaded] = useState(false);
 
-  // Preload background image for faster loading
   useEffect(() => {
-    // Check if image is already cached
+    // Check if the image is already cached
     const img = new Image();
     
-    img.onload = () => {
-      setImageLoaded(true);
-    };
+    // If image is already loaded (cached), set state immediately
+    if (img.complete) {
+      setBackgroundLoaded(true);
+      return;
+    }
     
+    // Otherwise, load the image
+    img.onload = () => setBackgroundLoaded(true);
     img.onerror = () => {
-      console.warn('Failed to load hero background image, using fallback');
-      setImageError(true);
-      setImageLoaded(true); // Show content even if image fails
+      console.warn('Background image failed to load');
+      setBackgroundLoaded(false);
     };
     
-    // Add cache-busting parameter for development, remove in production
-    const timestamp = process.env.NODE_ENV === 'development' ? `?t=${Date.now()}` : '';
-    img.src = `/bg.png${timestamp}`;
+    // Use a small delay to prevent blocking the main thread
+    const timeoutId = setTimeout(() => {
+      img.src = '/bg.png';
+    }, 100);
     
-    // Fallback: set loaded after 2 seconds to prevent infinite loading
-    const fallbackTimer = setTimeout(() => {
-      if (!imageLoaded) {
-        console.warn('Hero image loading timeout, showing fallback');
-        setImageLoaded(true);
-      }
-    }, 2000);
-    
-    return () => clearTimeout(fallbackTimer);
-  }, [imageLoaded]);
+    // Cleanup function
+    return () => {
+      clearTimeout(timeoutId);
+      img.onload = null;
+      img.onerror = null;
+    };
+  }, []);
 
   return (
-    <main
-      className="h-screen bg-cover bg-center text-white overflow-hidden relative"
-      style={{
-        backgroundImage: imageLoaded ? 'url(/bg.png)' : 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        transition: 'background-image 0.5s ease-in-out'
-      }}
-    >
-      {/* Loading overlay */}
-      {!imageLoaded && !imageError && (
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900 to-black flex items-center justify-center z-10">
-          <div className="text-center">
-            <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-white text-sm">Loading...</p>
-          </div>
-        </div>
+    <main className="h-screen text-white overflow-hidden relative bg-black">
+      {/* Background Image - Lazy loaded and optimized for larger screens */}
+      {backgroundLoaded && (
+        <div 
+          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-20 sm:opacity-30 transition-opacity duration-1000 hidden sm:block"
+          style={{
+            backgroundImage: 'url(/bg.png)',
+            backgroundAttachment: 'fixed'
+          }}
+        />
       )}
+      
+      {/* Loading placeholder for background */}
+      {!backgroundLoaded && (
+        <div className="absolute inset-0 z-0 bg-gradient-to-br from-gray-900 to-black opacity-50" />
+      )}
+      
+      {/* Plasma Background */}
+      <div className="absolute inset-0 z-0">
+        <Plasma 
+          color="#ff6b35"
+          speed={0.6}
+          direction="forward"
+          scale={0.9}
+          opacity={0.8}
+          mouseInteractive={true}
+        />
+      </div>
       
       {/* Hero + Customers in one section */}
       <section
         id="home"
-        className="flex flex-col h-full px-6 sm:px-6 md:px-12 lg:px-20 pt-20 sm:pt-20 pb-6"
+        className="relative z-10 flex flex-col h-full p-16"
       >
         {/* Hero Content */}
-        <div className="flex flex-col lg:flex-row justify-center lg:justify-between items-center flex-1">
+        <div className="flex flex-col lg:flex-row justify-center lg:justify-between items-center flex-1 max-w-7xl mx-auto w-full">
           {/* Left Content */}
-          <div className="max-w-4xl space-y-3 sm:space-y-6 lg:space-y-8 px-4 md:px-8 lg:px-16 text-center lg:text-left">
-            <h1 className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-regular leading-tight animate-fade-in">
-              Powering your world with reliable{" "}
-              <span className="text-pink-500 font-bold bg-gradient-to-r from-pink-500 to-pink-600 bg-clip-text text-transparent">Networking</span> &{" "}
-              <span className="text-yellow-400 font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Smart IT</span> solutions
-            </h1>
-            <p className="text-gray-300 max-w-lg text-base sm:text-base lg:text-lg xl:text-xl leading-relaxed mx-auto lg:mx-0 animate-fade-in-up">
-              From satellite connectivity to secure systems that keep you
-              connected, protected, and in control.
-            </p>
+          <div className="max-w-5xl space-y-3 sm:space-y-6 lg:space-y-8 px-4 md:px-8 lg:px-16 text-center lg:text-left">
+            <div className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight font-heading">
+              <SplitText
+                text="Powering your world with reliable "
+                tag="h1"
+                className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight inline-block font-heading"
+                delay={30}
+                duration={0.8}
+                ease="power3.out"
+                splitType="chars"
+                from={{ opacity: 0, y: 50, rotateX: -90 }}
+                to={{ opacity: 1, y: 0, rotateX: 0 }}
+                threshold={0.1}
+                rootMargin="0px"
+                textAlign="left"
+              />
+              <span className="text-pink-500 font-bold bg-gradient-to-r from-pink-500 to-pink-600 bg-clip-text text-transparent">Networking</span>
+              <span> & </span>
+              <span className="text-yellow-400 font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Smart IT</span>
+              <span> solutions</span>
+            </div>
+            <SplitText
+              text="From satellite connectivity to secure systems that keep you connected, protected, and in control."
+              tag="p"
+              className="text-gray-300 max-w-lg text-base sm:text-base lg:text-lg xl:text-xl leading-relaxed mx-auto lg:mx-0 font-sans"
+              delay={20}
+              duration={0.6}
+              ease="power2.out"
+              splitType="words"
+              from={{ opacity: 0, y: 20 }}
+              to={{ opacity: 1, y: 0 }}
+              threshold={0.1}
+              rootMargin="0px"
+              textAlign="left"
+            />
             <div className="flex justify-center lg:justify-start">
               <Link to="/about">
               <Button className="px-8 py-2 bg-black border-l border-white hover:bg-gray-800 relative ">
@@ -91,9 +126,28 @@ export default function HomePage() {
               src="/right.png"
               alt="Networking & Smart IT"
               className="w-[250px] h-[250px] sm:w-[300px] sm:h-[300px] lg:w-[350px] lg:h-[350px] xl:w-[400px] xl:h-[400px] object-contain drop-shadow-2xl opacity-100"
+              style={{
+                animation: 'floatMotion 6s ease-in-out infinite',
+              }}
               loading="eager"
             />
           </div>
+          <style>{`
+            @keyframes floatMotion {
+              0%, 100% {
+                transform: translateY(0px) rotate(0deg) scale(1);
+              }
+              25% {
+                transform: translateY(-20px) rotate(-3deg) scale(1.05);
+              }
+              50% {
+                transform: translateY(-10px) rotate(0deg) scale(1);
+              }
+              75% {
+                transform: translateY(-20px) rotate(3deg) scale(1.05);
+              }
+            }
+          `}</style>
         </div>
 
         {/* Customers */}

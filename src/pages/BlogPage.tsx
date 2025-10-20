@@ -84,7 +84,7 @@ const BlogPage = () => {
                 </h1>
                 <p className="text-gray-300 text-sm sm:text-base lg:text-lg xl:text-xl leading-relaxed">
                   Stay informed with the latest insights, updates, and stories from the world of networking and IT. 
-                  At Virga Connect, we share expert advice, technology trends, and practical guides to help you 
+                  At Wego Connect, we share expert advice, technology trends, and practical guides to help you 
                   stay connected and secure.
                 </p>
               </div>

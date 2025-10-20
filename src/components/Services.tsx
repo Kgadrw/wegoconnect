@@ -4,12 +4,36 @@ import { motion } from 'framer-motion';
 import { ChevronDown } from "lucide-react";
 
 const services = [
-  { title: 'Satellite Networking', image: '/satellite.png' },
-  { title: 'Local Area Networking (LAN)', image: '/lan.png' },
-  { title: 'CCTV & Security Camera System', image: '/cctv.jpg' },
-  { title: 'Access Control Systems', image: '/access.png' },
-  { title: 'IT Support & Maintenance', image: '/it.jpg' },
-  { title: 'Customized Solutions', image: '/custom.jpg' },
+  { 
+    title: 'Satellite Networking', 
+    image: '/satellite.png',
+    description: 'Stay connected anywhere with our satellite internet solutions. We install and maintain high-speed satellite networks that provide reliable coverage even in remote areas, ensuring you\'re always online.'
+  },
+  { 
+    title: 'Local Area Networking (LAN)', 
+    image: '/lan.png',
+    description: 'We design and set up robust LAN systems that keep your office, home, or institution running smoothly. Our LAN services guarantee fast, stable, and secure connections for all your devices.'
+  },
+  { 
+    title: 'CCTV & Security Camera System', 
+    image: '/cctv.jpg',
+    description: 'Protect what matters most with our advanced camera installations. From indoor monitoring to outdoor surveillance, we provide smart security systems with remote access and crystal-clear video quality.'
+  },
+  { 
+    title: 'Access Control Systems', 
+    image: '/access.png',
+    description: 'Upgrade your security with intelligent door systems. We integrate biometric access, smart locks, and card entry solutions to give you complete control and peace of mind.'
+  },
+  { 
+    title: 'IT Support & Maintenance', 
+    image: '/it.jpg',
+    description: 'Our team offers end-to-end IT support — from troubleshooting and repairs to ongoing maintenance. We ensure your systems run efficiently, so you can focus on what matters most.'
+  },
+  { 
+    title: 'Customized Solutions', 
+    image: '/custom.jpg',
+    description: 'Every business and home is unique. That\'s why we tailor networking and IT services to your specific needs, combining innovation and reliability to deliver solutions that fit perfectly.'
+  },
 ];
 
 export default function WegoServices() {
@@ -18,10 +42,10 @@ export default function WegoServices() {
   return (
     <section className="px-6 sm:px-6 md:px-16 pt-28 sm:pt-20 lg:pt-16 pb-12 sm:pb-16 text-white">
       {/* Hero */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 lg:gap-10 mb-12 sm:mb-16 lg:mb-20 px-6 sm:px-6 md:px-16 lg:px-16">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 lg:gap-10 mb-12 sm:mb-16 lg:mb-20 max-w-7xl mx-auto w-full">
         {/* Left text */}
         <motion.div
-          className="max-w-xl text-center md:text-left"
+          className="max-w-5xl text-center md:text-left"
           initial={{ opacity: 0, x: -60 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
@@ -47,9 +71,7 @@ export default function WegoServices() {
           className="hidden md:block w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] lg:w-[500px] lg:h-[500px] object-contain drop-shadow-2xl"
           initial={{ opacity: 0, y: 80, scale: 0.9 }}
           animate={{ 
-            opacity: 1, 
-            y: 0, 
-            scale: 1,
+            opacity: 1,
             // Bouncing animation that looks like it's trying to take off
             y: [0, -15, 0, -8, 0, -12, 0, -5, 0],
             rotate: [0, -2, 0, 2, 0, -1, 0, 1, 0],
@@ -82,7 +104,7 @@ export default function WegoServices() {
       </div>
 
       {/* Scroll indicator - Hidden */}
-        <div className="hidden flex justify-start px-6 sm:px-6 md:px-16 lg:px-16 mb-8 sm:mb-12">
+        <div className="hidden flex justify-start max-w-7xl mx-auto w-full mb-8 sm:mb-12">
         <motion.div
           className="w-5 h-8 sm:w-6 sm:h-10 border-2 border-white rounded-full flex items-start justify-center p-1"
           animate={{ y: [0, 8, 0] }}
@@ -96,30 +118,48 @@ export default function WegoServices() {
 
       {/* Services Heading */}
       <div className="text-center mb-8 sm:mb-12 mt-8 sm:mt-12">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Our Services</h2>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-pink-500 via-orange-500 to-yellow-400 bg-clip-text text-transparent">Our Services</h2>
       </div>
 
       {/* Services Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-6 sm:px-6 md:px-16 lg:px-16">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-7xl mx-auto w-full">
         {services.map((service, index) => (
-          <div
+          <motion.div
             key={index}
-            className="bg-gradient-to-br from-purple-800/40 to-purple-900/30 border border-purple-500/30 rounded-xl overflow-hidden shadow-xl hover:shadow-2xl hover:scale-105 hover:border-purple-400/50 transition-all duration-300 backdrop-blur-sm group"
+            className="bg-gradient-to-br from-purple-800/40 to-purple-900/30 border border-purple-500/30 rounded-xl overflow-hidden shadow-xl hover:shadow-2xl hover:scale-105 hover:border-purple-400/50 transition-all duration-300 backdrop-blur-sm group cursor-pointer"
+            whileHover={{ y: -5 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
           >
-            <div className="relative overflow-hidden">
+            <div className="relative overflow-hidden h-40 sm:h-48 lg:h-56">
               <img
                 src={service.image}
                 alt={service.title}
-                className="w-full h-40 sm:h-48 lg:h-56 object-cover group-hover:scale-110 transition-transform duration-500"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              
+              {/* Gradient overlay for better text visibility */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              
+              {/* Service description overlay */}
+              <div className="absolute inset-0 p-4 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0">
+                <h3 className="text-white font-semibold text-sm sm:text-base mb-2 group-hover:text-pink-400 transition-colors duration-300">
+                  {service.title}
+                </h3>
+                <p className="text-gray-200 text-xs sm:text-sm leading-relaxed line-clamp-4">
+                  {service.description}
+                </p>
+              </div>
             </div>
-            <div className="p-3 sm:p-4 md:p-5">
-              <h3 className="text-sm sm:text-base md:text-lg font-semibold text-white group-hover:text-pink-400 transition-colors duration-300">
+            
+            {/* Title shown when not hovering */}
+            <div className="p-3 sm:p-4 md:p-5 group-hover:hidden">
+              <h3 className="text-sm sm:text-base md:text-lg font-semibold text-white">
                 {service.title}
               </h3>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
 

@@ -53,7 +53,7 @@ export default function Contact() {
 
         {/* Right Form */}
         <div className="bg-white/5 backdrop-blur-md rounded-xl p-6 shadow-lg border border-white/10">
-          <h2 className="text-2xl font-bold mb-6">Send Us a Message!</h2>
+          <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-pink-500 via-orange-500 to-yellow-400 bg-clip-text text-transparent">Send Us a Message!</h2>
           <form className="space-y-4">
             <input
               type="text"

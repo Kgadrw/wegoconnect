@@ -1,11 +1,12 @@
 import Navigation from "@/components/Navigation";
 import Services from "@/components/Services";
 import Footer from "@/components/Footer";
+import Plasma from "@/components/Plasma";
 
 const ServicesPage = () => {
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Background with bg2.png, noise, and gradients */}
+      {/* Background with bg2.png and gradients */}
       <div className="absolute inset-0 bg-black">
         <div 
           className="absolute inset-0 opacity-30"
@@ -16,8 +17,6 @@ const ServicesPage = () => {
             backgroundRepeat: 'no-repeat'
           }}
         />
-        {/* Noise texture */}
-
         {/* Top gradient */}
         <div className="absolute top-0 left-0 w-full h-48 bg-gradient-to-b from-black/95 to-transparent" />
         {/* Bottom gradient */}

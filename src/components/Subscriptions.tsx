@@ -42,7 +42,7 @@ const Subscriptions = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6">
-            Manage Your <span className="text-primary">Subscription</span>
+            Manage Your <span className="bg-gradient-to-r from-pink-500 via-orange-500 to-yellow-400 bg-clip-text text-transparent">Subscription</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Easy monthly payments with multiple payment options. 
@@ -53,7 +53,7 @@ const Subscriptions = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Current Plans Overview */}
           <div className="space-y-6 animate-slide-up">
-            <h3 className="text-2xl font-bold text-foreground mb-6">Available Plans</h3>
+            <h3 className="text-2xl font-bold text-foreground mb-6 bg-gradient-to-r from-pink-500 via-orange-500 to-yellow-400 bg-clip-text text-transparent">Available Plans</h3>
             
             {plans.map((plan, index) => (
               <Card key={index} className="bg-card shadow-card hover:shadow-elegant transition-all duration-300">

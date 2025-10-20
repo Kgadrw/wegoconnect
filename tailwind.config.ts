@@ -18,6 +18,11 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				'sans': ['Open Sans', 'Nata Sans', 'Comfortaa', 'Quicksand', 'sans-serif'],
+				'heading': ['Jura', 'BBH Sans Hegarty', 'Boldonse', 'sans-serif'],
+				'display': ['Permanent Marker', 'Chewy', 'cursive'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
