@@ -74,7 +74,7 @@ const BlogPage = () => {
         <Navigation />
         
         {/* Header Section */}
-        <section className="pt-24 sm:pt-28 lg:pt-32 pb-12 sm:pb-16 px-6 sm:px-6 md:px-12 lg:px-20">
+        <section className="pt-16 sm:pt-20 md:pt-24 lg:pt-28 xl:pt-32 pb-8 sm:pb-12 md:pb-16 px-4 sm:px-6 md:px-12 lg:px-20 xl:px-24">
           <div className="max-w-6xl mx-auto">
             <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center">
               {/* Left Content */}
@@ -105,7 +105,7 @@ const BlogPage = () => {
         </section>
 
         {/* Blog Posts Grid */}
-        <section className="pb-12 sm:pb-16 lg:pb-20 px-6 sm:px-6 md:px-12 lg:px-20">
+        <section className="pb-8 sm:pb-12 md:pb-16 lg:pb-20 px-4 sm:px-6 md:px-12 lg:px-20 xl:px-24">
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
               {blogPosts.map((post) => (

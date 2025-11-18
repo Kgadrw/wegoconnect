@@ -30,6 +30,12 @@ const Index = () => {
       <div className="relative z-10">
         <Navigation />
         <Hero />
+        {/* Mobile-only components */}
+        <div className="md:hidden">
+          <Services />
+          <About />
+          <Footer />
+        </div>
       </div>
     </div>
   );

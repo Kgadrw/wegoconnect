@@ -4,7 +4,7 @@ import { FaLinkedin, FaXTwitter, FaWhatsapp, FaInstagram, FaFacebook, FaTiktok }
 
 const ContactSection = () => {
   return (
-    <section className="text-white px-6 sm:px-6 md:px-16 py-12 sm:py-16 lg:py-20">
+    <section className="text-white px-4 sm:px-6 md:px-12 lg:px-20 xl:px-24 py-8 sm:py-12 md:py-16 lg:py-20">
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12 items-start lg:items-center">
         
         {/* Left Contact Info */}

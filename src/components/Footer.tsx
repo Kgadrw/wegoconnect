@@ -3,7 +3,7 @@ import { FaLinkedin, FaXTwitter, FaWhatsapp, FaInstagram, FaFacebook, FaTiktok }
 const Footer = () => {
   return (
     <footer className="bg-transparent text-white py-4 sm:py-6">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 lg:px-20 xl:px-24 flex flex-col sm:flex-row justify-between items-center gap-4">
         {/* Left Side */}
         <div className="text-sm sm:text-base lg:text-lg text-white/80">@2025 Wego Connect</div>
 

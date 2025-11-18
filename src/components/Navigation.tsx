@@ -37,15 +37,15 @@ const Navigation = () => {
           : "bg-transparent"
       }`}
     >
-      <div className="max-w-6xl mx-auto px-6 py-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-2">
+      <div className="px-4 sm:px-6 md:px-12 lg:px-20 xl:px-24 py-4">
+        <div className="flex justify-between items-center">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
-            <img src="/wego.png" alt="WEGO Logo" className="h-20 w-auto" />
+            <img src="/wego.png" alt="WEGO Logo" className="h-12 sm:h-16 md:h-20 w-auto" />
           </Link>
 
           {/* Desktop Nav */}
-          <div className={`hidden md:flex items-center space-x-36 ${isOpen ? "md:hidden" : ""}`}>
+          <div className={`hidden md:flex items-center space-x-8 lg:space-x-16 xl:space-x-24 2xl:space-x-36 ${isOpen ? "md:hidden" : ""}`}>
             {navItems.map((item) => (
               <Link
                 key={item.label}

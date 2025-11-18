@@ -436,7 +436,7 @@ const ArticlePage = () => {
         <Navigation />
         
         {/* Article Header */}
-        <section className="pt-24 sm:pt-28 lg:pt-32 pb-12 sm:pb-16 px-4 sm:px-6 md:px-12 lg:px-20">
+        <section className="pt-16 sm:pt-20 md:pt-24 lg:pt-28 xl:pt-32 pb-8 sm:pb-12 md:pb-16 px-4 sm:px-6 md:px-12 lg:px-20 xl:px-24">
           <div className="max-w-4xl mx-auto">
             {/* Back Button */}
             <Link to="/blog" className="inline-flex items-center gap-2 text-gray-300 hover:text-white mb-6 sm:mb-8 transition-colors text-sm sm:text-base">
@@ -483,7 +483,7 @@ const ArticlePage = () => {
         </section>
 
         {/* Article Content */}
-        <section className="pb-12 sm:pb-16 lg:pb-20 px-4 sm:px-6 md:px-12 lg:px-20">
+        <section className="pb-8 sm:pb-12 md:pb-16 lg:pb-20 px-4 sm:px-6 md:px-12 lg:px-20 xl:px-24">
           <div className="max-w-4xl mx-auto">
             <article 
               className="prose prose-invert max-w-none prose-sm sm:prose-base lg:prose-lg"

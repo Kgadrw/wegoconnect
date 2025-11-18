@@ -39,7 +39,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <main className="h-screen text-white overflow-hidden relative bg-black">
+    <main className="h-auto min-h-[60vh] md:h-screen text-white overflow-hidden relative bg-black">
       {/* Background Image - Lazy loaded and optimized for larger screens */}
       {backgroundLoaded && (
         <div 
@@ -71,17 +71,17 @@ export default function HomePage() {
       {/* Hero + Customers in one section */}
       <section
         id="home"
-        className="relative z-10 flex flex-col h-full p-16 pt-32 sm:pt-36 lg:pt-40"
+        className="relative z-10 flex flex-col min-h-[60vh] md:h-full px-4 sm:px-6 md:px-12 lg:px-20 xl:px-24 pt-20 sm:pt-24 md:pt-32 lg:pt-36 xl:pt-40 pb-8 sm:pb-12 md:pb-0"
       >
         {/* Hero Content */}
         <div className="flex flex-col lg:flex-row justify-center lg:justify-between items-center flex-1 max-w-7xl mx-auto w-full">
           {/* Left Content */}
-          <div className="max-w-5xl space-y-3 sm:space-y-6 lg:space-y-8 px-4 md:px-8 lg:px-16 text-center lg:text-left lg:flex-1">
-            <div className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight font-heading">
+          <div className="max-w-5xl space-y-3 sm:space-y-6 lg:space-y-8 text-center lg:text-left lg:flex-1">
+            <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold leading-tight font-heading">
               <SplitText
                 text="Powering your world with reliable "
                 tag="h1"
-                className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight inline-block font-heading"
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold leading-tight inline-block font-heading"
                 delay={30}
                 duration={0.8}
                 ease="power3.out"
@@ -100,7 +100,7 @@ export default function HomePage() {
             <SplitText
               text="From satellite connectivity to secure systems that keep you connected, protected, and in control."
               tag="p"
-              className="text-gray-300 max-w-lg text-base sm:text-base lg:text-lg xl:text-xl leading-relaxed mx-auto lg:mx-0 font-sans"
+              className="text-gray-300 max-w-lg text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed mx-auto lg:mx-0 font-sans"
               delay={20}
               duration={0.6}
               ease="power2.out"
@@ -111,9 +111,9 @@ export default function HomePage() {
               rootMargin="0px"
               textAlign="left"
             />
-            <div className="flex justify-center lg:justify-start">
+            <div className="flex justify-center lg:justify-start gap-4">
               <Link to="/about">
-              <Button className="px-8 py-2 bg-black border-l border-white hover:bg-gray-800 relative ">
+              <Button className="px-6 sm:px-8 py-2 bg-black border-l border-white hover:bg-gray-800 relative text-sm sm:text-base">
                 <span>Learn more</span>
               </Button>
               </Link>
@@ -151,7 +151,7 @@ export default function HomePage() {
         </div>
 
         {/* Customers */}
-        <div className="text-center mt-4 lg:mt-8 px-4 sm:px-6 md:px-12 lg:px-20 animate-fade-in">
+        <div className="text-center mt-4 lg:mt-8 animate-fade-in">
           {/* Short top border */}
           <div className="mx-auto w-full max-w-[1280px] border-t border-gray-700/50 mb-4"></div>
 
