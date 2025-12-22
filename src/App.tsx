@@ -1,36 +1,109 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import ServicesPage from "./pages/ServicesPage";
-import AboutPage from "./pages/AboutPage";
-import ContactPage from "./pages/ContactPage";
-import BlogPage from "./pages/BlogPage";
-import ArticlePage from "./pages/ArticlePage";
+import { CartProvider } from "./context/CartContext";
+import HomePage from "./pages/HomePage";
+import CartPage from "./pages/CartPage";
+import CheckoutSuccessPage from "./pages/CheckoutSuccessPage";
+import ProductDetailPage from "./pages/ProductDetailPage";
+import AdminLoginPage from "./pages/admin/AdminLoginPage";
+import AdminDashboardPage from "./pages/admin/AdminDashboardPage";
+import AdminProductsPage from "./pages/admin/AdminProductsPage";
+import AdminOrdersPage from "./pages/admin/AdminOrdersPage";
+import AdminNotificationsPage from "./pages/admin/AdminNotificationsPage";
+import AdminSettingsPage from "./pages/admin/AdminSettingsPage";
+import AdminInvoiceDesignPage from "./pages/admin/AdminInvoiceDesignPage";
+import AdminNewsletterPage from "./pages/admin/AdminNewsletterPage";
+import AdminLayout from "./components/admin/AdminLayout";
+import ProtectedAdminRoute from "./components/admin/ProtectedAdminRoute";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
+    <BrowserRouter>
+      <CartProvider>
         <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/services" element={<ServicesPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/article/:id" element={<ArticlePage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
+        {/* Public Routes */}
+        <Route path="/" element={<HomePage />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout/success" element={<CheckoutSuccessPage />} />
+        <Route path="/product/:id" element={<ProductDetailPage />} />
+
+        {/* Admin Routes */}
+        <Route path="/admin/login" element={<AdminLoginPage />} />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedAdminRoute>
+              <AdminLayout>
+                <AdminDashboardPage />
+              </AdminLayout>
+            </ProtectedAdminRoute>
+          }
+        />
+        <Route
+          path="/admin/products"
+          element={
+            <ProtectedAdminRoute>
+              <AdminLayout>
+                <AdminProductsPage />
+              </AdminLayout>
+            </ProtectedAdminRoute>
+          }
+        />
+        <Route
+          path="/admin/orders"
+          element={
+            <ProtectedAdminRoute>
+              <AdminLayout>
+                <AdminOrdersPage />
+              </AdminLayout>
+            </ProtectedAdminRoute>
+          }
+        />
+        <Route
+          path="/admin/notifications"
+          element={
+            <ProtectedAdminRoute>
+              <AdminLayout>
+                <AdminNotificationsPage />
+              </AdminLayout>
+            </ProtectedAdminRoute>
+          }
+        />
+        <Route
+          path="/admin/settings"
+          element={
+            <ProtectedAdminRoute>
+              <AdminLayout>
+                <AdminSettingsPage />
+              </AdminLayout>
+            </ProtectedAdminRoute>
+          }
+        />
+        <Route
+          path="/admin/settings/invoice-design"
+          element={
+            <ProtectedAdminRoute>
+              <AdminLayout>
+                <AdminInvoiceDesignPage />
+              </AdminLayout>
+            </ProtectedAdminRoute>
+          }
+        />
+        <Route
+          path="/admin/newsletter"
+          element={
+            <ProtectedAdminRoute>
+              <AdminLayout>
+                <AdminNewsletterPage />
+              </AdminLayout>
+            </ProtectedAdminRoute>
+          }
+        />
         </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+      </CartProvider>
+    </BrowserRouter>
   </QueryClientProvider>
 );
 
