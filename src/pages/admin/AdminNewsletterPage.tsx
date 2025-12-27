@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { Mail, Plus, Save, Edit, Trash2, Send, X, Check, Package } from "lucide-react";
+import { Mail, Plus, Save, Edit, Trash2, Send, X, Check, Package, Eye, Type, Bold, Italic, Search, Users, Calendar } from "lucide-react";
 import { api } from "@/lib/api";
+import { formatPrice } from "@/lib/priceFormatter";
 import AlertModal from "@/components/admin/AlertModal";
 import ConfirmModal from "@/components/admin/ConfirmModal";
 import { SkeletonTable, SkeletonForm } from "@/components/admin/SkeletonLoader";
@@ -41,6 +42,10 @@ const AdminNewsletterPage = () => {
   const [includeLatestProducts, setIncludeLatestProducts] = useState(false);
   const [latestProductsCount, setLatestProductsCount] = useState(10);
   const [sendToAll, setSendToAll] = useState(true);
+  const [showPreview, setShowPreview] = useState(false);
+  const [showSubscribers, setShowSubscribers] = useState(false);
+  const [subscriberSearch, setSubscriberSearch] = useState("");
+  const [subscriberStatusFilter, setSubscriberStatusFilter] = useState<string>("All");
 
   // Template form state
   const [showTemplateModal, setShowTemplateModal] = useState(false);
@@ -293,17 +298,168 @@ const AdminNewsletterPage = () => {
             Manage subscribers and send newsletters • {subscribers.filter((s) => s.isActive).length} active subscribers
           </p>
         </div>
-        <button
-          onClick={() => {
-            resetTemplateForm();
-            setShowTemplateModal(true);
-          }}
-          className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-        >
-          <Plus className="h-5 w-5" />
-          Create Template
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowSubscribers(!showSubscribers)}
+            className={`flex items-center gap-2 px-4 py-2 border rounded-lg transition-colors ${
+              showSubscribers
+                ? "bg-red-600 text-white border-red-600"
+                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+            }`}
+          >
+            <Users className="h-5 w-5" />
+            {showSubscribers ? "Hide Subscribers" : "View Subscribers"}
+          </button>
+          <button
+            onClick={() => {
+              resetTemplateForm();
+              setShowTemplateModal(true);
+            }}
+            className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            <Plus className="h-5 w-5" />
+            Create Template
+          </button>
+        </div>
       </div>
+
+      {/* Subscribers Section */}
+      {showSubscribers && (
+        <div className="bg-white border border-gray-200">
+          <div className="border-b border-gray-200 p-4">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                <Users className="h-5 w-5" />
+                Subscribers ({subscribers.length})
+              </h2>
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-600">
+                  Active: {subscribers.filter((s) => s.isActive).length} | 
+                  Inactive: {subscribers.filter((s) => !s.isActive).length}
+                </span>
+              </div>
+            </div>
+            <div className="flex flex-col md:flex-row gap-4">
+              <div className="flex-1 relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search by email or name..."
+                  value={subscriberSearch}
+                  onChange={(e) => setSubscriberSearch(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none"
+                />
+              </div>
+              <select
+                value={subscriberStatusFilter}
+                onChange={(e) => setSubscriberStatusFilter(e.target.value)}
+                className="px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none"
+              >
+                <option value="All">All Status</option>
+                <option value="active">Active Only</option>
+                <option value="inactive">Inactive Only</option>
+              </select>
+            </div>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Email
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Name
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Source
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Subscribed
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Emails Sent
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {subscribers
+                  .filter((sub) => {
+                    const matchesSearch =
+                      !subscriberSearch ||
+                      sub.email.toLowerCase().includes(subscriberSearch.toLowerCase()) ||
+                      (sub.name && sub.name.toLowerCase().includes(subscriberSearch.toLowerCase()));
+                    const matchesStatus =
+                      subscriberStatusFilter === "All" ||
+                      (subscriberStatusFilter === "active" && sub.isActive) ||
+                      (subscriberStatusFilter === "inactive" && !sub.isActive);
+                    return matchesSearch && matchesStatus;
+                  })
+                  .map((subscriber) => (
+                    <tr key={subscriber._id} className="hover:bg-gray-50">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center gap-2">
+                          <Mail className="h-4 w-4 text-gray-400" />
+                          <span className="text-sm font-medium text-gray-900">{subscriber.email}</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className="text-sm text-gray-700">{subscriber.name || "—"}</span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded">
+                          {subscriber.source || "order"}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span
+                          className={`px-2 py-1 text-xs font-medium rounded-full ${
+                            subscriber.isActive
+                              ? "bg-green-100 text-green-800"
+                              : "bg-gray-100 text-gray-800"
+                          }`}
+                        >
+                          {subscriber.isActive ? "Active" : "Inactive"}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center gap-2 text-sm text-gray-500">
+                          <Calendar className="h-4 w-4" />
+                          {subscriber.subscribedAt
+                            ? new Date(subscriber.subscribedAt).toLocaleDateString()
+                            : "—"}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                        {subscriber.totalEmailsSent || 0}
+                      </td>
+                    </tr>
+                  ))}
+                {subscribers.filter((sub) => {
+                  const matchesSearch =
+                    !subscriberSearch ||
+                    sub.email.toLowerCase().includes(subscriberSearch.toLowerCase()) ||
+                    (sub.name && sub.name.toLowerCase().includes(subscriberSearch.toLowerCase()));
+                  const matchesStatus =
+                    subscriberStatusFilter === "All" ||
+                    (subscriberStatusFilter === "active" && sub.isActive) ||
+                    (subscriberStatusFilter === "inactive" && !sub.isActive);
+                  return matchesSearch && matchesStatus;
+                }).length === 0 && (
+                  <tr>
+                    <td colSpan={6} className="px-6 py-4 text-center text-sm text-gray-500">
+                      No subscribers found
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
 
       {/* Templates Section */}
       {templates.length > 0 && (
@@ -355,145 +511,267 @@ const AdminNewsletterPage = () => {
         </div>
       )}
 
-      {/* Newsletter Form */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-6">Create Newsletter</h2>
-
-        <div className="space-y-6">
-          {/* Subject */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Email Subject *
-            </label>
-            <input
-              type="text"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              placeholder="New Products Available!"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none"
-            />
-          </div>
-
-          {/* Content */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Message Content
-            </label>
-            <textarea
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              placeholder="Write your newsletter message here..."
-              rows={6}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none resize-none"
-            />
-          </div>
-
-          {/* Product Selection */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Select Products to Include
-            </label>
-            <div className="border border-gray-300 rounded-lg p-4 max-h-64 overflow-y-auto">
-              {products.length === 0 ? (
-                <p className="text-gray-500 text-sm">No products available</p>
-              ) : (
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {products.map((product) => {
-                    const isSelected = selectedProducts.includes(product._id);
-                    return (
-                      <div
-                        key={product._id}
-                        onClick={() => handleProductToggle(product._id)}
-                        className={`border-2 rounded-lg p-3 cursor-pointer transition-all ${
-                          isSelected
-                            ? "border-red-600 bg-red-50"
-                            : "border-gray-200 hover:border-gray-300"
-                        }`}
-                      >
-                        <div className="aspect-square bg-gray-100 rounded-lg mb-2 overflow-hidden">
-                          <img
-                            src={product.image}
-                            alt={product.name}
-                            className="w-full h-full object-contain"
-                          />
-                        </div>
-                        <p className="text-xs font-medium text-gray-900 truncate">{product.name}</p>
-                        {isSelected && (
-                          <Check className="h-4 w-4 text-red-600 mt-1" />
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
+      {/* Newsletter Editor */}
+      <div className="bg-white border border-gray-200">
+        {/* Editor Header */}
+        <div className="border-b border-gray-200 p-4 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <h2 className="text-xl font-bold text-gray-900">Newsletter Editor</h2>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setShowPreview(!showPreview)}
+                className={`flex items-center gap-2 px-3 py-1.5 border rounded-lg transition-colors ${
+                  showPreview
+                    ? "bg-red-600 text-white border-red-600"
+                    : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+                }`}
+              >
+                <Eye className="h-4 w-4" />
+                {showPreview ? "Edit Mode" : "Preview"}
+              </button>
             </div>
-            <p className="text-xs text-gray-500 mt-2">
-              {selectedProducts.length} product{selectedProducts.length !== 1 ? "s" : ""} selected
-            </p>
           </div>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-500">
+              {subscribers.filter((s) => s.isActive).length} active subscribers
+            </span>
+          </div>
+        </div>
 
-          {/* Latest Products Option */}
-          <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Include Latest Products
-              </label>
-              <p className="text-xs text-gray-500 mt-1">
-                Automatically include the latest products in addition to selected products
-              </p>
-            </div>
-            <div className="flex items-center gap-3">
-              <input
-                type="number"
-                value={latestProductsCount}
-                onChange={(e) => setLatestProductsCount(parseInt(e.target.value) || 0)}
-                min="0"
-                max="20"
-                disabled={!includeLatestProducts}
-                className="w-20 px-3 py-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none disabled:bg-gray-200"
-              />
-              <label className="relative inline-flex items-center cursor-pointer">
+        {/* Editor Content */}
+        <div className={`grid ${showPreview ? "grid-cols-2" : "grid-cols-1"}`}>
+          {/* Editor Panel */}
+          <div className={`${showPreview ? "border-r border-gray-200" : ""} p-6`}>
+            <div className="space-y-6">
+              {/* Subject */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                  <Type className="h-4 w-4" />
+                  Email Subject *
+                </label>
                 <input
-                  type="checkbox"
-                  checked={includeLatestProducts}
-                  onChange={(e) => setIncludeLatestProducts(e.target.checked)}
-                  className="sr-only peer"
+                  type="text"
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                  placeholder="Enter newsletter subject..."
+                  className="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none font-medium"
                 />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
-              </label>
+              </div>
+
+              {/* Content Editor */}
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-sm font-semibold text-gray-700 flex items-center gap-2">
+                    <Type className="h-4 w-4" />
+                    Message Content
+                  </label>
+                  <div className="flex items-center gap-1">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const textarea = document.querySelector('textarea[name="content"]') as HTMLTextAreaElement;
+                        if (textarea) {
+                          const start = textarea.selectionStart;
+                          const end = textarea.selectionEnd;
+                          const selectedText = content.substring(start, end);
+                          const newText = content.substring(0, start) + `**${selectedText || 'bold text'}**` + content.substring(end);
+                          setContent(newText);
+                        }
+                      }}
+                      className="p-1.5 hover:bg-gray-100 rounded transition-colors"
+                      title="Bold"
+                    >
+                      <Bold className="h-4 w-4 text-gray-600" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const textarea = document.querySelector('textarea[name="content"]') as HTMLTextAreaElement;
+                        if (textarea) {
+                          const start = textarea.selectionStart;
+                          const end = textarea.selectionEnd;
+                          const selectedText = content.substring(start, end);
+                          const newText = content.substring(0, start) + `*${selectedText || 'italic text'}*` + content.substring(end);
+                          setContent(newText);
+                        }
+                      }}
+                      className="p-1.5 hover:bg-gray-100 rounded transition-colors"
+                      title="Italic"
+                    >
+                      <Italic className="h-4 w-4 text-gray-600" />
+                    </button>
+                  </div>
+                </div>
+                <textarea
+                  name="content"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  placeholder="Write your newsletter message here...&#10;&#10;You can use:&#10;* Bold text: **text**&#10;* Italic text: *text*&#10;* Lists: - item"
+                  rows={12}
+                  className="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none resize-none font-mono text-sm"
+                />
+                <p className="text-xs text-gray-500 mt-2">
+                  Use **text** for bold, *text* for italic
+                </p>
+              </div>
+
+              {/* Product Selection */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                  <Package className="h-4 w-4" />
+                  Select Products to Include
+                </label>
+                <div className="border border-gray-300 p-4 max-h-64 overflow-y-auto">
+                  {products.length === 0 ? (
+                    <p className="text-gray-500 text-sm">No products available</p>
+                  ) : (
+                    <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                      {products.map((product) => {
+                        const isSelected = selectedProducts.includes(product._id);
+                        return (
+                          <div
+                            key={product._id}
+                            onClick={() => handleProductToggle(product._id)}
+                            className={`border-2 rounded-lg p-2 cursor-pointer transition-all ${
+                              isSelected
+                                ? "border-red-600 bg-red-50"
+                                : "border-gray-200 hover:border-gray-300"
+                            }`}
+                          >
+                            <div className="aspect-square bg-gray-100 rounded mb-1.5 overflow-hidden">
+                              <img
+                                src={product.image}
+                                alt={product.name}
+                                className="w-full h-full object-contain"
+                              />
+                            </div>
+                            <p className="text-xs font-medium text-gray-900 truncate">{product.name}</p>
+                            {isSelected && (
+                              <div className="flex items-center justify-center mt-1">
+                                <Check className="h-3 w-3 text-red-600" />
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+                <p className="text-xs text-gray-500 mt-2">
+                  {selectedProducts.length} product{selectedProducts.length !== 1 ? "s" : ""} selected
+                </p>
+              </div>
+
+              {/* Options Row */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Latest Products Option */}
+                <div className="flex items-center justify-between p-4 bg-gray-50 border border-gray-200">
+                  <div className="flex-1">
+                    <label className="block text-sm font-medium text-gray-700">
+                      Include Latest Products
+                    </label>
+                    <p className="text-xs text-gray-500 mt-1">
+                      Auto-include latest products
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="number"
+                      value={latestProductsCount}
+                      onChange={(e) => setLatestProductsCount(parseInt(e.target.value) || 0)}
+                      min="0"
+                      max="20"
+                      disabled={!includeLatestProducts}
+                      className="w-16 px-2 py-1 border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none disabled:bg-gray-200 text-sm"
+                    />
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={includeLatestProducts}
+                        onChange={(e) => setIncludeLatestProducts(e.target.checked)}
+                        className="sr-only peer"
+                      />
+                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Send Options */}
+                <div className="flex items-center justify-between p-4 bg-gray-50 border border-gray-200">
+                  <div className="flex-1">
+                    <label className="block text-sm font-medium text-gray-700">
+                      Send to All Subscribers
+                    </label>
+                    <p className="text-xs text-gray-500 mt-1">
+                      {subscribers.filter((s) => s.isActive).length} active
+                    </p>
+                  </div>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={sendToAll}
+                      onChange={(e) => setSendToAll(e.target.checked)}
+                      className="sr-only peer"
+                    />
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
+                  </label>
+                </div>
+              </div>
+
+              {/* Send Button */}
+              <button
+                onClick={handleSendNewsletter}
+                disabled={sending || !subject.trim()}
+                className="w-full bg-red-600 text-white px-6 py-4 font-semibold hover:bg-red-700 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <Send className="h-5 w-5" />
+                {sending ? "Sending Newsletter..." : "Send Newsletter"}
+              </button>
             </div>
           </div>
 
-          {/* Send Options */}
-          <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Send to All Active Subscribers
-              </label>
-              <p className="text-xs text-gray-500 mt-1">
-                Currently {subscribers.filter((s) => s.isActive).length} active subscribers
-              </p>
+          {/* Preview Panel */}
+          {showPreview && (
+            <div className="p-6 bg-gray-50">
+              <div className="bg-white border border-gray-200 p-6 max-w-lg mx-auto">
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{subject || "Newsletter Subject"}</h3>
+                <div className="prose prose-sm max-w-none">
+                  <div className="whitespace-pre-wrap text-gray-700">
+                    {content.split('\n').map((line, i) => {
+                      // Simple markdown-like rendering
+                      let processedLine = line;
+                      processedLine = processedLine.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                      processedLine = processedLine.replace(/\*(.*?)\*/g, '<em>$1</em>');
+                      return <p key={i} dangerouslySetInnerHTML={{ __html: processedLine || '&nbsp;' }} />;
+                    })}
+                  </div>
+                  {selectedProducts.length > 0 && (
+                    <div className="mt-6 border-t border-gray-200 pt-4">
+                      <h4 className="font-semibold text-gray-900 mb-3">Featured Products</h4>
+                      <div className="grid grid-cols-2 gap-3">
+                        {products
+                          .filter((p) => selectedProducts.includes(p._id))
+                          .slice(0, 4)
+                          .map((product) => (
+                            <div key={product._id} className="border border-gray-200 rounded-lg p-2">
+                              <img
+                                src={product.image}
+                                alt={product.name}
+                                className="w-full h-24 object-contain bg-gray-50 rounded mb-2"
+                              />
+                              <p className="text-xs font-medium text-gray-900 truncate">{product.name}</p>
+                              <p className="text-xs text-red-600 font-semibold">
+                                {formatPrice(product.discountPrice || product.price)}
+                              </p>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
-            <label className="relative inline-flex items-center cursor-pointer">
-              <input
-                type="checkbox"
-                checked={sendToAll}
-                onChange={(e) => setSendToAll(e.target.checked)}
-                className="sr-only peer"
-              />
-              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
-            </label>
-          </div>
-
-          {/* Send Button */}
-          <button
-            onClick={handleSendNewsletter}
-            disabled={sending || !subject.trim()}
-            className="w-full bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <Send className="h-5 w-5" />
-            {sending ? "Sending..." : "Send Newsletter"}
-          </button>
+          )}
         </div>
       </div>
 

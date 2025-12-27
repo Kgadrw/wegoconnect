@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { Search, Filter, X, User, Mail, Phone, MapPin, Package, Calendar, DollarSign } from "lucide-react";
+import { Search, Filter, X, User, Mail, Phone, MapPin, Package, Calendar, DollarSign, Trash2 } from "lucide-react";
 import { api } from "@/lib/api";
 import { formatPrice } from "@/lib/priceFormatter";
 import AlertModal from "@/components/admin/AlertModal";
+import ConfirmModal from "@/components/admin/ConfirmModal";
 import { SkeletonTable } from "@/components/admin/SkeletonLoader";
 
 interface OrderItem {
@@ -38,6 +39,7 @@ const AdminOrdersPage = () => {
   const [alert, setAlert] = useState<{ type: "success" | "error" | "warning" | "info"; title: string; message: string } | null>(null);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [showOrderDetails, setShowOrderDetails] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState<{ isOpen: boolean; orderId: string | null }>({ isOpen: false, orderId: null });
 
   useEffect(() => {
     loadOrders();
@@ -107,6 +109,31 @@ const AdminOrdersPage = () => {
         type: "error",
         title: "Error Updating Order",
         message: error.message || "Failed to update order status. Please try again.",
+      });
+    }
+  };
+
+  const handleDeleteOrder = (orderId: string) => {
+    setConfirmDelete({ isOpen: true, orderId });
+  };
+
+  const confirmDeleteOrder = async () => {
+    if (!confirmDelete.orderId) return;
+    try {
+      await api.deleteOrder(confirmDelete.orderId);
+      setConfirmDelete({ isOpen: false, orderId: null });
+      await loadOrders();
+      setAlert({
+        type: "success",
+        title: "Order Deleted",
+        message: "The order has been deleted successfully.",
+      });
+    } catch (error: any) {
+      setConfirmDelete({ isOpen: false, orderId: null });
+      setAlert({
+        type: "error",
+        title: "Error Deleting Order",
+        message: error.message || "Failed to delete order. Please try again.",
       });
     }
   };
@@ -268,18 +295,27 @@ const AdminOrdersPage = () => {
                       {formatDate(order.createdAt)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm" onClick={(e) => e.stopPropagation()}>
-                      <select
-                        value={order.status}
-                        onChange={(e) =>
-                          updateOrderStatus(order._id, e.target.value as Order["status"])
-                        }
-                        className="px-3 py-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none text-xs"
-                      >
-                        <option value="Pending">Pending</option>
-                        <option value="Processing">Processing</option>
-                        <option value="Completed">Completed</option>
-                        <option value="Cancelled">Cancelled</option>
-                      </select>
+                      <div className="flex items-center gap-2">
+                        <select
+                          value={order.status}
+                          onChange={(e) =>
+                            updateOrderStatus(order._id, e.target.value as Order["status"])
+                          }
+                          className="px-3 py-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none text-xs"
+                        >
+                          <option value="Pending">Pending</option>
+                          <option value="Processing">Processing</option>
+                          <option value="Completed">Completed</option>
+                          <option value="Cancelled">Cancelled</option>
+                        </select>
+                        <button
+                          onClick={() => handleDeleteOrder(order._id)}
+                          className="text-red-600 hover:text-red-900 transition-colors p-1.5 hover:bg-red-50 rounded"
+                          title="Delete order"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -460,6 +496,18 @@ const AdminOrdersPage = () => {
           </div>
         </div>
       )}
+
+      {/* Delete Confirmation Modal */}
+      <ConfirmModal
+        isOpen={confirmDelete.isOpen}
+        onClose={() => setConfirmDelete({ isOpen: false, orderId: null })}
+        onConfirm={confirmDeleteOrder}
+        title="Delete Order"
+        message="Are you sure you want to delete this order? This action cannot be undone."
+        confirmText="Delete"
+        cancelText="Cancel"
+        type="danger"
+      />
     </div>
   );
 };

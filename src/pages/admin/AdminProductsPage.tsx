@@ -110,6 +110,7 @@ const AdminProductsPage = () => {
     if (!confirmDelete.productId) return;
     try {
       await api.deleteProduct(confirmDelete.productId);
+      setConfirmDelete({ isOpen: false, productId: null });
       await loadProducts();
       setAlert({
         type: "success",
@@ -117,6 +118,7 @@ const AdminProductsPage = () => {
         message: "The product has been deleted successfully.",
       });
     } catch (error: any) {
+      setConfirmDelete({ isOpen: false, productId: null });
       setAlert({
         type: "error",
         title: "Error Deleting Product",
@@ -397,199 +399,202 @@ const AdminProductsPage = () => {
       {/* Add/Edit Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-start justify-center p-4 overflow-y-auto">
-          <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full p-6 my-8">
+          <div className="bg-white shadow-xl max-w-6xl w-full p-6 my-8 max-h-[90vh] overflow-y-auto">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">
               {editingProduct ? "Edit Product" : "Add New Product"}
             </h2>
             <form onSubmit={handleSubmit}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Left Column */}
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Product Name
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.name}
-                      onChange={(e) =>
-                        setFormData({ ...formData, name: e.target.value })
-                      }
-                      required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Selling Price (RWF)
-                    </label>
-                    <input
-                      type="number"
-                      step="0.01"
-                      value={formData.price}
-                      onChange={(e) =>
-                        setFormData({ ...formData, price: e.target.value })
-                      }
-                      required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none"
-                      placeholder="Price shown to customers"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Purchasing Price (RWF)
-                    </label>
-                    <input
-                      type="number"
-                      step="0.01"
-                      value={formData.purchasingPrice}
-                      onChange={(e) =>
-                        setFormData({ ...formData, purchasingPrice: e.target.value })
-                      }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none"
-                      placeholder="Cost price for profit calculation"
-                    />
-                    {formData.price && formData.purchasingPrice && (
-                      <p className="text-sm text-emerald-600 mt-1 font-medium">
-                        Profit: RWF {(
-                          parseFloat(formData.price) - parseFloat(formData.purchasingPrice || "0")
-                        ).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
-                      </p>
-                    )}
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Discount Price (RWF) <span className="text-xs text-gray-500">(Optional - Promotion)</span>
-                    </label>
-                    <input
-                      type="number"
-                      step="0.01"
-                      value={formData.discountPrice}
-                      onChange={(e) =>
-                        setFormData({ ...formData, discountPrice: e.target.value })
-                      }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none"
-                      placeholder="Leave empty for no discount"
-                    />
-                    {formData.price && formData.discountPrice && formData.discountPrice.trim() !== "" && 
-                     !isNaN(parseFloat(formData.discountPrice)) && parseFloat(formData.discountPrice) < parseFloat(formData.price) && (
-                      <p className="text-sm text-green-600 mt-1 font-medium">
-                        Discount: {((1 - parseFloat(formData.discountPrice) / parseFloat(formData.price)) * 100).toFixed(0)}% off
-                        <span className="ml-2 text-gray-600">
-                          (Original: {formatPrice(parseFloat(formData.price))} → Discounted: {formatPrice(parseFloat(formData.discountPrice))})
-                        </span>
-                      </p>
-                    )}
-                    {formData.price && formData.discountPrice && formData.discountPrice.trim() !== "" && 
-                     !isNaN(parseFloat(formData.discountPrice)) && parseFloat(formData.discountPrice) >= parseFloat(formData.price) && (
-                      <p className="text-sm text-red-600 mt-1 font-medium">
-                        ⚠️ Discount price must be less than regular price
-                      </p>
-                    )}
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Category
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.category}
-                      onChange={(e) =>
-                        setFormData({ ...formData, category: e.target.value })
-                      }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none"
-                      placeholder="Uncategorized"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Stock Quantity
-                    </label>
-                    <input
-                      type="number"
-                      min="0"
-                      value={formData.stock}
-                      onChange={(e) =>
-                        setFormData({ ...formData, stock: e.target.value })
-                      }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none"
-                      placeholder="0"
-                    />
-                    <p className="text-xs text-gray-500 mt-1">
-                      Enter the available quantity. Product will be marked as sold out when stock reaches 0.
-                    </p>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Description
-                    </label>
-                    <textarea
-                      value={formData.description}
-                      onChange={(e) =>
-                        setFormData({ ...formData, description: e.target.value })
-                      }
-                      required
-                      rows={6}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none resize-none"
-                    />
-                  </div>
+              {/* First Row - Basic Info */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Product Name
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.name}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none"
+                  />
                 </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Category
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.category}
+                    onChange={(e) =>
+                      setFormData({ ...formData, category: e.target.value })
+                    }
+                    className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none"
+                    placeholder="Uncategorized"
+                  />
+                </div>
+              </div>
 
-                {/* Right Column - Image Upload */}
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Product Images <span className="text-xs text-gray-500">(Multiple images allowed)</span>
-                    </label>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      multiple
-                      onChange={handleImageChange}
-                      disabled={uploading}
-                      required={!editingProduct && imagePreviews.length === 0}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none disabled:opacity-50"
-                    />
-                    {uploading && (
-                      <p className="text-sm text-gray-500 mt-2">Uploading image(s)...</p>
-                    )}
-                    <p className="text-xs text-gray-500 mt-1">
-                      You can select multiple images at once. The first image will be used as the primary image.
+              {/* Second Row - Pricing */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Selling Price (RWF)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={formData.price}
+                    onChange={(e) =>
+                      setFormData({ ...formData, price: e.target.value })
+                    }
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none"
+                    placeholder="Price shown to customers"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Purchasing Price (RWF)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={formData.purchasingPrice}
+                    onChange={(e) =>
+                      setFormData({ ...formData, purchasingPrice: e.target.value })
+                    }
+                    className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none"
+                    placeholder="Cost price"
+                  />
+                  {formData.price && formData.purchasingPrice && (
+                    <p className="text-xs text-emerald-600 mt-1">
+                      Profit: RWF {(
+                        parseFloat(formData.price) - parseFloat(formData.purchasingPrice || "0")
+                      ).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                     </p>
-                  </div>
-                  {imagePreviews.length > 0 && (
-                    <div className="mt-4">
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Image Previews {imagePreviews.length > 0 && <span className="text-xs text-gray-500">({imagePreviews.length} image{imagePreviews.length > 1 ? 's' : ''})</span>}
-                      </label>
-                      <div className="grid grid-cols-2 gap-4">
-                        {imagePreviews.map((imageUrl, index) => (
-                          <div key={index} className="relative border border-gray-300 rounded-lg overflow-hidden group">
-                            {index === 0 && (
-                              <div className="absolute top-2 left-2 bg-red-600 text-white text-xs px-2 py-1 rounded z-10">
-                                Primary
-                              </div>
-                            )}
-                            <img
-                              src={imageUrl}
-                              alt={`Preview ${index + 1}`}
-                              className="w-full h-auto max-h-48 object-contain bg-gray-50"
-                            />
-                            <button
-                              type="button"
-                              onClick={() => handleRemoveImage(index)}
-                              className="absolute top-2 right-2 bg-red-600 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10"
-                              title="Remove image"
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Discount Price (RWF) <span className="text-xs text-gray-500">(Optional)</span>
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={formData.discountPrice}
+                    onChange={(e) =>
+                      setFormData({ ...formData, discountPrice: e.target.value })
+                    }
+                    className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none"
+                    placeholder="Leave empty for no discount"
+                  />
+                  {formData.price && formData.discountPrice && formData.discountPrice.trim() !== "" && 
+                   !isNaN(parseFloat(formData.discountPrice)) && parseFloat(formData.discountPrice) < parseFloat(formData.price) && (
+                    <p className="text-xs text-green-600 mt-1">
+                      {((1 - parseFloat(formData.discountPrice) / parseFloat(formData.price)) * 100).toFixed(0)}% off
+                    </p>
+                  )}
+                  {formData.price && formData.discountPrice && formData.discountPrice.trim() !== "" && 
+                   !isNaN(parseFloat(formData.discountPrice)) && parseFloat(formData.discountPrice) >= parseFloat(formData.price) && (
+                    <p className="text-xs text-red-600 mt-1">
+                      ⚠️ Must be less than regular price
+                    </p>
                   )}
                 </div>
               </div>
+
+              {/* Third Row - Stock and Description */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Stock Quantity
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={formData.stock}
+                    onChange={(e) =>
+                      setFormData({ ...formData, stock: e.target.value })
+                    }
+                    className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none"
+                    placeholder="0"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Available quantity
+                  </p>
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Description
+                  </label>
+                  <textarea
+                    value={formData.description}
+                    onChange={(e) =>
+                      setFormData({ ...formData, description: e.target.value })
+                    }
+                    required
+                    rows={3}
+                    className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none resize-none"
+                  />
+                </div>
+              </div>
+
+              {/* Image Upload Section */}
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Product Images <span className="text-xs text-gray-500">(Multiple images allowed)</span>
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={handleImageChange}
+                  disabled={uploading}
+                  required={!editingProduct && imagePreviews.length === 0}
+                  className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none disabled:opacity-50"
+                />
+                {uploading && (
+                  <p className="text-sm text-gray-500 mt-2">Uploading image(s)...</p>
+                )}
+                <p className="text-xs text-gray-500 mt-1">
+                  First image will be used as the primary image.
+                </p>
+              </div>
+
+              {/* Image Previews */}
+              {imagePreviews.length > 0 && (
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Image Previews <span className="text-xs text-gray-500">({imagePreviews.length} image{imagePreviews.length > 1 ? 's' : ''})</span>
+                  </label>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    {imagePreviews.map((imageUrl, index) => (
+                      <div key={index} className="relative border border-gray-300 overflow-hidden group">
+                        {index === 0 && (
+                          <div className="absolute top-1 left-1 bg-red-600 text-white text-xs px-1.5 py-0.5 z-10">
+                            Primary
+                          </div>
+                        )}
+                        <img
+                          src={imageUrl}
+                          alt={`Preview ${index + 1}`}
+                          className="w-full h-32 object-cover bg-gray-50"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveImage(index)}
+                          className="absolute top-1 right-1 bg-red-600 text-white p-1 opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                          title="Remove image"
+                        >
+                          <Trash2 className="h-3 w-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Action Buttons */}
               <div className="flex gap-3 pt-6 mt-6 border-t border-gray-200">
@@ -610,6 +615,28 @@ const AdminProductsPage = () => {
             </form>
           </div>
         </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      <ConfirmModal
+        isOpen={confirmDelete.isOpen}
+        onClose={() => setConfirmDelete({ isOpen: false, productId: null })}
+        onConfirm={confirmDeleteProduct}
+        title="Delete Product"
+        message="Are you sure you want to delete this product? This action cannot be undone."
+        confirmText="Delete"
+        cancelText="Cancel"
+        type="danger"
+      />
+
+      {/* Alert Modal */}
+      {alert && (
+        <AlertModal
+          type={alert.type}
+          title={alert.title}
+          message={alert.message}
+          onClose={() => setAlert(null)}
+        />
       )}
     </div>
   );

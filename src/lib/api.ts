@@ -91,6 +91,12 @@ class ApiClient {
     });
   }
 
+  async deleteOrder(id: string) {
+    return this.request(`/orders/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
   // Admin
   async adminLogin(email: string, password: string) {
     return this.request('/admin/login', {
