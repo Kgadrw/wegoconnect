@@ -17,18 +17,19 @@ interface Product {
 interface FeaturedProductsProps {
   selectedCategories?: string[];
   searchQuery?: string;
+  priceRange?: { min: number | null; max: number | null };
 }
 
 const ProductCard = ({ product }: { product: Product }) => {
   const isOutOfStock = (product.stock || 0) === 0;
   
   return (
-    <Link to={`/product/${product._id}`} className="group block relative">
+    <Link to={`/product/${product._id}`} className="group block relative stagger-item hover-lift">
       <div className="bg-transparent aspect-square overflow-hidden mb-2 flex items-center justify-center relative">
         <img
           src={product.image}
           alt={product.name}
-          className={`w-full h-full object-contain transition-transform duration-300 group-hover:scale-105 ${isOutOfStock ? 'opacity-50' : ''}`}
+          className={`w-full h-full object-contain transition-transform duration-500 group-hover:scale-110 ${isOutOfStock ? 'opacity-50' : ''}`}
         />
         {isOutOfStock && (
           <div className="absolute inset-0 flex items-center justify-center">
@@ -41,7 +42,7 @@ const ProductCard = ({ product }: { product: Product }) => {
         )}
       </div>
       <div className="text-center">
-        <p className="text-sm font-semibold text-foreground mb-1">{product.name}</p>
+        <p className="text-sm text-foreground mb-1">{product.name}</p>
         <div className="flex items-center justify-center gap-2">
           {product.discountPrice && product.discountPrice < product.price ? (
             <>
@@ -61,7 +62,7 @@ const ProductCard = ({ product }: { product: Product }) => {
   );
 };
 
-const FeaturedProducts = ({ selectedCategories = [], searchQuery = "" }: FeaturedProductsProps) => {
+const FeaturedProducts = ({ selectedCategories = [], searchQuery = "", priceRange }: FeaturedProductsProps) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -87,6 +88,21 @@ const FeaturedProducts = ({ selectedCategories = [], searchQuery = "" }: Feature
           );
         }
         
+        // Filter by price range
+        if (priceRange) {
+          data = data.filter((product) => {
+            // Use discountPrice if available, otherwise use price
+            const effectivePrice = (product.discountPrice && product.discountPrice < product.price) 
+              ? product.discountPrice 
+              : product.price;
+            
+            const minMatch = priceRange.min === null || effectivePrice >= priceRange.min;
+            const maxMatch = priceRange.max === null || effectivePrice <= priceRange.max;
+            
+            return minMatch && maxMatch;
+          });
+        }
+        
         setProducts(data);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -96,7 +112,7 @@ const FeaturedProducts = ({ selectedCategories = [], searchQuery = "" }: Feature
     };
 
     fetchProducts();
-  }, [selectedCategories, searchQuery]);
+  }, [selectedCategories, searchQuery, priceRange]);
 
   if (loading) {
     return (
@@ -111,16 +127,18 @@ const FeaturedProducts = ({ selectedCategories = [], searchQuery = "" }: Feature
   }
 
   return (
-    <section id="products" className="bg-background">
+    <section id="products" className="bg-background animate-fade-in">
       <div className="container mx-auto px-4 py-6">
         {products.length === 0 ? (
-          <div className="text-center py-12">
+          <div className="text-center py-12 animate-fade-in">
             <p className="text-gray-500">No products available</p>
           </div>
         ) : (
           <div className="grid gap-8 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-            {products.map((product) => (
-              <ProductCard key={product._id} product={product} />
+            {products.map((product, index) => (
+              <div key={product._id} className="stagger-item" style={{ animationDelay: `${index * 0.05}s` }}>
+                <ProductCard product={product} />
+              </div>
             ))}
           </div>
         )}

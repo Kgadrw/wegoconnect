@@ -1,16 +1,94 @@
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://wego-backend-taw5.onrender.com/api';
 
+interface CacheEntry<T> {
+  data: T;
+  timestamp: number;
+  ttl: number; // Time to live in milliseconds
+}
+
 class ApiClient {
   private baseUrl: string;
+  private cache: Map<string, CacheEntry<any>>;
+  private defaultTTL: number = 5 * 60 * 1000; // 5 minutes default
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
+    this.cache = new Map();
+  }
+
+  private getCacheKey(endpoint: string, options?: RequestInit): string {
+    // Create a unique cache key based on endpoint and method
+    const method = options?.method || 'GET';
+    let body = '';
+    if (options?.body) {
+      try {
+        // Try to parse and stringify to normalize the body
+        body = typeof options.body === 'string' 
+          ? options.body 
+          : JSON.stringify(options.body);
+      } catch {
+        body = String(options.body);
+      }
+    }
+    return `${method}:${endpoint}:${body}`;
+  }
+
+  private getCached<T>(key: string): T | null {
+    const entry = this.cache.get(key);
+    if (!entry) return null;
+
+    const now = Date.now();
+    if (now - entry.timestamp > entry.ttl) {
+      // Cache expired
+      this.cache.delete(key);
+      return null;
+    }
+
+    return entry.data as T;
+  }
+
+  private setCache<T>(key: string, data: T, ttl?: number): void {
+    this.cache.set(key, {
+      data,
+      timestamp: Date.now(),
+      ttl: ttl || this.defaultTTL,
+    });
+  }
+
+  // Clear cache for a specific endpoint or all cache
+  clearCache(endpoint?: string): void {
+    if (endpoint) {
+      // Clear all cache entries matching the endpoint pattern
+      const keysToDelete: string[] = [];
+      this.cache.forEach((_, key) => {
+        if (key.includes(endpoint)) {
+          keysToDelete.push(key);
+        }
+      });
+      keysToDelete.forEach(key => this.cache.delete(key));
+    } else {
+      // Clear all cache
+      this.cache.clear();
+    }
   }
 
   private async request<T>(
     endpoint: string,
-    options: RequestInit = {}
+    options: RequestInit = {},
+    cacheTTL?: number
   ): Promise<T> {
+    // Only cache GET requests
+    const isGetRequest = !options.method || options.method === 'GET';
+    const cacheKey = this.getCacheKey(endpoint, options);
+
+    // Check cache for GET requests
+    if (isGetRequest) {
+      const cached = this.getCached<T>(cacheKey);
+      if (cached !== null) {
+        return cached;
+      }
+    }
+
     const url = `${this.baseUrl}${endpoint}`;
     const response = await fetch(url, {
       ...options,
@@ -25,7 +103,14 @@ class ApiClient {
       throw new Error(error.error || 'Request failed');
     }
 
-    return response.json();
+    const data = await response.json();
+
+    // Cache GET requests
+    if (isGetRequest) {
+      this.setCache(cacheKey, data, cacheTTL);
+    }
+
+    return data;
   }
 
   // Products
@@ -36,14 +121,19 @@ class ApiClient {
     if (params?.isActive !== undefined) queryParams.append('isActive', params.isActive);
     
     const queryString = queryParams.toString();
-    return this.request(`/products${queryString ? `?${queryString}` : ''}`);
+    // Cache products for 5 minutes, but shorter for search queries (1 minute)
+    const ttl = params?.search ? 1 * 60 * 1000 : 5 * 60 * 1000;
+    return this.request(`/products${queryString ? `?${queryString}` : ''}`, {}, ttl);
   }
 
   async getProduct(id: string) {
-    return this.request(`/products/${id}`);
+    // Cache individual products for 5 minutes
+    return this.request(`/products/${id}`, {}, 5 * 60 * 1000);
   }
 
   async createProduct(data: any) {
+    // Clear products cache when creating a new product
+    this.clearCache('/products');
     return this.request('/products', {
       method: 'POST',
       body: JSON.stringify(data),
@@ -51,6 +141,9 @@ class ApiClient {
   }
 
   async updateProduct(id: string, data: any) {
+    // Clear cache for this product and products list
+    this.clearCache('/products');
+    this.clearCache(`/products/${id}`);
     return this.request(`/products/${id}`, {
       method: 'PUT',
       body: JSON.stringify(data),
@@ -58,6 +151,9 @@ class ApiClient {
   }
 
   async deleteProduct(id: string) {
+    // Clear cache for this product and products list
+    this.clearCache('/products');
+    this.clearCache(`/products/${id}`);
     return this.request(`/products/${id}`, {
       method: 'DELETE',
     });
@@ -70,14 +166,18 @@ class ApiClient {
     if (params?.search) queryParams.append('search', params.search);
     
     const queryString = queryParams.toString();
-    return this.request(`/orders${queryString ? `?${queryString}` : ''}`);
+    // Cache orders for 1 minute (they change frequently)
+    return this.request(`/orders${queryString ? `?${queryString}` : ''}`, {}, 1 * 60 * 1000);
   }
 
   async getOrder(id: string) {
-    return this.request(`/orders/${id}`);
+    // Cache individual orders for 1 minute
+    return this.request(`/orders/${id}`, {}, 1 * 60 * 1000);
   }
 
   async createOrder(data: any) {
+    // Clear orders cache when creating a new order
+    this.clearCache('/orders');
     return this.request('/orders', {
       method: 'POST',
       body: JSON.stringify(data),
@@ -85,6 +185,9 @@ class ApiClient {
   }
 
   async updateOrderStatus(id: string, status: string) {
+    // Clear orders cache when updating order status
+    this.clearCache('/orders');
+    this.clearCache(`/orders/${id}`);
     return this.request(`/orders/${id}/status`, {
       method: 'PUT',
       body: JSON.stringify({ status }),
@@ -92,6 +195,9 @@ class ApiClient {
   }
 
   async deleteOrder(id: string) {
+    // Clear orders cache when deleting an order
+    this.clearCache('/orders');
+    this.clearCache(`/orders/${id}`);
     return this.request(`/orders/${id}`, {
       method: 'DELETE',
     });
@@ -108,7 +214,8 @@ class ApiClient {
 
   // Dashboard
   async getDashboardStats() {
-    return this.request('/dashboard/stats');
+    // Cache dashboard stats for 2 minutes
+    return this.request('/dashboard/stats', {}, 2 * 60 * 1000);
   }
 
   // Upload
@@ -138,15 +245,19 @@ class ApiClient {
 
   // Categories
   async getCategories() {
-    return this.request('/categories');
+    // Cache categories for 10 minutes (they don't change often)
+    return this.request('/categories', {}, 10 * 60 * 1000);
   }
 
   // Invoice Settings
   async getInvoiceSettings() {
-    return this.request('/invoices/settings');
+    // Cache invoice settings for 5 minutes
+    return this.request('/invoices/settings', {}, 5 * 60 * 1000);
   }
 
   async updateInvoiceSettings(data: any) {
+    // Clear cache when updating settings
+    this.clearCache('/invoices/settings');
     return this.request('/invoices/settings', {
       method: 'PUT',
       body: JSON.stringify(data),
@@ -160,10 +271,13 @@ class ApiClient {
     if (params?.search) queryParams.append('search', params.search);
     
     const queryString = queryParams.toString();
-    return this.request<{ total: number; subscribers: any[] }>(`/newsletter/subscribers${queryString ? `?${queryString}` : ''}`);
+    // Cache subscribers for 2 minutes
+    return this.request<{ total: number; subscribers: any[] }>(`/newsletter/subscribers${queryString ? `?${queryString}` : ''}`, {}, 2 * 60 * 1000);
   }
 
   async addNewsletterSubscriber(email: string, name?: string, source?: string) {
+    // Clear subscribers cache when adding
+    this.clearCache('/newsletter/subscribers');
     return this.request<{ subscriber: any; message: string }>('/newsletter/subscribers', {
       method: 'POST',
       body: JSON.stringify({ email, name, source }),
@@ -171,6 +285,8 @@ class ApiClient {
   }
 
   async updateNewsletterSubscriber(id: string, isActive: boolean) {
+    // Clear subscribers cache when updating
+    this.clearCache('/newsletter/subscribers');
     return this.request<{ subscriber: any; message: string }>(`/newsletter/subscribers/${id}`, {
       method: 'PUT',
       body: JSON.stringify({ isActive }),
@@ -178,6 +294,8 @@ class ApiClient {
   }
 
   async deleteNewsletterSubscriber(id: string) {
+    // Clear subscribers cache when deleting
+    this.clearCache('/newsletter/subscribers');
     return this.request<{ message: string }>(`/newsletter/subscribers/${id}`, {
       method: 'DELETE',
     });
@@ -185,7 +303,8 @@ class ApiClient {
 
   // Newsletter - Newsletters
   async getNewsletters() {
-    return this.request<any[]>('/newsletter/newsletters');
+    // Cache newsletters for 5 minutes
+    return this.request<any[]>('/newsletter/newsletters', {}, 5 * 60 * 1000);
   }
 
   async sendNewsletter(data: {
@@ -206,16 +325,19 @@ class ApiClient {
     if (limit) queryParams.append('limit', limit.toString());
     
     const queryString = queryParams.toString();
-    return this.request<any[]>(`/newsletter/products/recent${queryString ? `?${queryString}` : ''}`);
+    // Cache recent products for 5 minutes
+    return this.request<any[]>(`/newsletter/products/recent${queryString ? `?${queryString}` : ''}`, {}, 5 * 60 * 1000);
   }
 
   // Newsletter - Templates
   async getNewsletterTemplates() {
-    return this.request<any[]>('/newsletter/templates');
+    // Cache templates for 5 minutes
+    return this.request<any[]>('/newsletter/templates', {}, 5 * 60 * 1000);
   }
 
   async getNewsletterTemplate(id: string) {
-    return this.request<any>(`/newsletter/templates/${id}`);
+    // Cache template for 5 minutes
+    return this.request<any>(`/newsletter/templates/${id}`, {}, 5 * 60 * 1000);
   }
 
   async createNewsletterTemplate(data: {
@@ -227,6 +349,8 @@ class ApiClient {
     latestProductsCount?: number;
     isDefault?: boolean;
   }) {
+    // Clear templates cache when creating
+    this.clearCache('/newsletter/templates');
     return this.request<any>('/newsletter/templates', {
       method: 'POST',
       body: JSON.stringify(data),
@@ -242,6 +366,9 @@ class ApiClient {
     latestProductsCount?: number;
     isDefault?: boolean;
   }) {
+    // Clear templates cache when updating
+    this.clearCache('/newsletter/templates');
+    this.clearCache(`/newsletter/templates/${id}`);
     return this.request<any>(`/newsletter/templates/${id}`, {
       method: 'PUT',
       body: JSON.stringify(data),
@@ -249,6 +376,9 @@ class ApiClient {
   }
 
   async deleteNewsletterTemplate(id: string) {
+    // Clear templates cache when deleting
+    this.clearCache('/newsletter/templates');
+    this.clearCache(`/newsletter/templates/${id}`);
     return this.request<{ message: string }>(`/newsletter/templates/${id}`, {
       method: 'DELETE',
     });

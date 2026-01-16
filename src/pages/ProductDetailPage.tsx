@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
-import { ShoppingCart, Plus, Minus } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { ShoppingCart, Plus, Minus, ChevronLeft, ChevronRight } from "lucide-react";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { formatPrice } from "@/lib/priceFormatter";
 import ShareButton from "@/components/ShareButton";
@@ -27,6 +28,11 @@ const ProductDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [addingToCart, setAddingToCart] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [zoomPosition, setZoomPosition] = useState({ x: 50, y: 50 });
+  const [isZooming, setIsZooming] = useState(false);
+  const autoPlayIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const imageContainerRef = useRef<HTMLDivElement>(null);
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
@@ -37,6 +43,59 @@ const ProductDetailPage = () => {
       return [product.image, ...product.images];
     }
     return [product.image];
+  };
+
+  // Auto-play carousel
+  useEffect(() => {
+    if (!product) return;
+    
+    const allImages = getAllImages(product);
+    if (allImages.length <= 1) return;
+
+    if (isAutoPlaying) {
+      autoPlayIntervalRef.current = setInterval(() => {
+        setSelectedImageIndex((prevIndex) => 
+          (prevIndex + 1) % allImages.length
+        );
+      }, 3000); // Change image every 3 seconds
+    }
+
+    return () => {
+      if (autoPlayIntervalRef.current) {
+        clearInterval(autoPlayIntervalRef.current);
+      }
+    };
+  }, [product, isAutoPlaying]);
+
+  const handlePreviousImage = () => {
+    if (!product) return;
+    const allImages = getAllImages(product);
+    setSelectedImageIndex((prevIndex) => 
+      prevIndex === 0 ? allImages.length - 1 : prevIndex - 1
+    );
+    setIsAutoPlaying(false); // Pause auto-play when manually navigating
+  };
+
+  const handleNextImage = () => {
+    if (!product) return;
+    const allImages = getAllImages(product);
+    setSelectedImageIndex((prevIndex) => 
+      (prevIndex + 1) % allImages.length
+    );
+    setIsAutoPlaying(false); // Pause auto-play when manually navigating
+  };
+
+  const handleThumbnailClick = (index: number) => {
+    setSelectedImageIndex(index);
+    setIsAutoPlaying(false); // Pause auto-play when clicking thumbnail
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!imageContainerRef.current) return;
+    const rect = imageContainerRef.current.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    setZoomPosition({ x: Math.max(0, Math.min(100, x)), y: Math.max(0, Math.min(100, y)) });
   };
 
   useEffect(() => {
@@ -102,25 +161,82 @@ const ProductDetailPage = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-background animate-fade-in">
       <Header onFilterClick={() => {}} />
       <main className="flex-1 pt-16">
         <div className="container mx-auto px-4 py-8">
           {/* Product Detail */}
-          <div className="grid gap-8 lg:grid-cols-2 mb-16 items-start">
+          <div className="grid gap-4 lg:grid-cols-2 mb-16 items-start">
             {/* Product Images Gallery */}
-            <div className="w-full max-w-md mx-auto lg:mx-0">
+            <div className="w-full max-w-md mx-auto lg:mx-0 animate-slide-in-left">
               {(() => {
                 const allImages = getAllImages(product);
                 return (
                   <>
-                    {/* Main Image */}
-                    <div className="aspect-square overflow-hidden bg-transparent flex items-center justify-center mb-4 border border-gray-200 rounded-lg">
-                      <img
-                        src={allImages[selectedImageIndex]}
-                        alt={`${product.name} - Image ${selectedImageIndex + 1}`}
-                        className="w-full h-full object-contain"
-                      />
+                    {/* Main Image with Carousel */}
+                    <div 
+                      ref={imageContainerRef}
+                      className="aspect-square overflow-hidden bg-transparent flex items-center justify-center mb-4 border border-gray-200 rounded-lg relative group cursor-zoom-in"
+                      onMouseEnter={() => {
+                        setIsAutoPlaying(false);
+                        setIsZooming(true);
+                      }}
+                      onMouseLeave={() => {
+                        setIsAutoPlaying(true);
+                        setIsZooming(false);
+                      }}
+                      onMouseMove={handleMouseMove}
+                    >
+                      {/* Image with zoom effect */}
+                      <div className="w-full h-full overflow-hidden">
+                        <img
+                          key={selectedImageIndex}
+                          src={allImages[selectedImageIndex]}
+                          alt={`${product.name} - Image ${selectedImageIndex + 1}`}
+                          className={`w-full h-full object-contain transition-all duration-300 ${
+                            isZooming ? 'scale-150' : 'scale-100'
+                          }`}
+                          style={{
+                            transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`,
+                          }}
+                        />
+                      </div>
+                      
+                      {/* Navigation Arrows */}
+                      {allImages.length > 1 && (
+                        <>
+                          <button
+                            onClick={handlePreviousImage}
+                            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                            aria-label="Previous image"
+                          >
+                            <ChevronLeft className="h-6 w-6" />
+                          </button>
+                          <button
+                            onClick={handleNextImage}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                            aria-label="Next image"
+                          >
+                            <ChevronRight className="h-6 w-6" />
+                          </button>
+                          
+                          {/* Image Indicators */}
+                          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                            {allImages.map((_, index) => (
+                              <button
+                                key={index}
+                                onClick={() => handleThumbnailClick(index)}
+                                className={`h-2 transition-all ${
+                                  selectedImageIndex === index
+                                    ? 'w-8 bg-white'
+                                    : 'w-2 bg-white/50 hover:bg-white/75'
+                                }`}
+                                aria-label={`Go to image ${index + 1}`}
+                              />
+                            ))}
+                          </div>
+                        </>
+                      )}
                     </div>
                     
                     {/* Thumbnail Gallery */}
@@ -129,8 +245,8 @@ const ProductDetailPage = () => {
                         {allImages.map((imageUrl, index) => (
                           <button
                             key={index}
-                            onClick={() => setSelectedImageIndex(index)}
-                            className={`aspect-square overflow-hidden border-2 rounded-lg transition-all ${
+                            onClick={() => handleThumbnailClick(index)}
+                            className={`aspect-square overflow-hidden border-2 transition-all ${
                               selectedImageIndex === index
                                 ? 'border-red-600 ring-2 ring-red-200'
                                 : 'border-gray-200 hover:border-gray-300'
@@ -238,7 +354,7 @@ const ProductDetailPage = () => {
                       }
                     }}
                     disabled={addingToCart || (product.stock || 0) < quantity}
-                    className="bg-red-600 px-6 py-1 text-base font-semibold text-white transition-colors hover:bg-red-700 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="bg-red-600 px-6 py-1 text-base font-semibold text-white transition-all duration-300 hover:bg-red-700 hover:scale-105 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                   >
                     <ShoppingCart className="h-5 w-5" />
                     {addingToCart ? "Adding..." : "Add to Cart"}
@@ -254,14 +370,15 @@ const ProductDetailPage = () => {
           </div>
 
           {/* Related Products */}
-          <div>
-            <h2 className="text-2xl font-bold mb-6">Related Products</h2>
+          <div className="animate-fade-in">
+            <h2 className="text-2xl font-bold mb-6 animate-slide-in-up">Related Products</h2>
             <div className="grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-              {relatedProducts.map((relatedProduct) => (
+              {relatedProducts.map((relatedProduct, index) => (
                 <Link
                   key={relatedProduct._id}
                   to={`/product/${relatedProduct._id}`}
-                  className="group block"
+                  className="group block stagger-item hover-lift"
+                  style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <div className="bg-transparent aspect-square overflow-hidden mb-2 flex items-center justify-center">
                     <img
@@ -293,6 +410,7 @@ const ProductDetailPage = () => {
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 };

@@ -6,23 +6,21 @@ interface CategoriesFilterProps {
   isOpen: boolean;
   selectedCategories: string[];
   onCategoryToggle: (category: string) => void;
+  priceRange?: { min: number | null; max: number | null };
+  onPriceRangeChange?: (range: { min: number | null; max: number | null }) => void;
   setIsOpen?: (isOpen: boolean) => void;
 }
 
-const CategoriesFilter = ({ isOpen, selectedCategories, onCategoryToggle }: CategoriesFilterProps) => {
+const CategoriesFilter = ({ isOpen, selectedCategories, onCategoryToggle, priceRange, onPriceRangeChange }: CategoriesFilterProps) => {
   const [categories, setCategories] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        setLoading(true);
         const data = await api.getCategories() as string[];
         setCategories(data);
       } catch (error) {
         console.error("Error fetching categories:", error);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -34,30 +32,78 @@ const CategoriesFilter = ({ isOpen, selectedCategories, onCategoryToggle }: Cate
       <div className="container mx-auto px-4 py-3">
         {/* Filter button is now in Header, this component only renders the dropdown */}
         {isOpen && (
-          <div className="mt-3 flex flex-wrap gap-2">
-            {loading ? (
-              <div className="flex items-center justify-center w-full py-4">
-                <img src="/load.gif" alt="Loading..." className="w-12 h-12" />
-              </div>
-            ) : categories.length === 0 ? (
-              <p className="text-sm text-gray-500">No categories available</p>
-            ) : (
-              categories.map((category) => {
-                const isSelected = selectedCategories.includes(category);
-                return (
+          <div className="mt-3 flex flex-wrap gap-2 items-center justify-between">
+            <div className="flex flex-wrap gap-2">
+              {categories.length === 0 ? (
+                <p className="text-sm text-gray-500">No categories available</p>
+              ) : (
+                <>
+                  {/* All filter button */}
                   <button
-                    key={category}
-                    onClick={() => onCategoryToggle(category)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                      isSelected
+                    onClick={() => onCategoryToggle("__all__")}
+                    className={`px-4 py-2 text-sm font-medium transition-all duration-300 hover:scale-105 ${
+                      selectedCategories.length === 0
                         ? 'bg-primary text-primary-foreground'
                         : 'bg-muted text-foreground hover:bg-accent'
                     }`}
                   >
-                    {category}
+                    All
                   </button>
-                );
-              })
+                  {/* Category buttons */}
+                  {categories.map((category, index) => {
+                    const isSelected = selectedCategories.includes(category);
+                    return (
+                      <button
+                        key={category}
+                        onClick={() => onCategoryToggle(category)}
+                        className={`px-4 py-2 text-sm font-medium transition-all duration-300 hover:scale-105 stagger-item ${
+                          isSelected
+                            ? 'bg-primary text-primary-foreground'
+                            : 'bg-muted text-foreground hover:bg-accent'
+                        }`}
+                        style={{ animationDelay: `${index * 0.05}s` }}
+                      >
+                        {category}
+                      </button>
+                    );
+                  })}
+                </>
+              )}
+            </div>
+            {/* Price Range Filter */}
+            {onPriceRangeChange && (
+              <div className="flex items-center gap-2 ml-auto">
+                <span className="text-sm text-foreground whitespace-nowrap">Price:</span>
+                <input
+                  type="number"
+                  placeholder="Min"
+                  value={priceRange?.min || ''}
+                  onChange={(e) => {
+                    const min = e.target.value === '' ? null : parseFloat(e.target.value);
+                    onPriceRangeChange({ 
+                      min: isNaN(min as number) ? null : min, 
+                      max: priceRange?.max || null 
+                    });
+                  }}
+                  className="w-24 px-3 py-2 text-sm border border-gray-300 outline-none transition-all duration-300 focus:border-primary"
+                  min="0"
+                />
+                <span className="text-sm text-foreground">-</span>
+                <input
+                  type="number"
+                  placeholder="Max"
+                  value={priceRange?.max || ''}
+                  onChange={(e) => {
+                    const max = e.target.value === '' ? null : parseFloat(e.target.value);
+                    onPriceRangeChange({ 
+                      min: priceRange?.min || null, 
+                      max: isNaN(max as number) ? null : max 
+                    });
+                  }}
+                  className="w-24 px-3 py-2 text-sm border border-gray-300 outline-none transition-all duration-300 focus:border-primary"
+                  min="0"
+                />
+              </div>
             )}
           </div>
         )}

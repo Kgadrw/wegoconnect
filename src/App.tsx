@@ -15,6 +15,7 @@ import AdminInvoiceDesignPage from "./pages/admin/AdminInvoiceDesignPage";
 import AdminNewsletterPage from "./pages/admin/AdminNewsletterPage";
 import AdminLayout from "./components/admin/AdminLayout";
 import ProtectedAdminRoute from "./components/admin/ProtectedAdminRoute";
+import CartSidebar from "./components/CartSidebar";
 
 const queryClient = new QueryClient();
 
@@ -102,6 +103,7 @@ const App = () => (
           }
         />
         </Routes>
+        <CartSidebar />
       </CartProvider>
     </BrowserRouter>
   </QueryClientProvider>

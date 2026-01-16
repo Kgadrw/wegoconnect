@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { CheckCircle, Download, Phone } from "lucide-react";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { api } from "@/lib/api";
 import { formatPrice } from "@/lib/priceFormatter";
@@ -114,20 +115,6 @@ const CheckoutSuccessPage = () => {
                             Amount: {formatPrice(order.total)}
                           </p>
                         </div>
-                        
-                        <div className="p-3 border border-gray-300 rounded-md">
-                          <p className="text-xs text-gray-600 mb-1">Step 2: Enter your Mobile Money PIN</p>
-                          <p className="text-xs text-gray-500">
-                            After dialing, you will be prompted to enter your Mobile Money PIN on your phone
-                          </p>
-                        </div>
-                        
-                        <div className="p-3 border border-gray-300 rounded-md">
-                          <p className="text-xs text-gray-600 mb-1">Step 3: Confirm the payment</p>
-                          <p className="text-xs text-gray-500">
-                            Review the transaction details and confirm to complete your payment
-                          </p>
-                        </div>
                       </div>
                       <div className="flex items-center gap-2 mb-3">
                         <Phone className="h-4 w-4 text-gray-600" />
@@ -161,20 +148,6 @@ const CheckoutSuccessPage = () => {
                           Enter the total amount from your order
                         </p>
                       </div>
-                      
-                      <div className="p-3 border border-gray-300 rounded-md">
-                        <p className="text-xs text-gray-600 mb-1">Step 2: Enter your Mobile Money PIN</p>
-                        <p className="text-xs text-gray-500">
-                          After dialing, you will be prompted to enter your Mobile Money PIN on your phone
-                        </p>
-                      </div>
-                      
-                      <div className="p-3 border border-gray-300 rounded-md">
-                        <p className="text-xs text-gray-600 mb-1">Step 3: Confirm the payment</p>
-                        <p className="text-xs text-gray-500">
-                          Review the transaction details and confirm to complete your payment
-                        </p>
-                      </div>
                     </div>
                   )}
                 </div>
@@ -192,6 +165,7 @@ const CheckoutSuccessPage = () => {
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 };

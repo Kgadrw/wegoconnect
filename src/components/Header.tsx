@@ -53,7 +53,7 @@ const Header = ({ onFilterClick, onSearchChange }: HeaderProps) => {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-background">
+    <header className="sticky top-0 z-50 w-full bg-background animate-slide-in-down">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
@@ -69,12 +69,12 @@ const Header = ({ onFilterClick, onSearchChange }: HeaderProps) => {
           <div className="flex items-center space-x-4">
             <button 
               onClick={onFilterClick}
-              className="p-2 text-foreground transition-colors hover:text-primary"
+              className="p-2 text-foreground"
             >
               <Filter className="h-5 w-5" />
             </button>
             {isSearchOpen ? (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 animate-scale-in">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                   <input
@@ -82,13 +82,13 @@ const Header = ({ onFilterClick, onSearchChange }: HeaderProps) => {
                     value={searchQuery}
                     onChange={handleSearchChange}
                     placeholder="Search products..."
-                    className="pl-10 pr-4 py-2 border border-gray-300 outline-none w-64"
+                    className="pl-10 pr-4 py-2 border border-gray-300 outline-none w-64 transition-all duration-300 focus:border-primary focus:ring-2 focus:ring-primary/20"
                     autoFocus
                   />
                 </div>
                 <button
                   onClick={handleSearchToggle}
-                  className="p-2 text-foreground transition-colors hover:text-primary"
+                  className="p-2 text-foreground"
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -96,14 +96,14 @@ const Header = ({ onFilterClick, onSearchChange }: HeaderProps) => {
             ) : (
               <button 
                 onClick={handleSearchToggle}
-                className="p-2 text-foreground transition-colors hover:text-primary"
+                className="p-2 text-foreground"
               >
                 <Search className="h-5 w-5" />
               </button>
             )}
             <Link 
               to="/cart"
-              className="relative p-2 text-foreground transition-colors hover:text-primary"
+              className="relative p-2 text-foreground transition-all duration-300 hover:text-primary hover:scale-110"
             >
               <img 
                 src="/cart.png" 
@@ -111,7 +111,7 @@ const Header = ({ onFilterClick, onSearchChange }: HeaderProps) => {
                 className="h-5 w-5"
               />
               {getTotalItems() > 0 && (
-                <span className="absolute right-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
+                <span className="absolute right-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground animate-bounce-slow">
                   {getTotalItems()}
                 </span>
               )}

@@ -17,6 +17,9 @@ interface CartContextType {
   clearCart: () => void;
   getTotalItems: () => number;
   getTotalPrice: () => number;
+  isSidebarOpen: boolean;
+  openSidebar: () => void;
+  closeSidebar: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -35,6 +38,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     const savedCart = localStorage.getItem('cart');
     return savedCart ? JSON.parse(savedCart) : [];
   });
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // Save cart to localStorage whenever it changes
   useEffect(() => {
@@ -67,7 +71,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         ];
       }
     });
+    // Open sidebar when item is added to cart
+    setIsSidebarOpen(true);
   };
+
+  const openSidebar = () => setIsSidebarOpen(true);
+  const closeSidebar = () => setIsSidebarOpen(false);
 
   const removeFromCart = (productId: string) => {
     setCartItems((prevItems) => prevItems.filter((item) => item.productId !== productId));
@@ -108,6 +117,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         clearCart,
         getTotalItems,
         getTotalPrice,
+        isSidebarOpen,
+        openSidebar,
+        closeSidebar,
       }}
     >
       {children}
