@@ -29,7 +29,9 @@ const ProductCard = ({ product }: { product: Product }) => {
       <div className="bg-transparent aspect-square overflow-hidden mb-2 flex items-center justify-center relative">
         <img
           src={product.image}
-          alt={product.name}
+          alt={`${product.name}${product.category ? ` - ${product.category}` : ''} - WegoConnect`}
+          title={product.name}
+          loading="lazy"
           className={`w-full h-full object-contain transition-transform duration-500 group-hover:scale-110 ${isOutOfStock ? 'opacity-50' : ''}`}
         />
         {isOutOfStock && (

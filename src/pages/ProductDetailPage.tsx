@@ -4,6 +4,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useCurrency } from "@/contexts/CurrencyContext";
+import { useSEO } from "@/hooks/useSEO";
+import { StructuredData } from "@/components/StructuredData";
 import ShareButton from "@/components/ShareButton";
 import { api } from "@/lib/api";
 import { useCart } from "@/context/CartContext";
@@ -128,6 +130,25 @@ const ProductDetailPage = () => {
     fetchProduct();
   }, [id, navigate]);
 
+  // SEO Optimization
+  useSEO({
+    title: product?.name,
+    description: product?.description || `${product?.name} - Available at WegoConnect. ${product?.category ? `Browse ${product.category} products.` : ''}`,
+    keywords: `${product?.name}, ${product?.category || 'products'}, Starlink, internet, Rwanda, WegoConnect`,
+    image: product?.image,
+    url: `${window.location.origin}/product/${product?._id}`,
+    type: 'product',
+    product: product ? {
+      name: product.name,
+      description: product.description,
+      price: product.discountPrice && product.discountPrice < product.price ? product.discountPrice : product.price,
+      currency: 'RWF',
+      availability: (product.stock || 0) > 0 ? 'InStock' : 'OutOfStock',
+      image: product.image,
+      category: product.category || 'Uncategorized',
+    } : undefined,
+  });
+
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
@@ -161,8 +182,35 @@ const ProductDetailPage = () => {
     );
   }
 
+  // Breadcrumbs for SEO
+  const breadcrumbs = [
+    { name: 'Home', url: window.location.origin },
+    ...(product.category ? [{ name: product.category, url: `${window.location.origin}/?category=${encodeURIComponent(product.category)}` }] : []),
+    { name: product.name, url: window.location.href },
+  ];
+
   return (
     <div className="min-h-screen flex flex-col bg-background animate-fade-in">
+      {/* Structured Data for SEO */}
+      {product && (
+        <>
+          <StructuredData
+            type="product"
+            data={{
+              name: product.name,
+              description: product.description,
+              image: product.image,
+              price: product.discountPrice && product.discountPrice < product.price ? product.discountPrice : product.price,
+              currency: 'RWF',
+              availability: (product.stock || 0) > 0 ? 'InStock' : 'OutOfStock',
+              category: product.category || 'Uncategorized',
+              sku: product._id,
+              brand: 'WegoConnect',
+            }}
+          />
+          <StructuredData type="breadcrumb" data={{}} breadcrumbs={breadcrumbs} />
+        </>
+      )}
       <Header onFilterClick={() => {}} />
       <main className="flex-1 pt-16">
         <div className="container mx-auto px-4 py-8">
