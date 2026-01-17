@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Plus, Edit, Trash2, Search, GripVertical } from "lucide-react";
+import { Plus, Edit, Trash2, Search, GripVertical, Star } from "lucide-react";
 import { api } from "@/lib/api";
 import AlertModal from "@/components/admin/AlertModal";
 import ConfirmModal from "@/components/admin/ConfirmModal";
@@ -332,6 +332,18 @@ const AdminProductsPage = () => {
     } else if (updatedImages.length === 0) {
       setFormData({ ...formData, image: "" });
     }
+  };
+
+  const handleSetPrimaryImage = (index: number) => {
+    if (index === 0) return; // Already primary
+    
+    // Move the selected image to the first position
+    const updatedImages = [...imagePreviews];
+    const [selectedImage] = updatedImages.splice(index, 1);
+    updatedImages.unshift(selectedImage);
+    
+    setImagePreviews(updatedImages);
+    setFormData({ ...formData, image: selectedImage });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -690,7 +702,7 @@ const AdminProductsPage = () => {
                   <p className="text-sm text-gray-500 mt-2">Uploading image(s)...</p>
                 )}
                 <p className="text-xs text-gray-500 mt-1">
-                  First image will be used as the primary image.
+                  Click on any image below to set it as the primary image.
                 </p>
               </div>
 
@@ -702,12 +714,31 @@ const AdminProductsPage = () => {
                   </label>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                     {imagePreviews.map((imageUrl, index) => (
-                      <div key={index} className="relative border border-gray-300 overflow-hidden group">
+                      <div key={index} className="relative border-2 overflow-hidden group rounded-lg" style={{ borderColor: index === 0 ? '#dc2626' : '#d1d5db' }}>
                         {index === 0 && (
-                          <div className="absolute top-1 left-1 bg-red-600 text-white text-xs px-1.5 py-0.5 z-10">
+                          <div className="absolute top-1 left-1 bg-red-600 text-white text-xs px-1.5 py-0.5 z-10 font-semibold flex items-center gap-1">
+                            <Star className="h-3 w-3 fill-current" />
                             Primary
                           </div>
                         )}
+                        <button
+                          type="button"
+                          onClick={() => handleSetPrimaryImage(index)}
+                          disabled={index === 0}
+                          className={`absolute inset-0 w-full h-full z-20 ${
+                            index === 0 
+                              ? 'cursor-default' 
+                              : 'cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity bg-black/30 hover:bg-black/40'
+                          }`}
+                          title={index === 0 ? 'Primary image' : 'Click to set as primary'}
+                        >
+                          {index !== 0 && (
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white text-red-600 px-2 py-1 rounded text-xs font-medium flex items-center gap-1">
+                              <Star className="h-3 w-3" />
+                              Set Primary
+                            </div>
+                          )}
+                        </button>
                         <img
                           src={imageUrl}
                           alt={`Preview ${index + 1}`}
@@ -716,7 +747,7 @@ const AdminProductsPage = () => {
                         <button
                           type="button"
                           onClick={() => handleRemoveImage(index)}
-                          className="absolute top-1 right-1 bg-red-600 text-white p-1 opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                          className="absolute top-1 right-1 bg-red-600 text-white p-1 opacity-0 group-hover:opacity-100 transition-opacity z-30 hover:bg-red-700"
                           title="Remove image"
                         >
                           <Trash2 className="h-3 w-3" />
