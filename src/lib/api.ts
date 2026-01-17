@@ -159,6 +159,15 @@ class ApiClient {
     });
   }
 
+  async updateProductSortOrder(productIds: string[]) {
+    // Clear products cache when updating sort order
+    this.clearCache('/products');
+    return this.request('/products/sort/update', {
+      method: 'PUT',
+      body: JSON.stringify({ productIds }),
+    });
+  }
+
   // Orders
   async getOrders(params?: { status?: string; search?: string }) {
     const queryParams = new URLSearchParams();

@@ -3,7 +3,7 @@ import { ShoppingCart, Plus, Minus, ChevronLeft, ChevronRight } from "lucide-rea
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { formatPrice } from "@/lib/priceFormatter";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import ShareButton from "@/components/ShareButton";
 import { api } from "@/lib/api";
 import { useCart } from "@/context/CartContext";
@@ -36,6 +36,7 @@ const ProductDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const { formatPrice } = useCurrency();
 
   // Get all product images (combine image and images array)
   const getAllImages = (product: Product): string[] => {

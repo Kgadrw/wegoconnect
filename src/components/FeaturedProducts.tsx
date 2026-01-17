@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { formatPrice } from "@/lib/priceFormatter";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import { api } from "@/lib/api";
 
 interface Product {
@@ -21,6 +21,7 @@ interface FeaturedProductsProps {
 }
 
 const ProductCard = ({ product }: { product: Product }) => {
+  const { formatPrice } = useCurrency();
   const isOutOfStock = (product.stock || 0) === 0;
   
   return (

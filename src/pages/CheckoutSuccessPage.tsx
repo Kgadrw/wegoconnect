@@ -3,12 +3,13 @@ import { CheckCircle, Download, Phone } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import { api } from "@/lib/api";
-import { formatPrice } from "@/lib/priceFormatter";
 
 const CheckoutSuccessPage = () => {
   const location = useLocation();
   const orderId = location.state?.orderId || null;
+  const { formatPrice } = useCurrency();
   const [order, setOrder] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 

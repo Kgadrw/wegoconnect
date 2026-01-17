@@ -1,9 +1,26 @@
 import { useState, useEffect } from "react";
-import { Plus, Edit, Trash2, Search } from "lucide-react";
+import { Plus, Edit, Trash2, Search, GripVertical } from "lucide-react";
 import { api } from "@/lib/api";
 import AlertModal from "@/components/admin/AlertModal";
 import ConfirmModal from "@/components/admin/ConfirmModal";
 import { SkeletonTable } from "@/components/admin/SkeletonLoader";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 interface Product {
   _id: string;
@@ -17,7 +34,106 @@ interface Product {
   category?: string;
   stock?: number;
   isActive?: boolean;
+  sortOrder?: number;
 }
+
+interface SortableRowProps {
+  product: Product;
+  formatPrice: (price: number) => string;
+  onEdit: (product: Product) => void;
+  onDelete: (id: string) => void;
+}
+
+const SortableRow = ({ product, formatPrice, onEdit, onDelete }: SortableRowProps) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: product._id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <tr
+      ref={setNodeRef}
+      style={style}
+      className={`hover:bg-gray-50 ${isDragging ? "bg-gray-100" : ""}`}
+    >
+      <td className="px-6 py-4 whitespace-nowrap cursor-grab active:cursor-grabbing" {...attributes} {...listeners}>
+        <GripVertical className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        <div className="w-16 h-16 flex-shrink-0 bg-gray-100 rounded-lg overflow-hidden">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-full object-cover"
+          />
+        </div>
+      </td>
+      <td className="px-6 py-4">
+        <div>
+          <div className="text-sm font-medium text-gray-900">{product.name}</div>
+          <div className="text-sm text-gray-500 truncate max-w-xs">
+            {product.description}
+          </div>
+        </div>
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+        {product.category || "Uncategorized"}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
+        {formatPrice(product.price)}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm">
+        <span className={`font-medium ${
+          (product.stock || 0) === 0 
+            ? "text-red-600 font-bold" 
+            : "text-gray-700"
+        }`}>
+          {product.stock ?? "N/A"}
+          {(product.stock || 0) === 0 && (
+            <span className="ml-2 text-xs text-red-600 font-bold">(Out of Stock)</span>
+          )}
+        </span>
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        <span
+          className={`px-2 py-1 text-xs font-medium rounded-full ${
+            product.isActive !== false
+              ? "bg-green-100 text-green-800"
+              : "bg-gray-100 text-gray-800"
+          }`}
+        >
+          {product.isActive !== false ? "Active" : "Inactive"}
+        </span>
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => onEdit(product)}
+            className="text-blue-600 hover:text-blue-900 transition-colors"
+          >
+            <Edit className="h-4 w-4" />
+          </button>
+          <button
+            onClick={() => onDelete(product._id)}
+            className="text-red-600 hover:text-red-900 transition-colors"
+          >
+            <Trash2 className="h-4 w-4" />
+          </button>
+        </div>
+      </td>
+    </tr>
+  );
+};
 
 const AdminProductsPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -64,6 +180,59 @@ const AdminProductsPage = () => {
   const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  // Sortable sensors
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  // Handle drag end - update sort order
+  // Note: Drag-and-drop only works when there's no search filter for clarity
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    // Skip if search filter is active
+    if (searchQuery.trim()) {
+      return;
+    }
+
+    if (over && active.id !== over.id) {
+      const oldIndex = products.findIndex((p) => p._id === active.id);
+      const newIndex = products.findIndex((p) => p._id === over.id);
+
+      if (oldIndex === -1 || newIndex === -1) return;
+
+      // Update local state immediately for better UX
+      const reorderedProducts = arrayMove(products, oldIndex, newIndex);
+      
+      // Update sort order for all products
+      const updatedProducts = reorderedProducts.map((product, index) => ({
+        ...product,
+        sortOrder: index,
+      }));
+
+      setProducts(updatedProducts);
+
+      // Update sort order in backend
+      try {
+        const productIds = reorderedProducts.map((p) => p._id);
+        await api.updateProductSortOrder(productIds);
+        // Reload to ensure consistency
+        await loadProducts();
+      } catch (error: any) {
+        // Revert on error
+        await loadProducts();
+        setAlert({
+          type: "error",
+          title: "Error Updating Sort Order",
+          message: error.message || "Failed to update product sort order. Please try again.",
+        });
+      }
+    }
+  };
 
   const handleAddProduct = () => {
     setEditingProduct(null);
@@ -285,14 +454,27 @@ const AdminProductsPage = () => {
             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-red-600 outline-none"
           />
         </div>
+        {searchQuery.trim() && (
+          <p className="text-xs text-gray-500 mt-2">
+            Note: Drag-and-drop sorting is disabled while searching. Clear the search to sort products.
+          </p>
+        )}
       </div>
 
       {/* Products Table */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         <div className="overflow-x-auto">
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-12">
+                    Drag
+                  </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Image
                 </th>
@@ -319,80 +501,29 @@ const AdminProductsPage = () => {
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredProducts.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-4 text-center text-sm text-gray-500">
+                    <td colSpan={8} className="px-6 py-4 text-center text-sm text-gray-500">
                     No products found
                   </td>
                 </tr>
               ) : (
-                filteredProducts.map((product) => (
-                  <tr key={product._id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="w-16 h-16 flex-shrink-0 bg-gray-100 rounded-lg overflow-hidden">
-                        <img
-                          src={product.image}
-                          alt={product.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div>
-                        <div className="text-sm font-medium text-gray-900">{product.name}</div>
-                        <div className="text-sm text-gray-500 truncate max-w-xs">
-                          {product.description}
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                      {product.category || "Uncategorized"}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
-                      {formatPrice(product.price)}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm">
-                      <span className={`font-medium ${
-                        (product.stock || 0) === 0 
-                          ? "text-red-600 font-bold" 
-                          : "text-gray-700"
-                      }`}>
-                        {product.stock ?? "N/A"}
-                        {(product.stock || 0) === 0 && (
-                          <span className="ml-2 text-xs text-red-600 font-bold">(Out of Stock)</span>
-                        )}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span
-                        className={`px-2 py-1 text-xs font-medium rounded-full ${
-                          product.isActive !== false
-                            ? "bg-green-100 text-green-800"
-                            : "bg-gray-100 text-gray-800"
-                        }`}
-                      >
-                        {product.isActive !== false ? "Active" : "Inactive"}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => handleEditProduct(product)}
-                          className="text-blue-600 hover:text-blue-900 transition-colors"
-                        >
-                          <Edit className="h-4 w-4" />
-                        </button>
-                        <button
-                          onClick={() => handleDeleteProduct(product._id)}
-                          className="text-red-600 hover:text-red-900 transition-colors"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
+                  <SortableContext
+                    items={filteredProducts.map((p) => p._id)}
+                    strategy={verticalListSortingStrategy}
+                  >
+                    {filteredProducts.map((product) => (
+                      <SortableRow
+                        key={product._id}
+                        product={product}
+                        formatPrice={formatPrice}
+                        onEdit={handleEditProduct}
+                        onDelete={handleDeleteProduct}
+                      />
+                    ))}
+                  </SortableContext>
               )}
             </tbody>
           </table>
+          </DndContext>
         </div>
       </div>
 

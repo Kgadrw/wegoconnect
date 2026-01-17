@@ -4,11 +4,12 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import { api } from "@/lib/api";
-import { formatPrice } from "@/lib/priceFormatter";
 
 const CartPage = () => {
   const { cartItems, updateQuantity, removeFromCart, getTotalPrice, clearCart } = useCart();
+  const { formatPrice } = useCurrency();
   const [processing, setProcessing] = useState(false);
   const [customerInfo, setCustomerInfo] = useState({
     name: "",

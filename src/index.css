@@ -312,3 +312,13 @@ a, button, input, select, textarea {
 .stagger-item:nth-child(8) { animation-delay: 0.8s; }
 .stagger-item:nth-child(9) { animation-delay: 0.9s; }
 .stagger-item:nth-child(10) { animation-delay: 1s; }
+
+/* Hide scrollbar while maintaining scroll functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
+}

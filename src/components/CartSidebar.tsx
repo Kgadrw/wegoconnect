@@ -2,8 +2,8 @@ import { useState } from "react";
 import { X, Minus, Plus, Trash2, ShoppingCart, ArrowRight } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import { api } from "@/lib/api";
-import { formatPrice } from "@/lib/priceFormatter";
 
 const CartSidebar = () => {
   const { 
@@ -15,6 +15,7 @@ const CartSidebar = () => {
     isSidebarOpen,
     closeSidebar 
   } = useCart();
+  const { formatPrice } = useCurrency();
   const [processing, setProcessing] = useState(false);
   const [customerInfo, setCustomerInfo] = useState({
     name: "",
