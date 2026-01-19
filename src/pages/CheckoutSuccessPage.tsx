@@ -118,7 +118,7 @@ const CheckoutSuccessPage = () => {
                     <>
                       <div className="mb-3 space-y-3">
                         <div className="p-3 border border-gray-300 rounded-md">
-                          <p className="text-xs text-gray-600 mb-1">Step 1: Dial this USSD code:</p>
+                          <p className="text-xs text-gray-600 mb-1">Dial this USSD code:</p>
                           <p className="text-lg font-mono font-bold text-yellow-600 break-all">
                             *182*1*1*0792052562*{order.total.toFixed(0)}#
                           </p>
@@ -151,7 +151,7 @@ const CheckoutSuccessPage = () => {
                   {!order && (
                     <div className="mb-3 space-y-3">
                       <div className="p-3 border border-gray-300 rounded-md">
-                        <p className="text-xs text-gray-600 mb-1">Step 1: Dial this USSD code:</p>
+                        <p className="text-xs text-gray-600 mb-1">Dial this USSD code:</p>
                         <p className="text-lg font-mono font-bold text-yellow-600 break-all">
                           *182*1*1*0792052562*Amount#
                         </p>

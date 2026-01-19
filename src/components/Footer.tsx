@@ -20,7 +20,7 @@ const Footer = () => {
           </a>
           
           <a
-            href="https://x.com/wegoconnect"
+            href="https://x.com/wegocoonect"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center text-foreground hover:text-primary transition-all duration-300 hover:scale-110"
@@ -30,7 +30,7 @@ const Footer = () => {
           </a>
           
           <a
-            href="https://instagram.com/wegoconnect"
+            href="https://instagram.com/wego_connect"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center text-foreground hover:text-primary transition-all duration-300 hover:scale-110"
