@@ -90,7 +90,7 @@ const CheckoutSuccessPage = () => {
                 <div className="mt-6 mb-4 p-4 border border-gray-200 rounded-lg text-left max-w-md mx-auto">
                   <div className="mb-3 p-2 border border-blue-200 rounded-md">
                     <p className="text-xs text-blue-700">
-                      <span className="font-semibold">Note:</span> We are currently working on integrating an online payment system. It will be available soon!
+                      <span className="font-semibold">Note:</span> We are currently upgrading our payment system. In the meantime, please use the MOMO CODE below to complete your payment.
                     </p>
                   </div>
                   <div className="flex items-center gap-3 mb-3">
@@ -102,6 +102,16 @@ const CheckoutSuccessPage = () => {
                     <div>
                       <p className="text-sm font-semibold text-gray-800">Complete Payment via Mobile Money</p>
                       <p className="text-xs text-gray-600">Use USSD code to complete your payment</p>
+                    </div>
+                  </div>
+                  <div className="mb-3 p-3 border border-gray-300 rounded-md bg-gray-50">
+                    <div className="text-center space-y-2">
+                      <p className="text-base font-semibold text-gray-800">
+                        MOMO CODE: <span className="text-yellow-600">381765</span>
+                      </p>
+                      <p className="text-base font-semibold text-gray-800">Wegoconnect</p>
+                      <p className="text-sm font-semibold text-gray-800">Payment via Mobile Money</p>
+                      <p className="text-xs text-gray-600">Use USSD code to complete payment</p>
                     </div>
                   </div>
                   {order && (

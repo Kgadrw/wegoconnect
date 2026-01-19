@@ -78,38 +78,8 @@ const CategoriesFilter = ({ isOpen, selectedCategories, onCategoryToggle, priceR
             {/* Price Range Filter and Currency Toggle */}
             {onPriceRangeChange && (
               <div className="flex items-center gap-2 flex-shrink-0 md:ml-auto">
-                <span className="text-sm text-foreground whitespace-nowrap">Price:</span>
-                <input
-                  type="number"
-                  placeholder="Min"
-                  value={priceRange?.min || ''}
-                  onChange={(e) => {
-                    const min = e.target.value === '' ? null : parseFloat(e.target.value);
-                    onPriceRangeChange({ 
-                      min: isNaN(min as number) ? null : min, 
-                      max: priceRange?.max || null 
-                    });
-                  }}
-                  className="w-24 px-3 py-2 text-sm border border-gray-300 outline-none transition-all duration-300 focus:border-primary"
-                  min="0"
-                />
-                <span className="text-sm text-foreground">-</span>
-                <input
-                  type="number"
-                  placeholder="Max"
-                  value={priceRange?.max || ''}
-                  onChange={(e) => {
-                    const max = e.target.value === '' ? null : parseFloat(e.target.value);
-                    onPriceRangeChange({ 
-                      min: priceRange?.min || null, 
-                      max: isNaN(max as number) ? null : max 
-                    });
-                  }}
-                  className="w-24 px-3 py-2 text-sm border border-gray-300 outline-none transition-all duration-300 focus:border-primary"
-                  min="0"
-                />
                 {/* Currency Toggle */}
-                <div className="flex items-center gap-1 ml-2 px-2 py-1 border border-gray-300 rounded">
+                <div className="flex items-center gap-1 px-2 py-1 border border-gray-300 rounded">
                   <button
                     onClick={() => setCurrency('RWF')}
                     className={`px-2 py-1 text-xs font-medium transition-colors ${
@@ -131,6 +101,39 @@ const CategoriesFilter = ({ isOpen, selectedCategories, onCategoryToggle, priceR
                   >
                     USD
                   </button>
+                </div>
+                {/* Price Range Filter */}
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-foreground whitespace-nowrap">Price:</span>
+                  <input
+                    type="number"
+                    placeholder="Min"
+                    value={priceRange?.min || ''}
+                    onChange={(e) => {
+                      const min = e.target.value === '' ? null : parseFloat(e.target.value);
+                      onPriceRangeChange({ 
+                        min: isNaN(min as number) ? null : min, 
+                        max: priceRange?.max || null 
+                      });
+                    }}
+                    className="w-24 px-3 py-2 text-sm border border-gray-300 outline-none transition-all duration-300 focus:border-primary"
+                    min="0"
+                  />
+                  <span className="text-sm text-foreground">-</span>
+                  <input
+                    type="number"
+                    placeholder="Max"
+                    value={priceRange?.max || ''}
+                    onChange={(e) => {
+                      const max = e.target.value === '' ? null : parseFloat(e.target.value);
+                      onPriceRangeChange({ 
+                        min: priceRange?.min || null, 
+                        max: isNaN(max as number) ? null : max 
+                      });
+                    }}
+                    className="w-24 px-3 py-2 text-sm border border-gray-300 outline-none transition-all duration-300 focus:border-primary"
+                    min="0"
+                  />
                 </div>
               </div>
             )}
