@@ -1,4 +1,4 @@
-import { Search, Filter, X } from "lucide-react";
+import { Search, Filter, X, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { useState, useEffect } from "react";
@@ -67,6 +67,15 @@ const Header = ({ onFilterClick, onSearchChange }: HeaderProps) => {
 
           {/* Right side icons */}
           <div className="flex items-center space-x-4">
+            {/* Contact Number */}
+            <a 
+              href="tel:0792052562"
+              className="flex items-center gap-2 text-foreground hover:text-primary transition-colors"
+              aria-label="Call 0792052562"
+            >
+              <Phone className="h-4 w-4 md:h-4 md:w-4" />
+              <span className="hidden md:inline text-sm font-medium">0792052562</span>
+            </a>
             <button 
               onClick={onFilterClick}
               className="p-2 text-foreground"
