@@ -107,9 +107,8 @@ const CartPage = () => {
               <h1 className="text-2xl sm:text-3xl font-bold mb-8 animate-slide-in-down">Checkout</h1>
               
               <div className="grid gap-8 lg:grid-cols-3">
-                {/* Left Column - Order Items & Customer Information */}
-                <div className="lg:col-span-2 space-y-6">
-                  {/* Cart Items */}
+                {/* Order Items - Always first */}
+                <div className="lg:col-span-2 order-1">
                   <div className="border p-6 space-y-4 animate-scale-in">
                     <div className="flex items-center gap-3 mb-4">
                       <Package className="h-5 w-5 text-primary" />
@@ -166,8 +165,76 @@ const CartPage = () => {
                       </div>
                     ))}
                   </div>
+                </div>
 
-                  {/* Customer Information Form */}
+                {/* Order Summary & Payment - Second on mobile, right column on desktop */}
+                <div className="lg:col-span-1 order-2">
+                  <div className="border p-6 space-y-6 lg:sticky lg:top-24 animate-slide-in-right">
+                    {/* Order Summary */}
+                    <div>
+                      <h2 className="text-xl font-bold mb-4">Order Summary</h2>
+                      <div className="space-y-3">
+                        <div className="flex justify-between text-sm">
+                          <span className="text-muted-foreground">Subtotal</span>
+                          <span className="font-semibold">{formatPrice(subtotal)}</span>
+                        </div>
+                        <div className="border-t pt-3">
+                          <div className="flex justify-between text-lg font-bold">
+                            <span>Total</span>
+                            <span>{formatPrice(total)}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Payment Information */}
+                    <div className="border-t pt-6">
+                      <h2 className="text-xl font-bold mb-4">Payment</h2>
+                      
+                      <div className="p-4 border space-y-4">
+                        <div className="flex justify-center">
+                          <img 
+                            src="/momo.png" 
+                            alt="MoMo Payment" 
+                            className="w-24 h-24 object-contain"
+                          />
+                        </div>
+                        
+                        <div className="text-center space-y-2">
+                          <p className="text-base font-semibold text-gray-800">MOMO CODE :<span className="text-yellow-600">381765</span></p>
+                          <p className="text-base font-semibold text-gray-800">Wego Tronics ltd</p>
+                          
+                        </div>
+                        
+                        <div className="p-3 border">
+                          <p className="text-xs text-gray-600 mb-2 text-center">
+                            We are currently upgrading our payment system. In the meantime, please use the MOMO CODE above to complete your payment. For assistance, please contact us at:
+                          </p>
+                          <div className="text-center">
+                            <a 
+                              href="tel:0792052562"
+                              className="text-base font-bold text-yellow-600 hover:text-yellow-700 hover:underline"
+                            >
+                              0792052562
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Checkout Button */}
+                    <button
+                      onClick={handleCheckout}
+                      disabled={processing}
+                      className="w-full bg-primary px-6 py-3 text-base font-semibold text-primary-foreground transition-all duration-300 hover:bg-primary-dark hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                    >
+                      {processing ? "Processing..." : "Place Order"}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Customer Information - Third on mobile, second row left column on desktop */}
+                <div className="lg:col-span-2 order-3">
                   <div className="border p-6 space-y-6 animate-scale-in">
                     <div className="flex items-center gap-3 mb-4">
                       <User className="h-5 w-5 text-primary" />
@@ -255,73 +322,6 @@ const CartPage = () => {
                         />
                       </div>
                     </div>
-                  </div>
-                </div>
-
-                {/* Right Column - Order Summary & Payment */}
-                <div className="lg:col-span-1">
-                  <div className="border p-6 space-y-6 sticky top-24 animate-slide-in-right">
-                    {/* Order Summary */}
-                    <div>
-                      <h2 className="text-xl font-bold mb-4">Order Summary</h2>
-                      <div className="space-y-3">
-                        <div className="flex justify-between text-sm">
-                          <span className="text-muted-foreground">Subtotal</span>
-                          <span className="font-semibold">{formatPrice(subtotal)}</span>
-                        </div>
-                        <div className="border-t pt-3">
-                          <div className="flex justify-between text-lg font-bold">
-                            <span>Total</span>
-                            <span>{formatPrice(total)}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Payment Information */}
-                    <div className="border-t pt-6">
-                      <h2 className="text-xl font-bold mb-4">Payment</h2>
-                      
-                      <div className="p-4 border space-y-4">
-                        <div className="flex justify-center">
-                          <img 
-                            src="/momo.png" 
-                            alt="MoMo Payment" 
-                            className="w-24 h-24 object-contain"
-                          />
-                        </div>
-                        
-                        <div className="text-center space-y-2">
-                          <p className="text-base font-semibold text-gray-800">MOMO CODE :<span className="text-yellow-600">381765</span></p>
-                          <p className="text-base font-semibold text-gray-800">Wegoconnect</p>
-                          <p className="text-sm font-semibold text-gray-800">Payment via Mobile Money</p>
-                          <p className="text-xs text-gray-600">Use USSD code to complete payment</p>
-                        </div>
-                        
-                        <div className="p-3 border">
-                          <p className="text-xs text-gray-600 mb-2 text-center">
-                            We are currently upgrading our payment system. In the meantime, please use the MOMO CODE above to complete your payment. For assistance, please contact us at:
-                          </p>
-                          <div className="text-center">
-                            <a 
-                              href="tel:0792052562"
-                              className="text-base font-bold text-yellow-600 hover:text-yellow-700 hover:underline"
-                            >
-                              0792052562
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Checkout Button */}
-                    <button
-                      onClick={handleCheckout}
-                      disabled={processing}
-                      className="w-full bg-primary px-6 py-3 text-base font-semibold text-primary-foreground transition-all duration-300 hover:bg-primary-dark hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
-                    >
-                      {processing ? "Processing..." : "Place Order"}
-                    </button>
                   </div>
                 </div>
               </div>

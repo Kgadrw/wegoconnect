@@ -109,24 +109,14 @@ const CheckoutSuccessPage = () => {
                       <p className="text-base font-semibold text-gray-800">
                         MOMO CODE: <span className="text-yellow-600">381765</span>
                       </p>
-                      <p className="text-base font-semibold text-gray-800">Wegoconnect</p>
-                      <p className="text-sm font-semibold text-gray-800">Payment via Mobile Money</p>
-                      <p className="text-xs text-gray-600">Use USSD code to complete payment</p>
+                      <p className="text-base font-semibold text-gray-800">Wego Tronics ltd</p>
+                      
+            
                     </div>
                   </div>
                   {order && (
                     <>
-                      <div className="mb-3 space-y-3">
-                        <div className="p-3 border border-gray-300 rounded-md">
-                          <p className="text-xs text-gray-600 mb-1">Dial this USSD code:</p>
-                          <p className="text-lg font-mono font-bold text-yellow-600 break-all">
-                            *182*1*1*0792052562*{order.total.toFixed(0)}#
-                          </p>
-                          <p className="text-xs text-gray-500 mt-1">
-                            Amount: {formatPrice(order.total)}
-                          </p>
-                        </div>
-                      </div>
+                      
                       <div className="flex items-center gap-2 mb-3">
                         <Phone className="h-4 w-4 text-gray-600" />
                         <span className="text-sm text-gray-600">Or call:</span>
@@ -148,19 +138,7 @@ const CheckoutSuccessPage = () => {
                       </div>
                     </>
                   )}
-                  {!order && (
-                    <div className="mb-3 space-y-3">
-                      <div className="p-3 border border-gray-300 rounded-md">
-                        <p className="text-xs text-gray-600 mb-1">Dial this USSD code:</p>
-                        <p className="text-lg font-mono font-bold text-yellow-600 break-all">
-                          *182*1*1*0792052562*Amount#
-                        </p>
-                        <p className="text-xs text-gray-500 mt-1">
-                          Enter the total amount from your order
-                        </p>
-                      </div>
-                    </div>
-                  )}
+                  
                 </div>
 
                 <button
