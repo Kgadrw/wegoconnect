@@ -42,9 +42,10 @@ interface SortableRowProps {
   formatPrice: (price: number) => string;
   onEdit: (product: Product) => void;
   onDelete: (id: string) => void;
+  onToggleActive: (id: string, currentStatus: boolean) => void;
 }
 
-const SortableRow = ({ product, formatPrice, onEdit, onDelete }: SortableRowProps) => {
+const SortableRow = ({ product, formatPrice, onEdit, onDelete, onToggleActive }: SortableRowProps) => {
   const {
     attributes,
     listeners,
@@ -105,15 +106,28 @@ const SortableRow = ({ product, formatPrice, onEdit, onDelete }: SortableRowProp
         </span>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
-        <span
-          className={`px-2 py-1 text-xs font-medium rounded-full ${
-            product.isActive !== false
-              ? "bg-green-100 text-green-800"
-              : "bg-gray-100 text-gray-800"
-          }`}
-        >
-          {product.isActive !== false ? "Active" : "Inactive"}
-        </span>
+        <div className="flex items-center gap-2">
+          <span
+            className={`px-2 py-1 text-xs font-medium rounded-full ${
+              product.isActive !== false
+                ? "bg-green-100 text-green-800"
+                : "bg-gray-100 text-gray-800"
+            }`}
+          >
+            {product.isActive !== false ? "Active" : "Inactive"}
+          </span>
+          <button
+            onClick={() => onToggleActive(product._id, product.isActive !== false)}
+            className={`px-2 py-1 text-xs font-medium rounded transition-colors ${
+              product.isActive !== false
+                ? "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                : "bg-green-200 text-green-700 hover:bg-green-300"
+            }`}
+            title={product.isActive !== false ? "Set as Inactive" : "Set as Active"}
+          >
+            {product.isActive !== false ? "Deactivate" : "Activate"}
+          </button>
+        </div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
         <div className="flex items-center gap-2">
@@ -150,6 +164,7 @@ const AdminProductsPage = () => {
     description: "",
     category: "",
     stock: "",
+    isActive: true,
   });
   const [uploading, setUploading] = useState(false);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
@@ -245,6 +260,7 @@ const AdminProductsPage = () => {
       description: "",
       category: "",
       stock: "",
+      isActive: true,
     });
     setImagePreviews([]);
     setShowModal(true);
@@ -266,6 +282,7 @@ const AdminProductsPage = () => {
       description: product.description,
       category: product.category || "",
       stock: product.stock?.toString() || "0",
+      isActive: product.isActive !== false,
     });
     setImagePreviews(allImages);
     setShowModal(true);
@@ -292,6 +309,24 @@ const AdminProductsPage = () => {
         type: "error",
         title: "Error Deleting Product",
         message: error.message || "Failed to delete product. Please try again.",
+      });
+    }
+  };
+
+  const handleToggleActive = async (id: string, currentStatus: boolean) => {
+    try {
+      await api.updateProduct(id, { isActive: !currentStatus });
+      await loadProducts();
+      setAlert({
+        type: "success",
+        title: "Product Status Updated",
+        message: `Product has been ${!currentStatus ? "activated" : "deactivated"} successfully.`,
+      });
+    } catch (error: any) {
+      setAlert({
+        type: "error",
+        title: "Error Updating Status",
+        message: error.message || "Failed to update product status. Please try again.",
       });
     }
   };
@@ -372,6 +407,7 @@ const AdminProductsPage = () => {
         description: formData.description,
         category: formData.category || "Uncategorized",
         stock: formData.stock ? parseInt(formData.stock) : 0,
+        isActive: formData.isActive,
       };
 
       // Always include discountPrice in the update (even if null)
@@ -394,6 +430,7 @@ const AdminProductsPage = () => {
         description: "",
         category: "",
         stock: "",
+        isActive: true,
       });
       setImagePreviews([]);
       setAlert({
@@ -529,6 +566,7 @@ const AdminProductsPage = () => {
                         formatPrice={formatPrice}
                         onEdit={handleEditProduct}
                         onDelete={handleDeleteProduct}
+                        onToggleActive={handleToggleActive}
                       />
                     ))}
                   </SortableContext>
@@ -648,7 +686,7 @@ const AdminProductsPage = () => {
                 </div>
               </div>
 
-              {/* Third Row - Stock and Description */}
+              {/* Third Row - Stock, Active Status and Description */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -668,7 +706,33 @@ const AdminProductsPage = () => {
                     Available quantity
                   </p>
                 </div>
-                <div className="md:col-span-2">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Product Status
+                  </label>
+                  <div className="flex items-center gap-3 mt-2">
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={formData.isActive}
+                        onChange={(e) =>
+                          setFormData({ ...formData, isActive: e.target.checked })
+                        }
+                        className="sr-only peer"
+                      />
+                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
+                      <span className="ml-3 text-sm font-medium text-gray-700">
+                        {formData.isActive ? "Active" : "Inactive"}
+                      </span>
+                    </label>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-1">
+                    {formData.isActive 
+                      ? "Product will be visible to customers" 
+                      : "Product will be hidden from customers"}
+                  </p>
+                </div>
+                <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Description
                   </label>

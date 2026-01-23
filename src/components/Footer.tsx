@@ -20,7 +20,7 @@ const Footer = () => {
           </a>
           
           <a
-            href="https://x.com/wegocoonect"
+            href="https://x.com/wegoconnect"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center text-foreground hover:text-primary transition-all duration-300 hover:scale-110"
