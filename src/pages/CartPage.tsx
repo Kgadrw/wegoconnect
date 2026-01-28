@@ -204,8 +204,8 @@ const CartPage = () => {
                           <p className="text-base font-semibold text-gray-800">MOMO CODE :<span className="text-yellow-600">381765</span></p>
                           <p className="text-base font-semibold text-gray-800">Wego Tronics ltd</p>
                           
-                        </div>
-                        
+                  </div>
+
                         <div className="p-3 border">
                           <p className="text-xs text-gray-600 mb-2 text-center">
                             We are currently upgrading our payment system. In the meantime, please use the MOMO CODE above to complete your payment. For assistance, please contact us at:

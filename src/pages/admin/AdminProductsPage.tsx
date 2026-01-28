@@ -107,15 +107,15 @@ const SortableRow = ({ product, formatPrice, onEdit, onDelete, onToggleActive }:
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex items-center gap-2">
-          <span
-            className={`px-2 py-1 text-xs font-medium rounded-full ${
-              product.isActive !== false
-                ? "bg-green-100 text-green-800"
-                : "bg-gray-100 text-gray-800"
-            }`}
-          >
-            {product.isActive !== false ? "Active" : "Inactive"}
-          </span>
+        <span
+          className={`px-2 py-1 text-xs font-medium rounded-full ${
+            product.isActive !== false
+              ? "bg-green-100 text-green-800"
+              : "bg-gray-100 text-gray-800"
+          }`}
+        >
+          {product.isActive !== false ? "Active" : "Inactive"}
+        </span>
           <button
             onClick={() => onToggleActive(product._id, product.isActive !== false)}
             className={`px-2 py-1 text-xs font-medium rounded transition-colors ${
