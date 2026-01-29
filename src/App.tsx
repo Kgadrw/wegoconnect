@@ -17,6 +17,7 @@ import AdminNewsletterPage from "./pages/admin/AdminNewsletterPage";
 import AdminLayout from "./components/admin/AdminLayout";
 import ProtectedAdminRoute from "./components/admin/ProtectedAdminRoute";
 import CartSidebar from "./components/CartSidebar";
+import WhatsAppButton from "./components/WhatsAppButton";
 
 const queryClient = new QueryClient();
 
@@ -106,6 +107,7 @@ const App = () => (
         />
         </Routes>
         <CartSidebar />
+        <WhatsAppButton />
         </CartProvider>
       </CurrencyProvider>
     </BrowserRouter>
