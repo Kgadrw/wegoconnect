@@ -35,23 +35,29 @@ const TopBanner = () => {
           </div>
 
           {/* Right side actions */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 md:gap-4">
+
+            {/* Phone */}
             <a
               href="tel:0792052562"
               className="flex items-center gap-1.5 hover:opacity-80 transition-opacity text-xs md:text-sm"
             >
               <Phone className="h-4 w-4" />
-              <span>0792052562</span>
+              <span className="hidden sm:inline">0792052562</span>
             </a>
 
+            {/* Email – icon on mobile, full on desktop */}
             <a
               href="mailto:wegoconnect@wegotronics.com"
-              className="hidden md:flex items-center gap-1.5 hover:opacity-80 transition-opacity"
+              className="flex items-center gap-1.5 hover:opacity-80 transition-opacity"
             >
               <Mail className="h-4 w-4" />
-              <span>wegoconnect@wegotronics.com</span>
+              <span className="hidden md:inline">
+                wegoconnect@wegotronics.com
+              </span>
             </a>
 
+            {/* Close */}
             <button
               onClick={handleClose}
               className="p-1 hover:opacity-80 transition-opacity"
@@ -59,8 +65,8 @@ const TopBanner = () => {
             >
               <X className="h-4 w-4" />
             </button>
-          </div>
 
+          </div>
         </div>
       </div>
     </div>

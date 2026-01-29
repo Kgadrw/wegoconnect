@@ -111,7 +111,7 @@ const CategoriesFilter = ({ isOpen, selectedCategories, onCategoryToggle, priceR
             >
               <div className="flex gap-2 items-center pb-2 md:pb-0" style={{ minWidth: 'max-content' }}>
                 {categories.length === 0 ? (
-                  <p className="text-sm text-gray-500 whitespace-nowrap">No categories available</p>
+                  <p className="text-sm text-gray-500 whitespace-nowrap">- - - - - - - -</p>
                 ) : (
                   <>
                     {/* All filter button - Fixed, not draggable */}
