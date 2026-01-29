@@ -43,13 +43,13 @@ const TopBanner = () => {
 
             {/* Email */}
             <a
-              href="mailto:info@wegoconnect.com"
+              href="mailto:wegoconnect@wegotronics.com"
               className="flex items-center gap-1.5 md:gap-2 hover:opacity-80 transition-opacity text-xs md:text-sm"
-              aria-label="Email info@wegoconnect.com"
+              aria-label="Email wegoconnect@wegotronics.com"
             >
               <Mail className="h-3.5 w-3.5 md:h-4 md:w-4 flex-shrink-0" />
-              <span className="hidden sm:inline">info@wegoconnect.com</span>
-              <span className="sm:hidden">info@wego.com</span>
+              <span className="hidden sm:inline">wegoconnect@wegotronics.com</span>
+              <span className="sm:hidden">wegoconnect@wegotronics.com</span>
             </a>
           </div>
 
