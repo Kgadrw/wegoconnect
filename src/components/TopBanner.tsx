@@ -43,7 +43,7 @@ const TopBanner = () => {
               className="flex items-center gap-1.5 hover:opacity-80 transition-opacity text-xs md:text-sm"
             >
               <Phone className="h-4 w-4" />
-              <span className="hidden sm:inline">0792052562</span>
+              <span className="hidden sm:inline">+250792052562</span>
             </a>
 
             {/* Email – icon on mobile, full on desktop */}
