@@ -32,7 +32,7 @@ const CheckoutSuccessPage = () => {
   const handleDownloadInvoice = async () => {
     if (!orderId) return;
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://wego-backend-taw5.onrender.com/api';
+      const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://wego-backend-2ir0.onrender.com/api';
       const invoiceUrl = `${API_BASE_URL}/invoices/${orderId}/pdf`;
       
       // Fetch the PDF as a blob
