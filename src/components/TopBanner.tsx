@@ -30,42 +30,12 @@ const TopBanner = () => {
           {/* 🔁 Scrolling Text */}
           <div className="relative overflow-hidden whitespace-nowrap">
             <div className="animate-marquee hover:[animation-play-state:paused] text-xs md:text-sm font-medium">
-              🚀 Need Starlink Internet? Text us or call us today for fast setup & support — Reliable internet anywhere. 📡
+              This website is not affliated with , endorsed by ,  or associated with Starlink, For official starlink products , services, and support , please visit the official website at <a href="https://starlink.com" target="_blank" rel="noopener noreferrer" className="text-primary-foreground hover:text-primary transition-colors">https://starlink.com</a> 
             </div>
           </div>
 
           {/* Right side actions */}
-          <div className="flex items-center gap-3 md:gap-4">
-
-            {/* Phone */}
-            <a
-              href="tel:0792052562"
-              className="flex items-center gap-1.5 hover:opacity-80 transition-opacity text-xs md:text-sm"
-            >
-              <Phone className="h-4 w-4" />
-              <span className="hidden sm:inline">+250792052562</span>
-            </a>
-
-            {/* Email – icon on mobile, full on desktop */}
-            <a
-              href="mailto:wegoconnect@wegotronics.com"
-              className="flex items-center gap-1.5 hover:opacity-80 transition-opacity"
-            >
-              <Mail className="h-4 w-4" />
-              <span className="hidden md:inline">
-                wegoconnect@wegotronics.com
-              </span>
-            </a>
-
-            {/* Close */}
-            <button
-              onClick={handleClose}
-              className="p-1 hover:opacity-80 transition-opacity"
-              aria-label="Close banner"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          </div>
+          
         </div>
       </div>
     </div>
