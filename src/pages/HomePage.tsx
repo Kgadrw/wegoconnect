@@ -77,7 +77,7 @@ const HomePage = () => {
         onFilterClick={() => setIsFilterOpen(!isFilterOpen)} 
         onSearchChange={handleSearchChange}
       />
-      <div className={`fixed left-0 right-0 z-40 transition-all duration-500 ${isFilterOpen ? 'opacity-100 animate-slide-in-down' : 'opacity-0 pointer-events-none'}`} style={{ top: 'calc(64px + var(--banner-height, 40px))' }}>
+      <div className={`fixed left-0 right-0 z-40 transition-all duration-500 ${isFilterOpen ? 'opacity-100 animate-slide-in-down' : 'opacity-0 pointer-events-none'}`} style={{ top: '64px' }}>
         <CategoriesFilter 
           isOpen={isFilterOpen}
           selectedCategories={selectedCategories}
@@ -86,7 +86,7 @@ const HomePage = () => {
           onPriceRangeChange={setPriceRange}
         />
       </div>
-      <main className="flex-1 animate-fade-in" style={{ paddingTop: 'calc(64px + var(--banner-height, 40px))' }}>
+      <main className="flex-1 animate-fade-in" style={{ paddingTop: '64px' }}>
         <div className={isFilterOpen ? 'pt-[73px]' : 'pt-0'}>
           <FeaturedProducts 
             selectedCategories={selectedCategories} 

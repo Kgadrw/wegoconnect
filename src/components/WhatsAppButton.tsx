@@ -1,7 +1,7 @@
 import { FaWhatsapp } from "react-icons/fa";
 
 const WhatsAppButton = () => {
-  // Phone number from TopBanner - format for WhatsApp (Rwanda: +250)
+  // Phone number - format for WhatsApp (Rwanda: +250)
   const phoneNumber = "250792052562"; // Remove leading 0 and add country code
   const whatsappUrl = `https://wa.me/${phoneNumber}`;
   const message = encodeURIComponent("Hello! I'd like to know more about your services.");

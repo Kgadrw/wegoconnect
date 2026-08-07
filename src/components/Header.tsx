@@ -2,7 +2,6 @@ import { Search, Filter, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { useState, useEffect } from "react";
-import TopBanner from "./TopBanner";
 
 interface HeaderProps {
   onFilterClick: () => void;
@@ -55,7 +54,6 @@ const Header = ({ onFilterClick, onSearchChange }: HeaderProps) => {
 
   return (
     <div className="sticky top-0 z-50 w-full">
-      <TopBanner />
       <header className="w-full bg-background animate-slide-in-down">
         <div className="container mx-auto px-4">
           <div className="flex h-16 items-center justify-between">
